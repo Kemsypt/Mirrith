@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mirr'ith Alistr'yn</title>
+  <style>
+    :root {
+      --bg: #f6f2fb;
+      --content-bg: #ffffff;
+      --surface: #fbf8ff;
+      --surface-2: #efe6ff;
+      --text: #1f1b2e;
+      --muted: #5a4f76;
+      --border: #cdb4ff;
+      --link: #2e1065;
+      --link-visited: #1a063b;
+      --accent: #3b0a75;
+      --shadow: 0 14px 40px rgba(31, 27, 46, 0.12);
+      --infobox-w: 292px;
+      --infobox-gap: 18px;
+      --page-w: 1132px; /* .mw-page max-width (1100) + horizontal padding (32) */
+    }
+    body {
+      margin: 0;
+      position: relative;
+      background-color: var(--bg);
+      background-image: url("https://i.imgur.com/qP7CUqV.png");
+      background-repeat: repeat-y;
+      background-position: center top;
+      background-size: 100% auto;
+      background-attachment: scroll;
+
+      color: var(--text);
+      font: 14px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Noto Sans", "Liberation Sans", sans-serif;
+    }
+    a { color: var(--link); text-decoration: none; }
+    a:visited { color: var(--link-visited); }
+    a:hover { text-decoration: underline; }
+
+    .bg-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      background:
+        radial-gradient(1200px 600px at 12% 0%, rgba(46, 16, 101, 0.24), transparent 62%),
+        radial-gradient(900px 560px at 100% 18%, rgba(26, 6, 59, 0.18), transparent 58%),
+        linear-gradient(180deg, rgba(246, 242, 251, 0.22), rgba(246, 242, 251, 0.08) 30%, rgba(246, 242, 251, 0.16));
+    }
+
+    .mw-page {
+      position: relative;
+      z-index: 2;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 16px 64px;
+    }
+    .mw-content {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px 24px 36px;
+      box-shadow: var(--shadow);
+    }
+
+    h1 {
+      font-size: 30px;
+      line-height: 1.15;
+      margin: 0 0 10px 0;
+      font-weight: 750;
+      letter-spacing: -0.01em;
+      border-bottom: 2px solid rgba(59, 10, 117, 0.62);
+      padding-bottom: 10px;
+    }
+    h2 {
+      font-size: 20px;
+      line-height: 1.25;
+      margin: 28px 0 10px;
+      font-weight: 750;
+      border-bottom: 1px solid rgba(59, 10, 117, 0.34);
+      padding-bottom: 7px;
+    }
+    p { margin: 10px 0; }
+
+    .lede {
+      margin: 8px 0 14px;
+      padding: 0;
+      background: transparent;
+      border: 0;
+      border-radius: 0;
+    }
+    .lede p {
+      margin: 10px 0;
+      font-size: 14px;
+    }
+    .lede p:first-child {
+      font-size: 14px;
+      font-weight: 400;
+    }
+
+    .mw-divider {
+      border: 0;
+      height: 1px;
+      width: 180px;
+      max-width: 45%;
+      margin: 18px auto;
+      background: linear-gradient(
+        to right,
+        transparent,
+        rgba(59, 10, 117, 0.55),
+        transparent
+      );
+    }
+
+    .infobox {
+      float: right;
+      width: var(--infobox-w);
+      margin: 2px 0 14px var(--infobox-gap);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: 14px;
+      overflow: hidden;
+      font-size: 13px;
+      box-shadow: 0 10px 24px rgba(31, 41, 55, 0.10);
+    }
+    .infobox caption {
+      font-weight: 900;
+      padding: 10px 10px;
+      text-align: center;
+      color: var(--text);
+      background: linear-gradient(180deg, rgba(76, 29, 149, 0.22), rgba(76, 29, 149, 0.07));
+      border-bottom: 1px solid var(--border);
+    }
+    .infobox .ibox-image {
+      text-align: center;
+      padding: 10px;
+      border-bottom: 1px solid rgba(216, 201, 255, 0.75);
+      background: linear-gradient(180deg, rgba(251, 248, 255, 0.92), #ffffff);
+    }
+    .infobox img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+      border: 1px solid rgba(214, 199, 174, 0.9);
+    }
+    .infobox .ibox-image .caption {
+      color: var(--muted);
+      margin-top: 6px;
+      font-size: 12px;
+      line-height: 1.3;
+    }
+    .infobox table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .infobox th, .infobox td {
+      padding: 6px 8px;
+      vertical-align: top;
+      border-top: 1px solid rgba(216, 201, 255, 0.65);
+    }
+    .infobox th {
+      width: 34%;
+      text-align: left;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .toc {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: 16px;
+      display: block;
+      padding: 12px 14px;
+      margin: 12px auto 18px;
+      font-size: 13px;
+      box-shadow: 0 6px 18px rgba(31, 27, 46, 0.06);
+      text-align: center;
+      max-width: 520px;
+      transform: translateX(calc((var(--infobox-w) + var(--infobox-gap)) / -2));
+    }
+    .toc .toc-title {
+      font-weight: 750;
+      text-align: center;
+      margin-bottom: 8px;
+      letter-spacing: 0.02em;
+    }
+    .toc ol {
+      margin: 0;
+      padding: 0;
+      list-style-position: inside;
+      text-align: center;
+      columns: 1;
+    }
+    .toc li {
+      margin: 6px 0;
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: 12.5px;
+    }
+
+    .clear { clear: both; }
+
+        @media (max-width: 820px) {
+      .infobox {
+        float: none;
+        width: auto;
+        margin: 0 0 14px 0;
+      }
+      .toc {
+        transform: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-overlay" aria-hidden="true"></div>
+  <div class="mw-page">
+    <div class="mw-content" role="main">
+      <h1>Mirr'ith Alistr'yn</h1>
+
+      <table class="infobox" aria-label="Quick facts">
+        <caption>Quick facts</caption>
+        <tr>
+          <td class="ibox-image" colspan="2">
+            <img src="https://i.imgur.com/lDcuRv1.jpeg" alt="Mirr'ith Alistr'yn" />
+            <div class="caption">Portrait of Mirr'ith Alistr'yn</div>
+          </td>
+        </tr>
+        <tr>
+          <th>Aliases</th>
+          <td>Mirror Ithuriel; The Archmage</td>
+        </tr>
+        <tr>
+          <th>Type</th>
+          <td>Ancient magic simulacrum</td>
+        </tr>
+        <tr>
+          <th>Family</th>
+          <td>
+            Wife: Tessa Alistr'yn (deceased)<br>
+            Son: Thain Ashfall<br>
+            Granddaughters: Lay’Rune Ashfall; Viola Ashfall
+          </td>
+        </tr>
+        <tr>
+          <th>Drives</th>
+          <td>
+            Save the Archmage; Restore the world; Get to know his granddaughters
+          </td>
+        </tr>
+      </table>
+
+      <div id="intro">
+        <p>My name is Mirr'ith Alistr'yn. I am an ancient magic simulacrum. I was made because someone was trapped, stubborn, and smart enough to keep working even when he had almost nothing to work with.</p>
+        <p>The place he was held was an antimagic prison. It was built to make sure he could not cast, could not plan, and could not even stay the same person for long. They moved him between identical cells, kept everything blank, and tried to grind him down into silence. It did not work. He found a seam in the wards, just a tiny mistake, and he used it over and over.</p>
+        <p>I am what came out of that seam. Not a perfect copy, and not a normal person either. I have a real body and my own choices, but I was started with one purpose. Save the Archmage. A lot of what I know comes second hand, like notes passed through a wall. I do not always know what is mine and what is his.</p>
+        <p>The Archmage is alive, but locked away. His memories slip into me in fragments, usually at the worst times. Names, places, spells, regrets. Some of it is clear. Most of it is not. I do not get a neat story. I get pieces, and I have to decide what to do with them.</p>
+      </div>
+
+      <div class="toc" role="navigation" aria-label="Contents">
+        <div class="toc-title">Contents</div>
+        <ol>
+          <li><a href="#section_1_-_the_archmage_and_the_null_prison">The Archmage and the Antimagic Prison</a></li>
+          <li><a href="#part_2_mirror_ithuriel">Mirror Ithuriel</a></li>
+          <li><a href="#part_3_the_frozen_study">The Frozen Study</a></li>
+          <li><a href="#part_4_the_granddaughters">The Granddaughters</a></li>
+        </ol>
+      </div>
+
+      <h2 id="section_1_-_the_archmage_and_the_null_prison">The Archmage and the Antimagic Prison</h2>
+<p>They never used my name.</p>
+<p>In most places that would be awfully rude. Here it was policy. They wanted to strip my identity down to a number, then grind that number down until there was nothing left but obedience. If I forgot who I was, they figured my will to fight would go with it.</p>
+<p>They also rotated the staff. No guard stayed long enough for me to learn their habits, and I never saw the same face often enough to find comfort in it. The prison was built to deny familiarity and to block me from learning patterns.</p>
+<p>Inside the cells, it was worse. No mirrors. No books. No ink. No marks allowed on stone or metal. No clock, no windows, no view outside, no useful noise. They wanted the total lack of stimulation to break me further down.</p>
+<p>Every cell was identical. Stone walls cut clean. Metal bands set into the masonry. A stone slab bed with cotton bedding. A wooden bucket and a faucet that only let out a drip at a time. Basic enough to keep a body alive, empty enough to starve the mind.</p>
+<hr class="mw-divider" aria-hidden="true" />
+<p>I called myself the Archmage in my head because I refused to give them my real name. I had stopped using that name decades before this place, anyway. For most of my life, the title was safer, and truer, than any syllables my parents gave me.</p>
+<p>My true name was Ithuriel.</p>
+<p>My parents took it from a story. It was the name of an angel of knowledge and discovery, the kind that lights the dark with questions instead of fire. My parents believed names had power, and that power could shape a child. They weren't wrong, which is exactly why I had learned to stop letting anyone speak mine.</p>
+<hr class="mw-divider" aria-hidden="true" />
+<p>The wardens moved me to new cells at random times, at a pace forced by chain tugs and hands on my shoulders. The point was not just to prevent escape, but to keep me from spending too much time in the same room. I tested this once, drawing a nonsense rune hidden on the corner of my stone bed. When I came back, the rune was gone, and that corner of stone had been chiseled away. I assume for research. It brought some slight enjoyment knowing some corrupt scholar would be racking their mind over what my nonsensical magic sigil meant.</p>
+<p>I never argued with them. I never begged. I spoke like the corridor belonged to me, because confidence is its own kind of spell, one I learned from many a bard I had met in my travels. I would greet them, comment on their discipline, thank them for routine steps like they were apprentices executing drills. It was performance, and it made them irritated, which was useful.</p>
+<p>An angry guard rushes. A rushed guard makes mistakes.</p>
+<hr class="mw-divider" aria-hidden="true" />
+<p>I found it between Cell 4 and Cell 5.</p>
+<p>Not by sight. Not by sound. By sensation.</p>
+<p>For a fraction of a second, something returned. Not full magic, not even close. Just the faintest pressure in the nerves, the way the air feels different before lightning. I could only sense it because magic had been part of me for so long it had become a sixth sense. I never liked the idea that people only have five senses, but the phrase is close enough.</p>
+<p>The prison was built from overlapping antimagic fields and other wards. Most of the time, the layers fit together perfectly, like locked plates. But at that seam, if the guards pushed me forward at the wrong pace, my shoulder crossed a boundary before my feet did.</p>
+<p>In that instant, I could feel the edge of the world loosen.</p>
+<p>The guards never noticed. I doubt even the world's most learned wizards would notice it, and even if they did, they would not understand that a fraction of a second is an eternity if you are patient enough.</p>
+<p>I named every cell they took me to, giving me a sense of familiarity despite all my captors' attempts to remove it.</p>
+<p>Cell 4 was the Feather Cell, because once a feather found its way inside. A small thing, but it mattered. The world had managed to send me something soft. I hid it in the lining of my collar. I never took it out. I checked it by touch only, proof the outside world exists. From a practical standpoint, it was material to cast Feather Fall once I found myself away from this place.</p>
+<p>Cell 5 was the Rust Cell. The air tasted metallic, like wet iron left too long in the rain. The metal edges of the faucet held a reddish grit that stained skin. The rust was minor, you wouldn't notice it in any other location, but in this place, it was literally the room's main feature.</p>
+<p>Between Feather and Rust, the prison’s perfection failed.</p>
+<p>A seam. A flaw. A place where even this machine of silence forgot to overlap itself, and I knew I could use it.</p>
+<h2 id="part_2_mirror_ithuriel">Mirror Ithuriel</h2>
+<p>I called it Ancient Magic because any cleaner name felt like a lie.</p>
+<p>The prison was built to smother the Weave. Most modern spellwork breathes through it, borrows from it, and collapses without it. The wardens knew how to starve that system. They did not understand that magic existed before it, and that some of it still does.</p>
+<p>Ancient Magic does not ask the Weave for permission. It draws from something older than the current system, but reaching it is not about digging deeper. It is about blocking out everything else until only that older current remains.</p>
+<p>In the world outside, I would use runes, oils, and prepared materials to shape it. In here I had none of that. So I rebuilt the tools in my mind.</p>
+<p>I mapped the runes in a mental mindscape, traced the lines until they were as familiar as my own hands. I imagined the oils by scent and weight, held the exact mixtures in memory, and forced the spell to accept them as real.</p>
+<p>No one else could have done it. Not a single person had the knowledge to pull this off in the best of situations, let alone in these harsh circumstances.</p>
+<hr class="mw-divider" aria-hidden="true" />
+<p>A fraction of a second is not enough to cast a full spell, let alone an ancient ritual spell.<br>
+But it was enough to theoretically place a single piece.</p>
+<p>So I stopped thinking in spells that begin and end. I thought in patterns that cycle. Each time I was moved, during that seam between cells, I held one pattern in my mind and pressed it into place. The next time, I held the next pattern. Then the next. A rotation that never needed verbal, somatic or material components, only memory and discipline.</p>
+<p>If I missed a single repeat, the rotation would slip. If it slipped too far, the whole structure would collapse into noise. That is why I played the polite prisoner. That is why I provoked their irritation without provoking their caution. I needed the transfers to continue.</p>
+<p>Over years, the patterns became a framework, then a lattice, then a shape that could hold something living.</p>
+<hr class="mw-divider" aria-hidden="true" />
+<p>A perfect copy was never an option.</p>
+<p>Not because I lacked skill or desire, but because I lacked materials, time, and room to correct mistakes. Whatever I made would have to survive the world on its own. If it failed, it would fail alone.</p>
+<p>So I aimed for a younger version of myself. Weaker. Less complete. Close enough to carry my knowledge when it arrived, but not so demanding that the spell tore itself apart.</p>
+<p>I was not trying to make a puppet.</p>
+<p>A normal copy is a dead end. It repeats what you already are, then breaks the first time the world pushes back. I needed something that could learn, adapt, and keep going after the first mistake. I needed a mind that could absorb new history, new spells, and new truths about the world as it exists now, not as I remember it.</p>
+<p>So I built him with space inside him.</p>
+<p>I kept the core of me that mattered: the hunger to understand, the habit of testing everything twice, the reflex to map a room the moment I enter it. I left out the weight that would snap the spell, the decades of power that would demand too much fuel.</p>
+<p>Then I set one thing like a nail through the centre.</p>
+<p>Find the prison. Free the Archmage.</p>
+<p>Not as a command that would choke his choices, but as the first truth his thoughts would orbit. A direction he would return to, even after fear, even after doubt, even after distraction. He would be able to grow into his own person, but he would grow with that purpose threaded through him.</p>
+<p>In practical terms, it was simply the most stable target I could afford.</p>
+<hr class="mw-divider" aria-hidden="true" />
+<p>The danger list was long.</p>
+<p>If the prison wards sensed what I was doing, they could flare and seal the seam. If that happened, the years I had spent building the rotation would become dead weight in my head.</p>
+<p>If I pushed too hard, I could burn out my ability to sense magic at all, including that faint return in the seam. I could also trigger a backlash that stripped memory, leaving me alive but emptied.</p>
+<p>And worst of all, if I got the balance wrong, I could create a half-life.</p>
+<p>Not a person.</p>
+<p>Something like a wraith or a poltergeist with unfinished business. A thing born from one desire and not enough mind to carry it. It would smash at anything in its path because it would not know how to do anything else.</p>
+<p>It would be destroyed, eventually. Or worse, it might reach its target and still not stop. If it ever did succeed in freeing me, it could turn on me next, a chaotic creature with no goal left and no restraint.</p>
+<p>I tried not to linger on that outcome as I could not afford to hesitate. I told myself that if I kept the patterns clean, the result would be clean.</p>
+<hr class="mw-divider" aria-hidden="true" />
+<p>To make the spell work, I had to mirror myself. Not my face, not my voice. The shape of my mind. The instincts I return to when I am tired, afraid, or focused - primal emotions.</p>
+<p>I kept building the mirror in my head. Mirror Ithuriel. Mirrithuriel... Mirr'ith.</p>
+<p>The name came with a strange clarity. A mirror made of Ithuriel, but not Ithuriel. Mirr'ith. I set it into the pattern as one of the baselines - a way to help the Mirror Ithuriel to have their own identity.</p>
+<p>Once I started pulling at what defines me, other pieces followed.</p>
+<p>The thirst for knowledge. The years of adventuring. The habit of treating danger like a problem to solve. Ancient Magic itself, the decision to keep digging even when the world begged me to stop.</p>
+<p>Then my wife.</p>
+<p>I tried to keep her out of it at first. I told myself she was grief, and grief was irrelevant to the mechanics. But she was part of the mirror whether I liked it or not. She shaped what I value and what I fear losing.</p>
+<p>Then my son.</p>
+<p>I had always told myself I was justified. I saved the world. After that, I kept working, trying to fix it further. It sounded clean when I said it like that.</p>
+<p>It was not the whole truth.</p>
+<p>I left after my wife died. I did not stay for the funeral. I did not even leave a gravestone with her name. I chose motion over mourning because motion was easier.</p>
+<p>My son reached out, more than once. Short messages at first, then longer ones, like he was trying to explain himself in a way I could not ignore. I ignored them anyway. Eventually he stopped. The last message mentioned his wife, and that he had children of his own.</p>
+<p>Those thoughts brought regret with them, fast and thick. There was no space in my situation for regret, not if I wanted this spell to finish.</p>
+<p>So I pushed through it. I did not let the feelings take the wheel. I used them the way I used everything else, as fuel for repetition.</p>
+<hr class="mw-divider" aria-hidden="true" />
+<p>The spell needed a destination that was not this prison, and it needed to be somewhere I could picture perfectly.</p>
+<p>I chose the study in my old house.</p>
+<p>I did not know if it still existed. It may have been burned down, sold, stripped, or buried under newer stone. But this kind of working does not latch onto physics first. It latches onto meaning. It follows the emotional shape of a place, the way it sits inside memory.</p>
+<p>I could picture that room down to details I never bothered to name at the time, the angle of the desk in the light, the feel of dust on old bindings, the weight of the chair when you lean back too far. That familiarity mattered more than coordinates.</p>
+<p>Still, I hoped the location survived in some form. Casting this into a wall, or into solid earth, would not be clean. It would cause problems for me, and it would mean immense pain for the mirror image I was forcing into being.</p>
+<p>My Mirr'ith.</p>
+<hr class="mw-divider" aria-hidden="true" />
+<p>I had no way to know when the spell was done.</p>
+<p>There was no proper feedback in this prison, no clean signal that the final piece had locked into place. All I had was that fraction of sensation in the seam, and my own judgment, which is not the same thing as certainty.</p>
+<p>So I kept feeding the rotation.</p>
+<p>Because I was creating an incomplete copy, there was no hard cutoff line. I could continue indefinitely, slowly adding more and more. I had no way of knowing when the body was complete, when the memories settled, what he was doing, or what he was seeing.</p>
+<p>All I could do was keep adding my own thoughts and memories into the link. If he was still unfinished, he needed it. If he was finished, then it would simply give him new information regularly, and that could only help.</p>
+<p>If I stopped before it was done, I would never be able to do this again.</p>
+<p>So I must continue. Until I am saved.</p>
+<h2 id="part_3_the_frozen_study">The Frozen Study</h2>
+<p>I did not start as a person.</p>
+<p>At first, I did not even have the right words for what I was.</p>
+<p>I was something alive with nothing else. A consciousness without memory, without context, without a body I could trust. There was no past to reach for, no name to hold onto, no sense of where I ended and the world began.</p>
+<p>The only thing I had from the start was one goal.</p>
+<p>Save the Archmage.</p>
+<p>I did not know who that was. I did not know what an Archmage even meant. But the idea was planted so deep it felt like a bone, the one solid piece inside all that empty space.</p>
+<p>Then I would flicker into being.</p>
+<p>Each time it happened, it felt like waking up mid dream and being yanked away before I could grab a single thought. There was no gentle fade. One moment I was. The next I was not.</p>
+<p>I had no reference for it, so I could only notice the pattern: every return made me a little more real.</p>
+<p>It felt like years packed into the space between heartbeats, and also like nothing at all, because I could not stay long enough to count it.</p>
+<hr class="mw-divider" aria-hidden="true" />
+<p>Sight came first.</p>
+<p>Not clear, not sharp, but reliable.</p>
+<p>It should have felt like the first time seeing. In a way, it was. But I still knew what I was looking at. A book was a book. A window was a window. Dust looked like dust. My mind had labels ready, like someone had stocked the shelves before I arrived. A room, always the same room. Dust in the air. Shelves bowed under books. A desk pushed toward a window.</p>
+<p>Then smell.</p>
+<p>Old paper. Dry wood. Stale air that had been warmed and cooled too many times. Something faintly bitter, like ink that had soaked into the grain of the desk long ago.</p>
+<p>Then sound.</p>
+<p>Nothing dramatic. Just the soft shift of a page now and then, or the creak of a floorboard when someone moved. Most of the time it was quiet enough that my own presence felt loud.</p>
+<p>Touch came last, and at first it was not touch so much as the idea of it. A phantom sense of where my hands should be, what it would mean to reach.</p>
+<hr class="mw-divider" aria-hidden="true" />
+<p>The desk became my anchor.</p>
+<p>It had old stains in the wood, rings and scratches that looked like someone had worked there for years and never bothered to be careful.</p>
+<p>But it was more than that. I knew the desk.</p>
+<p>I could not picture myself specifically, not as a full person with a clear face and history. But I could see the desk from the perspective of someone sitting there, like my mind had an angle it remembered.</p>
+<p>It was strange, because I had never seen the world from anywhere but my current spot, about 180cm height, in front of my own desk in the corner of the office. And yet that seated view was still there, waiting, like it belonged to me.</p>
+<p>From that remembered angle, I could feel the memory of late nights even if I could not claim them as mine. I could feel the memory of reading until my eyes ached, of writing until my hand cramped, of stopping only when the candle gave out.</p>
+<p>Another memory followed it.</p>
+<p>A kind faced tiefling woman stepping in with a plate of food held in both hands, her expression worried like she had been standing outside the door for a while. She would set it down softly, like noise might break me.</p>
+<p>Then, later, a young boy running past the doorway with careless energy. He would glance toward the desk, and the joy on his face would fall away into something smaller. He would turn and run off again, as if someone had already snapped at him to leave.</p>
+<p>I knew that if I opened the right drawer I would find a key for the cabinet on the opposite wall, along with ink and paper. I also knew there was an old spellbook hidden under a mechanism inside that same drawer, the kind that only releases if you press the correct spot.</p>
+<p>I saw the desk every time I flickered in, and I hated how much I trusted it. As if a stained desk could prove I was real.</p>
+<p>Other things changed between flashes.</p>
+<p>A book shifted on a shelf. A stack on the floor thinned. Dust dragged into a line where a chair leg had been pulled, then pushed back. Once, a candle that had been intact was shorter, its wax pooled and cooled like a slow record of time I could not feel.</p>
+<p>The room was not lived in, not in the normal sense.</p>
+<p>It was visited.</p>
+<p>At first it was just small footprints in the dust, light enough that you could miss them if you were not staring at the floor for your whole existence. Then the prints grew larger. With no sense of time, I could not tell if that change was slow or instant, but the increase in size was constant.</p>
+<p>More books began to move. At first it was a single spine out of place. Then stacks thinned. Then books were taken from higher shelves more regularly, like whoever came here no longer had to stretch as much.</p>
+<p>There was always an effort to return the room to how it had been, to make it look identical again. To anyone who did not exist solely in this room, the changes would have gone unnoticed.</p>
+<p>But I noticed all of it.</p>
+<hr class="mw-divider" aria-hidden="true" />
+<p>The clock in the corner kept changing. It insisted on different hours, different minutes, sometimes even different days. But the sunlight through the window stayed at the same angle, cutting the same clean shape across the floor.</p>
+<p>My base knowledge said this was wrong. The world turns. The sun rises and sets. Even if you never see it, you can count on it the way you count on gravity.</p>
+<p>So I assumed the flaw was in me.</p>
+<p>I was new. Incomplete. Built out of stolen time. It made sense that my sense of the world could be stuck while everything else kept moving.</p>
+<p>Then more memories seeped in, not like lessons, but like bruises you only notice once you touch them.</p>
+<p>I remembered an encounter with a powerful wizard. I remembered others beside me, allies whose faces I could not fully hold yet, and the feeling of pushing together against something larger than any of us.</p>
+<p>I remembered defeating him.</p>
+<p>I remembered him casting anyway.</p>
+<p>A final spell, thrown out like spite and grief combined, and then the sickening moment after, when the rules of the world did not snap back.</p>
+<p>The world stopped.</p>
+<p>Half of it fell into eternal night, the other into unending daylight, and the Weave tore so badly that whole branches of magic went quiet.</p>
+<p>The sunlight did not move because the world did not move.</p>
+<p>And the worst part was the thought that followed, soft at first, then impossible to ignore.</p>
+<p>I had something to do with that - and I must fix that...</p>
+<hr class="mw-divider" aria-hidden="true" />
+<p>I saw her alone once, near the shelves.</p>
+<p>By then, my time phasing into the world was getting longer. What had been a fraction of a second could now stretch into full seconds. Five seconds was the longest so far.</p>
+<p>The increase was real, but it was not steady. The length of each appearance still felt impossible to predict. Sometimes I would get a blink. Sometimes I would get long enough to think a full sentence before the room tore away again.</p>
+<p>When I phased in that time, I expected the regular stillness of the room.</p>
+<p>For the first time, I saw something move.</p>
+<p>Someone was here with me.</p>
+<p>I turned toward her on instinct, and the motion felt almost real, like my attention had weight. I caught the shape of her by the shelves and the shift of her hands on the spines.</p>
+<p>Then I vanished again.</p>
+<p>She did not seem to notice me at all.</p>
+<p>A young tiefling woman, booky in the way her eyes moved, fast and hungry, like she was reading titles before her fingers even touched the spines. She scanned shelves like she knew exactly what she wanted and did not have time to pretend otherwise.</p>
+<p>I felt a sharp longing I could not place, and right behind it, familiarity that made me angry.</p>
+<p>Angry at who, I did not know.</p>
+<p>Angry at the feeling itself, like it had been planted inside me without consent.</p>
+<hr class="mw-divider" aria-hidden="true" />
+<p>Later, I saw two girls together.</p>
+<p>The booky one moved first. She went straight to the shelves like she had been pulled by a hook, scanning titles, tugging a few free, then sliding most of them back with care. When she found something worth keeping, she did not celebrate. She just tucked it close and kept searching, like she was racing a clock she could hear and I could not.</p>
+<p>The other girl stayed near her, but never fully faced the shelves. She stood half a step off, angled toward the doorway, eyes cutting between the hall and her friend. Protective without being loud about it. One hand hovered near her belt, ready to grab and pull, either a weapon or her friend, I could not tell.</p>
+<p>They did not talk much. When they did, it was brief, the kind of whisper you use when you expect the room itself to report you. The protective one would tap the frame of the door once, then twice, like a signal. The booky one would nod without looking up.</p>
+<p>I understood them in pieces.</p>
+<p>They had been here before. They were trying to take what they needed without leaving proof. They would return books to the exact angles, brush dust back into place with the side of a sleeve, and nudge the chair a finger width at a time until it looked untouched.</p>
+<p>They moved like a pair that had practiced being careful.</p>
+<p>Then the world snapped away again.</p>
+<hr class="mw-divider" aria-hidden="true" />
+<p>When I gained enough time to shift my focus, I saw my reflection in the window.</p>
+<p>The glass was not a proper mirror, warped by dust and angle, but it was enough.</p>
+<p>My face was young. Too young to match the weight in my head.</p>
+<p>I looked younger than I expected, in my facial structure, in the set of the jaw, in the way my horns framed my brow. But I also looked like her, close enough that the resemblance stopped being a coincidence.</p>
+<p>Then I noticed what was wrong.</p>
+<p>Some parts of me looked unfinished, like the spell had sketched the outline and had not filled every detail with the same confidence. It was subtle, not the sort of flaw you would spot in passing. But I was not passing. I was studying myself like a problem.</p>
+<p>And my eyes did not match my face.</p>
+<p>They were not glowing or strange in a theatrical way. They were just too aware. Too steady. Like someone had taken an adult’s attention, an adult’s habits of thought, and set it behind features that had not earned it.</p>
+<p>That should have scared me more than it did.</p>
+<p>Instead it made me furious in a quiet way. Because it meant I was obviously being built, not born, and someone had decided what parts of me mattered.</p>
+<p>And if someone built me, then there were answers to find... Was that the Archmage?</p>
+<hr class="mw-divider" aria-hidden="true" />
+<p>Later, I flickered in and saw two girls in the study.</p>
+<p>This time I was in for long enough to understand what I was seeing, not just register it.</p>
+<p>The booky one was too focused to be casual. She rifled through a stack on the desk, not bothering to hide the impatience in her hands. She checked titles, skimmed the first page of one book, then shoved it aside and grabbed the next. She was trying to be fast, and the speed was starting to beat the carefulness out of her.</p>
+<p>The other girl noticed.</p>
+<p>She stayed closer to the doorway, shoulders angled out, like she was already ready to leave. She kept glancing into the hall, then back to the room, counting time by instinct. When the booky one reached too high and knocked dust loose, the protective one made a small sharp motion with her fingers, a silent warning.</p>
+<p>They were young, but not careless. They were acting like kids who had learned how to be quiet the hard way.</p>
+<p>Something in me went protective before I understood why. It was immediate and physical, like my body recognised a threat that my mind had not named yet.</p>
+<p>I tried to speak without deciding to.</p>
+<p>It was a reflex, the same kind as flinching from a flame. I saw two people in the only place I had ever seen, and something in me reached for them.</p>
+<p>Maybe they had answers. Maybe they were the reason the room kept being disturbed. Maybe they knew what the Archmage was, and why that word sat inside my bones.</p>
+<p>I forced air through my throat.</p>
+<p>A broken syllable came out, almost a name. It sounded wrong as it left me, like a word spoken through water. Pain followed it, sharp enough to make me blink. My throat was not finished. My mouth did not know how to shape sound.</p>
+<p>Both girls froze.</p>
+<p>The booky one went still with a book half open in her hands, eyes wide like she had been caught stealing. The protective one snapped fully toward me, fast, hand going to her belt without thinking.</p>
+<p>Fear hit their faces in the same instant, the kind that comes before reason.</p>
+<p>I did not want to add to that fear. I lifted my hands slowly, palms open, trying to show I was not a threat.</p>
+<p>It did not matter.</p>
+<p>The booky one took a step back. The protective one shifted in front of her without even looking, placing herself between her friend and whatever I was. She grabbed the other girl’s sleeve and pulled once, hard, a command to move.</p>
+<p>I did not get the chance to make it better.</p>
+<p>The room started to tear at the edges, the way it always did. My senses thinned first, then the rest of me followed. I watched them retreat for a heartbeat, and then I faded out.</p>
+<hr class="mw-divider" aria-hidden="true" />
+<p>The next time I came back, the study was empty.</p>
+<p>No girls. No whispers. No hurried hands on shelves.</p>
+<p>And the room stayed empty, again and again. More importantly, it stayed unchanged. No new footprints. No shifted stacks. No missing books. The dust lay still like it had never been disturbed.</p>
+<p>I could not tell if they stopped coming because I frightened them, or because something else stopped them.</p>
+<p>All I knew was that the only proof they had ever been real was the confusion I still carried with me.</p>
+<h2 id="part_4_the_granddaughters">The Granddaughters</h2>
+<p>It happened all at once.</p>
+<p>One moment I was bracing for the familiar failure. The edges of the room would normally go thin first, like paint peeling off a wall. Then the pull would come, fast and final, and I would be gone.</p>
+<p>So I waited for it.</p>
+<p>I counted my breaths, even though I had never been sure they were real. I watched the corners of the study for that first sign of tearing.</p>
+<p>Then something in me clicked.</p>
+<p>Not gently. Not gradually. It felt like a lock closing, like a final piece finally agreeing to stay in place.</p>
+<p>The room did not blur.</p>
+<p>My hands did not turn transparent.</p>
+<p>I did not fade. I did not thin at the edges. I stayed.</p>
+<hr class="mw-divider" aria-hidden="true" />
+<p>The first thing I did was test myself, because belief is easy and proof is better.</p>
+<p>I flexed my fingers, one by one, watching tendons move under skin. I pressed my thumb into my palm hard enough to hurt, just to make sure pain behaved the way it was supposed to.</p>
+<p>I shifted my weight from heel to toe. The floorboards answered with a small creak. That creak mattered more than it should have, because it meant I was putting force into the world and the world was responding.</p>
+<p>I breathed in and out slowly, counting it, waiting for the moment everything would slip away. My chest rose and fell like it belonged to me. My heartbeat was loud enough to feel in my throat, steady enough to count.</p>
+<p>Then I looked outside the window.</p>
+<p>The world beyond the glass was still not the world my instincts expected. The light was wrong, too fixed. Too constant.</p>
+<p>I turned back to the desk, because it was the one thing that had been constant through every flicker.</p>
+<p>Up close, the details felt sharper. The grain of the wood. The dried rings where cups had sat. The faint scratch marks where someone had dragged a blade tip while thinking.</p>
+<p>I opened the right drawer.</p>
+<p>The key was there, exactly where I knew it would be, along with ink and paper that had dried out a little at the edges but still smelled like it could be used.</p>
+<p>The spellbook was the real test.</p>
+<p>The mechanism was hidden, not the kind you find by accident. I slid my fingers under the drawer, felt for the narrow gap, then used a small scrap of stiff paper to press up on the false bottom from underneath. There was a soft catch, a shift of weight, and the bottom lifted just enough for me to hook it with my nail.</p>
+<p>The book was tucked beneath it like a secret that had waited too long.</p>
+<p>When I held it, the familiar weight and torn leather cover - it was the first thing that had ever felt... right.</p>
+<hr class="mw-divider" aria-hidden="true" />
+<p>Only then did I realise I was naked.</p>
+<p>I mean, I had always been naked. Clothes had never existed for me. Honestly, even having a body was still a pretty new development.</p>
+<p>But one of those intrinsic pieces of knowledge inside me told me, very firmly, that being uncovered was not appropriate.</p>
+<p>So I treated it like a problem with a simple solution considering I knew exactly where the clothes would be.</p>
+<p>I found them, old and musty, and dressed quickly before I gave myself time to overthink it.</p>
+<p>I took what I could without announcing myself to the whole street. The key. The spellbook. A few sheets of paper and the ink, a bag, even if it was all old. Anything small that could become useful later.</p>
+<p>As I moved, understanding settled into place.</p>
+<p>I knew what I was - An ancient magic simulacrum, not the brittle kind made of snow and borrowed shape. A living mirror of the Archmage, built out of stolen seconds and a spell that refused to stop. Something that was both intrinsically magic, but also fully real - I was confident even the strongest anti-magics could not erase my form.</p>
+<p>The name Ithuriel surfaced with a strange clarity, like someone had spoken it close to my ear.</p>
+<p>Then fog rolled in behind it.</p>
+<p>I remembered my/his wife. I remembered my/his son. I remembered roads and battles and the way adventuring turns days into problems you solve or die from. I remembered enough to know those memories were real, and enough to know a lot was missing.</p>
+<p>Whole sections blurred. Faces slipped away when I tried to hold them. Dates snapped apart. Certainty came in sharp points surrounded by haze.</p>
+<p>Two points stayed solid - not memories like the rest, but facts that could not be avoided.</p>
+<p>My name is Mirr'ith.</p>
+<p>And I need to save the Archmage.</p>
+<hr class="mw-divider" aria-hidden="true" />
+<p>Before I left the house, I moved carefully.</p>
+<p>I had no idea how loud I was supposed to be. I had memories of footsteps, but this was the first time my weight actually pressed into wood and made it answer. Every step felt like it might announce me.</p>
+<p>The house looked abandoned in a way that felt deliberate. Dust lay in a flat coat across the floors, except where it had been disturbed in thin tracks. The windows were boarded from the inside, boards old enough to have splintered edges. Most doors stuck when I tried them, swollen in their frames, like they had not been opened in years.</p>
+<p>But the front door gave easily. The lock was intact, not broken, just left unlatched. The boards on the windows were old, but the dust near the front threshold was newer, scuffed in a repeated arc. A strip of dust on the inside handle had been wiped away by hands. The entryway had the kind of disturbed grit you only get from people entering quickly, then leaving faster.</p>
+<p>It matched the pattern I had watched in the study. The room kept being reset to look untouched, but whoever was doing it could not erase the path they took to get there.</p>
+<p>Lay’Rune and Viola.</p>
+<p>The names rose when I pushed, tied to a memory like a folded letter held too long. A message from my son that I had not answered. I could not read every word of it, but I could feel the shape of it, the attempt at connection, and the final line that mentioned his wife and children.</p>
+<p>That was enough.</p>
+<p>I listened at the door for longer than I needed to, because caution was the only habit I fully trusted. Then I forced myself through the threshold anyway.</p>
+<hr class="mw-divider" aria-hidden="true" />
+<p>The street outside was loud.</p>
+<p>I was used to quiet. My whole existence had been quiet, the small sounds inside the study and the softer ones beyond it. Old wood creaking. Wind worrying at boards. A bird chirping somewhere outside the window.</p>
+<p>Voices overlapped. Footsteps passed close. Someone laughed. A cart rattled over stone. No one paid me attention, which was good, because it meant I was just another shape in the street.</p>
+<p>It took me a moment to accept that the noise was normal. The sounds felt familiar in the way a half remembered song feels familiar, even before you know the words.</p>
+<p>As I looked at the buildings, a name came to me.</p>
+<p>Deaththorn.</p>
+<p>The name surfaced like a label slapped onto a map I could not see. I walked anyway, letting my feet choose turns before my mind caught up. The streets were strangely familiar. A cracked statue at a corner. A half collapsed awning over a shuttered stall. The same constant light that made every shadow look wrong.</p>
+<p>I kept expecting the next flicker to steal me again, but it never came. So I moved, cautious and steady, trying to act like a man who belonged in his own skin.</p>
+<p>Then I saw a house that made my chest tighten.</p>
+<p>It was not near my old home, the one on the very edge of town - you could almost not consider it part of the town at all. It sat deeper in town, tucked along a lane I would not have chosen by logic alone.</p>
+<p>The moment I looked at it, new memories snapped into place.</p>
+<p>My son.</p>
+<p>A tiefling I knew, not as a stranger, but as my son, standing in that doorway with his wife beside him. My wife behind them, her expression careful, like she was already bracing for disappointment.</p>
+<p>And me... Walking away....</p>
+<p>I remembered the way I turned my body as if a half goodbye counted. I remembered how I spoke like I had no time, like research was urgent and people were optional. I remembered leaving on another trip and barely giving them anything to hold onto.</p>
+<p>I stood on the street and let that memory finish.</p>
+<p>This was where my son lived.</p>
+<p>The realization did not come with a clean memory. It came like pressure behind the ribs.</p>
+<p>I did not go inside.</p>
+<p>I stood across the lane and stared at the door, I was still trying to place the shape of the house in my head, still trying to decide what to do with the fact that this was where my son lived, when the latch clicked.</p>
+<p>The door opened.</p>
+<p>The two girls stepped out, one after the other, panic hit me hard and fast.</p>
+<p>If they left, I might lose them. I had no plan, no map, no way to track them through a town I only half remembered.</p>
+<p>So I moved before I could think it through.</p>
+<p>I stepped into view with my hands already raised, palms open, trying to look harmless while my heart tried to climb out of my throat.</p>
+<p>“I’m not here to hurt you,” I said, too quick, then forced myself to slow down. “Please. Just listen for a moment. I know what you saw in the study. I know I scared you. I didn’t mean to. I didn’t even mean to speak. It was a reflex."</p>
+<p>In my head, that moment had no date attached to it. It could have been yesterday for you. It could have been years ago. From inside that room, time did not behave like it should.</p>
+<p>I took a breath and tried to make it sound like logic instead of desperation.</p>
+<p>“My name is Mirr'ith. I was made. I am a living magic copy of your grandfather.”</p>
+<p>I did not say Ithuriel out loud. The name felt too sharp to throw into the street.</p>
+<p>“The Archmage,” I continued. “He is alive. He is imprisoned. I do not know where. I only know he is still feeding the spell that made me, and memories come through in pieces.”</p>
+<hr class="mw-divider" aria-hidden="true" />
+<p>They needed proof. I understood that.</p>
+<p>“I know you ran when I made that broken sound. The protective one pulled the other by the sleeve. You tried to leave the room looking untouched, like you’d done it before.”</p>
+<p>I paused, then said what mattered.</p>
+<p>“I’m not saying that to shame you. I’m saying it because I was there, and because I can’t explain how I was there without telling you the truth.”</p>
+<p>I gave them one more piece, quieter, because I could not show power without risking something.</p>
+<p>I swallowed, then did the only other kind of proof I had.</p>
+<p>I listed the family tree as far as I could drag it out of the fog.</p>
+<p>“Your father is Kaelor,” I said. Saying the name felt like stepping on glass. “Tiefling. Born on the XXX.</p>
+<p>Your mother is Seren. Born on the XXXX.</p>
+<p>They married XXX.”</p>
+<p>I forced myself to keep going, because stopping would have been easier.</p>
+<p>“You are Lay’Rune, born on the XXX.</p>
+<p>And you are Viola, born on the X.X</p>
+<p>Those dates are from a letter your father wrote. A letter I did not answer.”</p>
+<p>My throat tightened around the next part, but I said it anyway.</p>
+<p>“Your grandmother was Maera. She was the only person who ever made me slow down. She died, and I left anyway. I did not stay for the funeral. I did not stand by my son. I did not even leave a grave marker with her name.”</p>
+<p>I breathed out, shaky but controlled.</p>
+<p>“And I was a terrible grandfather, because I was not there long enough to become one. If you are looking for a reason not to trust me, that is a good reason.”</p>
+<hr class="mw-divider" aria-hidden="true" />
+<p>I did not ask them to trust me.</p>
+<p>I asked them to hear me out.</p>
+<p>I could have said the clean version. The mission statement. Save the Archmage. Fix the world. Everything else is secondary.</p>
+<p>But standing there, looking at them, I could not make myself say it like that.</p>
+<p>Too much of me wanted something simpler and harder at the same time. To stop being a stranger to my own blood. To learn their voices without hearing them through fear. To make one decision that was not just another departure.</p>
+<p>“I think you’re technically my granddaughters,” I said.</p>
+<p>I let that sit for a second, then forced myself into the practical part.</p>
+<p>“The world is wrong,” I said. “You know that better than I do. And somewhere in all of this, the Archmage is locked away.”</p>
+<p>I kept my hands open, as if that could make my intentions easier to read.</p>
+<p>“I don’t know what you want,” I said. “I don’t know what you’ve lost. I only know we can’t stay here and pretend nothing is happening. If we are going to change anything, we have to move.”</p>
+<p>Then I said the part I could actually offer.</p>
+<p>“I need a starting point,” I said. “A name, a rumor, a map, anything that leads somewhere. If you have nothing, then we begin with what I do have. The seam. The routine. The fact that someone built a cage and believed it could hold forever.”</p>
+<p>I did not know if they would agree.</p>
+<p>But they did not shut the door in my face.</p>
+<p>That alone felt like permission to keep talking.</p>
+<p>And I had finally stopped flickering.</p>
+<p>That meant I could start moving.</p>
+<hr class="mw-divider" aria-hidden="true" />
+<p>We did not leave that day.</p>
+<p>We spent the next few months in Deaththorn, in the spaces between fear and routine, getting used to each other. I learned their voices when they were not whispering. I learned what they laughed at, what they avoided, and how quickly they could shift into that careful mode I had seen in the study.</p>
+<p>When we finally chose a direction, it was Meakwood.</p>
+<p>Three months of travel.</p>
+<p>During that entire stretch, sleep stopped being simple. I would dream, and the dreams would not feel like mine. New memories from the Archmage kept pressing in, not clean enough to call visions, not gentle enough to ignore. I would wake with names on my tongue, places half drawn in my mind, and the sense that something behind me was still working, still feeding the spell, still refusing to end.</p>
+<p>By the time the road bent toward Meakwood, I knew one thing for certain.</p>
+<p>Whatever we were becoming to each other, we were not staying in place.</p>
+
+      <div class="clear"></div>
+    </div>
+  </div>
+
+  
+</body>
+</html>
