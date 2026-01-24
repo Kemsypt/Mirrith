@@ -6,730 +6,247 @@
   <title>Mirr’ith Alistr’yn • Level 1 Wizard (5e)</title>
   <style>
     :root{
-      --bg: #0b0d12;
-      --panel: rgba(20, 22, 30, 0.78);
-      --panel2: rgba(20, 22, 30, 0.62);
-      --text: #eef0f6;
-      --muted: rgba(238,240,246,0.72);
-      --border: rgba(238,240,246,0.16);
-      --shadow: 0 14px 40px rgba(0,0,0,0.45);
-      --radius: 16px;
-      --accent: #8f5bff;
-      --accent2: #c152ff;
-      --good: #50e3a4;
-      --warn: #ffcc66;
-      --bad: #ff6b6b;
-      --hp: #50e3a4;
-      --hp2: #2fbf7e;
+      --bg:#0b0d12;
+      --panel:rgba(20,22,30,.78);
+      --panel2:rgba(20,22,30,.62);
+      --text:#eef0f6;
+      --muted:rgba(238,240,246,.72);
+      --border:rgba(238,240,246,.16);
+      --shadow:0 14px 40px rgba(0,0,0,.45);
+      --radius:16px;
+      --accent:#8f5bff;
+      --accent2:#c152ff;
+      --good:#50e3a4;
+      --warn:#ffcc66;
+      --bad:#ff6b6b;
+      --hp:var(--good);
+      --hp2:rgba(80,227,164,.78);
+      --font:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+      --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    }
+    [data-theme="ink-violet"]{ --bg:#0b0d12; --panel:rgba(14,16,24,.78); --panel2:rgba(14,16,24,.62); --text:#eef0f6; --muted:rgba(238,240,246,.72); --border:rgba(238,240,246,.16); --accent:#8f5bff; --accent2:#c152ff; }
+    [data-theme="parchment-crimson"]{ --bg:#17130e; --panel:rgba(35,28,20,.82); --panel2:rgba(35,28,20,.62); --text:#fff4e6; --muted:rgba(255,244,230,.72); --border:rgba(255,244,230,.16); --accent:#ff4d6d; --accent2:#ff9aa8; }
+    [data-theme="glass-teal"]{ --bg:#071018; --panel:rgba(7,24,28,.74); --panel2:rgba(7,24,28,.56); --text:#e9fbff; --muted:rgba(233,251,255,.70); --border:rgba(233,251,255,.16); --accent:#19d3d3; --accent2:#80fff0; }
 
-      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    }
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{ margin:0; font-family:var(--font); color:var(--text); background:var(--bg); overflow-x:hidden; }
 
-    [data-theme="ink-violet"]{
-      --bg: #0b0d12;
-      --panel: rgba(14, 16, 24, 0.78);
-      --panel2: rgba(14, 16, 24, 0.62);
-      --text: #eef0f6;
-      --muted: rgba(238,240,246,0.72);
-      --border: rgba(238,240,246,0.16);
-      --accent: #8f5bff;
-      --accent2: #c152ff;
-    }
-    [data-theme="parchment-crimson"]{
-      --bg: #17130e;
-      --panel: rgba(35, 28, 20, 0.82);
-      --panel2: rgba(35, 28, 20, 0.62);
-      --text: #fff4e6;
-      --muted: rgba(255,244,230,0.72);
-      --border: rgba(255,244,230,0.16);
-      --accent: #ff4d6d;
-      --accent2: #ff9aa8;
-    }
-    [data-theme="glass-teal"]{
-      --bg: #071018;
-      --panel: rgba(7, 24, 28, 0.74);
-      --panel2: rgba(7, 24, 28, 0.56);
-      --text: #e9fbff;
-      --muted: rgba(233,251,255,0.70);
-      --border: rgba(233,251,255,0.16);
-      --accent: #19d3d3;
-      --accent2: #80fff0;
+    .bg{ position:fixed; inset:0; background-image:url('https://i.imgur.com/MHPPfK1.jpeg'); background-size:cover; background-position:center; background-attachment:fixed; filter:saturate(.95) contrast(1.05) brightness(.72); transform:scale(1.04); z-index:-3; }
+    .bg::after{ content:""; position:absolute; inset:0; background:
+      radial-gradient(1200px 700px at 30% 10%, rgba(255,255,255,.10), transparent 60%),
+      radial-gradient(900px 650px at 80% 30%, rgba(0,0,0,.25), transparent 60%),
+      linear-gradient(to bottom, rgba(0,0,0,.55), rgba(0,0,0,.70));
     }
 
-    *{ box-sizing: border-box; }
-    html, body{ height: 100%; }
-    body{
-      margin: 0;
-      font-family: var(--font);
-      color: var(--text);
-      background: var(--bg);
-      overflow-x: hidden;
-    }
+    .wrap{ max-width:1180px; margin:0 auto; padding:22px 16px 54px; }
+    header{ display:grid; grid-template-columns:1fr 340px; gap:14px; align-items:stretch; }
 
-    .bg{
-      position: fixed;
-      inset: 0;
-      background-image: url('https://i.imgur.com/MHPPfK1.jpeg');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      filter: saturate(0.95) contrast(1.05) brightness(0.72);
-      transform: scale(1.04);
-      z-index: -3;
-    }
-    .bg::after{
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(1200px 700px at 30% 10%, rgba(255,255,255,0.10), transparent 60%),
-                  radial-gradient(900px 650px at 80% 30%, rgba(0,0,0,0.25), transparent 60%),
-                  linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0.70));
-    }
+    .card{ background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+    .titleCard{ padding:16px 16px 14px; }
+    .titleRow{ display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
+    h1{ margin:0; font-size:clamp(22px,3.2vw,30px); letter-spacing:.2px; }
+    .sub{ margin-top:6px; color:var(--muted); font-size:13.5px; display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+    .pill{ display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; background:rgba(255,255,255,.06); border:1px solid var(--border); font-size:12.5px; color:var(--text); }
+    .dot{ width:8px; height:8px; border-radius:999px; background:var(--accent); box-shadow:0 0 0 3px rgba(255,255,255,.06); }
 
-    .wrap{
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 22px 16px 54px;
-    }
+    .row{ display:flex; flex-wrap:wrap; gap:10px; margin-top:12px; }
+    .field{ display:flex; gap:8px; align-items:center; background:rgba(255,255,255,.05); border:1px solid var(--border); border-radius:12px; padding:10px; flex:1 1 180px; min-width:160px; }
+    .field label{ font-size:11.5px; color:var(--muted); display:block; }
+    .field input,.field select{ width:100%; background:transparent; color:var(--text); border:none; outline:none; font-size:14px; font-weight:650; }
+    .field input::placeholder{ color:rgba(255,255,255,.45); }
 
-    header{
-      display: grid;
-      grid-template-columns: 1fr 340px;
-      gap: 14px;
-      align-items: stretch;
-    }
+    .portrait{ display:grid; grid-template-rows:auto 1fr; }
+    .portraitTop{ padding:14px 14px 10px; display:flex; align-items:center; justify-content:space-between; gap:10px; border-bottom:1px solid var(--border); background:linear-gradient(120deg, rgba(255,255,255,.05), transparent); }
+    .portraitTop .themeRow{ display:flex; gap:8px; align-items:center; }
+    .themeBtn{ width:34px; height:34px; border-radius:12px; border:1px solid var(--border); background:rgba(255,255,255,.06); cursor:pointer; display:grid; place-items:center; transition:transform 120ms ease, background 120ms ease; }
+    .themeBtn:active{ transform:scale(.98); }
+    .themeSwatch{ width:14px; height:14px; border-radius:999px; background:var(--accent); box-shadow:0 0 0 4px rgba(255,255,255,.08); }
+    .portraitImg{ position:relative; background:rgba(0,0,0,.28); }
+    .portraitImg img{ width:100%; height:100%; object-fit:cover; display:block; filter:contrast(1.02) saturate(1.03); }
+    .portraitBadge{ position:absolute; bottom:12px; left:12px; right:12px; padding:10px 12px; border-radius:14px; background:rgba(0,0,0,.58); border:1px solid rgba(255,255,255,.16); backdrop-filter:blur(10px); }
+    .portraitBadge .small{ color:rgba(255,255,255,.78); font-size:12px; }
+    .portraitBadge .big{ font-size:14px; font-weight:700; margin-top:4px; }
 
-    .card{
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    .titleCard{ padding: 16px 16px 14px; position: relative; }
-    .titleRow{ display:flex; align-items:flex-start; justify-content: space-between; gap: 12px; }
-    h1{
-      margin: 0;
-      font-size: clamp(22px, 3.2vw, 30px);
-      letter-spacing: 0.2px;
-    }
-    .sub{
-      margin-top: 6px;
-      color: var(--muted);
-      font-size: 13.5px;
-      display:flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      align-items: center;
-    }
-    .pill{
-      display:inline-flex;
-      align-items:center;
-      gap: 8px;
-      padding: 6px 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid var(--border);
-      font-size: 12.5px;
-      color: var(--text);
-    }
-    .dot{ width: 8px; height: 8px; border-radius: 999px; background: var(--accent); box-shadow: 0 0 0 3px rgba(255,255,255,0.06); }
-
-    .row{
-      display:flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 12px;
-    }
-
-    .field{
-      display:flex;
-      gap: 8px;
-      align-items: center;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 10px 10px;
-      flex: 1 1 180px;
-      min-width: 160px;
-    }
-    .field label{ font-size: 11.5px; color: var(--muted); display:block; }
-    .field .value{ font-weight: 650; font-size: 14px; }
-    .field input, .field select{
-      width: 100%;
-      background: transparent;
-      color: var(--text);
-      border: none;
-      outline: none;
-      font-size: 14px;
-      font-weight: 650;
-    }
-    .field input::placeholder{ color: rgba(255,255,255,0.45); }
-
-    .portrait{
-      display:grid;
-      grid-template-rows: auto 1fr;
-    }
-    .portraitTop{
-      padding: 14px 14px 10px;
-      display:flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      border-bottom: 1px solid var(--border);
-      background: linear-gradient(120deg, rgba(255,255,255,0.05), transparent);
-    }
-    .portraitTop .themeRow{ display:flex; gap: 8px; align-items:center; }
-    .themeBtn{
-      width: 34px;
-      height: 34px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.06);
-      cursor: pointer;
-      display:grid;
-      place-items:center;
-      transition: transform 120ms ease, background 120ms ease;
-    }
-    .themeBtn:active{ transform: scale(0.98); }
-    .themeSwatch{
-      width: 14px;
-      height: 14px;
-      border-radius: 999px;
-      background: var(--accent);
-      box-shadow: 0 0 0 4px rgba(255,255,255,0.08);
-    }
-    .portraitImg{
-      position: relative;
-      background: rgba(0,0,0,0.28);
-    }
-    .portraitImg img{
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display:block;
-      filter: contrast(1.02) saturate(1.03);
-    }
-    .portraitBadge{
-      position:absolute;
-      bottom: 12px;
-      left: 12px;
-      right: 12px;
-      padding: 10px 12px;
-      border-radius: 14px;
-      background: rgba(0,0,0,0.58);
-      border: 1px solid rgba(255,255,255,0.16);
-      backdrop-filter: blur(10px);
-    }
-    .portraitBadge .small{ color: rgba(255,255,255,0.78); font-size: 12px; }
-    .portraitBadge .big{ font-size: 14px; font-weight: 700; margin-top: 4px; }
-
-    .tabs{ margin-top: 14px; }
-    .tabBar{
-      display:flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      padding: 10px;
-      background: var(--panel2);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      box-shadow: var(--shadow);
-    }
-    .tabBtn{
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.06);
-      color: var(--text);
-      padding: 10px 12px;
-      border-radius: 14px;
-      cursor: pointer;
-      font-weight: 650;
-      font-size: 13px;
-      transition: background 120ms ease, transform 120ms ease;
-    }
-    .tabBtn:hover{ background: rgba(255,255,255,0.09); }
-    .tabBtn:active{ transform: scale(0.99); }
-    .tabBtn[aria-selected="true"]{
-      background: linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.05));
-      border-color: rgba(255,255,255,0.28);
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.08);
-    }
-
-    .tabPanel{ display:none; margin-top: 12px; }
+    .tabs{ margin-top:14px; }
+    .tabBar{ display:flex; gap:8px; flex-wrap:wrap; padding:10px; background:var(--panel2); border:1px solid var(--border); border-radius:16px; box-shadow:var(--shadow); }
+    .tabBtn{ border:1px solid var(--border); background:rgba(255,255,255,.06); color:var(--text); padding:10px 12px; border-radius:14px; cursor:pointer; font-weight:650; font-size:13px; transition:background 120ms ease, transform 120ms ease; }
+    .tabBtn:hover{ background:rgba(255,255,255,.09); }
+    .tabBtn:active{ transform:scale(.99); }
+    .tabBtn[aria-selected="true"]{ background:linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.05)); border-color:rgba(255,255,255,.28); box-shadow:inset 0 0 0 1px rgba(255,255,255,.08); }
+    .tabPanel{ display:none; margin-top:12px; }
     .tabPanel.active{ display:block; }
 
-    .stack{ display:grid; gap: 12px; }
-    .section{ padding: 14px; }
-    .section h2{
-      margin: 0 0 10px;
-      font-size: 14px;
-      letter-spacing: 0.2px;
-      color: rgba(255,255,255,0.92);
-      display:flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-    .hint{ color: var(--muted); font-size: 12px; font-weight: 500; }
+    .stack{ display:grid; gap:12px; }
+    .section{ padding:14px; }
+    .section h2{ margin:0 0 10px; font-size:14px; letter-spacing:.2px; color:rgba(255,255,255,.92); display:flex; align-items:center; justify-content:space-between; gap:10px; }
+    .hint{ color:var(--muted); font-size:12px; font-weight:500; }
+    .list{ display:grid; gap:10px; }
+    .kv{ display:flex; justify-content:space-between; gap:12px; padding:10px 12px; border-radius:14px; border:1px solid var(--border); background:rgba(255,255,255,.05); }
+    .kv .k{ color:var(--muted); font-size:12px; }
+    .kv .v{ font-weight:750; }
 
-    .list{ display:grid; gap: 10px; }
+    .hpBox{ padding:12px; border-radius:16px; border:1px solid var(--border); background:rgba(255,255,255,.05); }
+    .hpRow{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    .hpRow .num{ display:flex; gap:8px; align-items:center; }
+    .hpRow input{ width:84px; padding:10px; border-radius:12px; border:1px solid var(--border); background:rgba(0,0,0,.25); color:var(--text); outline:none; font-weight:800; font-size:14px; }
+    .hpBar{ margin-top:10px; height:16px; border-radius:999px; border:1px solid var(--border); background:rgba(0,0,0,.30); overflow:hidden; position:relative; }
+    .hpFill{ height:100%; width:100%; background:linear-gradient(90deg, var(--hp), var(--hp2)); border-radius:999px; transition:width 180ms ease; }
+    .hpMeta{ display:flex; justify-content:space-between; margin-top:8px; color:var(--muted); font-size:12px; }
 
-    .kv{
-      display:flex;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 10px 12px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.05);
-    }
-    .kv .k{ color: var(--muted); font-size: 12px; }
-    .kv .v{ font-weight: 750; }
+    .miniGrid{ display:grid; grid-template-columns:repeat(6,1fr); gap:10px; }
+    .stat{ padding:12px; border:1px solid var(--border); background:rgba(255,255,255,.05); border-radius:14px; display:grid; gap:8px; user-select:none; }
+    .stat .main{ display:grid; gap:6px; cursor:pointer; padding:6px; border-radius:12px; transition:background 120ms ease; }
+    .stat .main:hover{ background:rgba(255,255,255,.06); }
+    .stat .top{ display:flex; align-items:baseline; justify-content:space-between; gap:10px; }
+    .stat .name{ color:var(--muted); font-size:11.5px; letter-spacing:.5px; }
+    .stat .score{ font-size:18px; font-weight:800; }
+    .stat .mod{ font-family:var(--mono); font-size:12.5px; color:rgba(255,255,255,.85); }
 
-    .chip{
-      display:inline-flex;
-      align-items:center;
-      gap: 8px;
-      padding: 8px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.06);
-      cursor: pointer;
-      user-select: none;
-      font-size: 12.5px;
-      font-weight: 750;
-      transition: transform 120ms ease, background 120ms ease;
-    }
-    .chip:hover{ background: rgba(255,255,255,0.09); }
-    .chip:active{ transform: scale(0.99); }
-    .chip .mark{ width: 10px; height: 10px; border-radius: 999px; background: rgba(255,255,255,0.22); border: 1px solid rgba(255,255,255,0.18); }
-    .chip[data-pro="true"] .mark{ background: var(--accent); box-shadow: 0 0 0 3px rgba(255,255,255,0.07); }
+    .saveLine{ display:flex; align-items:center; justify-content:space-between; gap:8px; padding:8px 10px; border-radius:12px; border:1px solid rgba(255,255,255,.14); background:rgba(0,0,0,.18); cursor:pointer; transition:background 120ms ease, transform 120ms ease; }
+    .saveLine:hover{ background:rgba(255,255,255,.06); }
+    .saveLine:active{ transform:scale(.99); }
+    .saveLine .lbl{ color:var(--muted); font-size:12px; font-weight:650; }
+    .saveLine .right{ display:flex; align-items:center; gap:8px; }
+    .proBadge{ font-size:11px; padding:4px 8px; border-radius:999px; border:1px solid var(--border); background:rgba(0,0,0,.20); color:var(--muted); min-width:44px; text-align:center; }
+    .proBadge.on{ color:rgba(255,255,255,.92); border-color:rgba(255,255,255,.28); background:rgba(255,255,255,.10); }
+    .saveLine .bonus{ font-family:var(--mono); font-weight:900; }
 
-    .hpBox{ padding: 12px; border-radius: 16px; border: 1px solid var(--border); background: rgba(255,255,255,0.05); }
-    .hpRow{ display:flex; gap: 10px; flex-wrap: wrap; align-items:center; }
-    .hpRow .num{ display:flex; gap: 8px; align-items:center; }
-    .hpRow input{
-      width: 84px;
-      padding: 10px 10px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      background: rgba(0,0,0,0.25);
-      color: var(--text);
-      outline: none;
-      font-weight: 800;
-      font-size: 14px;
-    }
-    .hpBar{
-      margin-top: 10px;
-      height: 16px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: rgba(0,0,0,0.30);
-      overflow: hidden;
-      position: relative;
-    }
-    .hpFill{
-      height: 100%;
-      width: 100%;
-      background: linear-gradient(90deg, var(--hp), var(--hp2));
-      border-radius: 999px;
-      transition: width 180ms ease;
-    }
-    .hpMeta{ display:flex; justify-content: space-between; margin-top: 8px; color: var(--muted); font-size: 12px; }
+    .skillGrid{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+    .skill{ padding:10px 12px; border-radius:14px; border:1px solid var(--border); background:rgba(255,255,255,.05); display:flex; align-items:center; justify-content:space-between; gap:10px; cursor:pointer; user-select:none; transition:transform 120ms ease, background 120ms ease; }
+    .skill:hover{ background:rgba(255,255,255,.07); }
+    .skill:active{ transform:scale(.99); }
+    .skill .left{ display:flex; gap:10px; align-items:center; min-width:0; }
+    .skill .nm{ font-weight:850; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .skill .ab{ color:var(--muted); font-size:12px; }
+    .skill .right{ display:flex; gap:8px; align-items:center; }
+    .skill .bonus{ font-family:var(--mono); font-weight:900; }
 
-    .miniGrid{
-      display:grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 10px;
-    }
-    .stat{
-      padding: 12px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.05);
-      border-radius: 14px;
-      display:grid;
-      gap: 6px;
-      cursor: pointer;
-      user-select: none;
-      transition: transform 120ms ease, background 120ms ease;
-    }
-    .stat:hover{ background: rgba(255,255,255,0.07); }
-    .stat:active{ transform: scale(0.99); }
-    .stat .top{ display:flex; align-items:baseline; justify-content: space-between; gap: 10px; }
-    .stat .name{ color: var(--muted); font-size: 11.5px; letter-spacing: 0.5px; }
-    .stat .score{ font-size: 18px; font-weight: 800; }
-    .stat .mod{ font-family: var(--mono); font-size: 12.5px; color: rgba(255,255,255,0.85); }
+    .spellHeaderRow{ display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between; }
+    .counter{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    .countBox{ padding:8px 10px; border-radius:14px; border:1px solid var(--border); background:rgba(255,255,255,.06); font-size:12.5px; }
+    .spellGrid{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+    .spellCard{ padding:12px; border-radius:16px; border:1px solid var(--border); background:rgba(255,255,255,.05); }
+    .spellTop{ display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
+    .spellName{ font-weight:850; letter-spacing:.2px; }
+    .tagRow{ display:flex; flex-wrap:wrap; gap:6px; margin-top:6px; }
+    .tag{ font-size:11.5px; color:var(--muted); border:1px solid var(--border); background:rgba(0,0,0,.20); padding:4px 8px; border-radius:999px; }
+    details{ margin-top:10px; }
+    details summary{ cursor:pointer; color:rgba(255,255,255,.88); font-weight:700; }
+    .spellBody{ margin-top:10px; color:rgba(255,255,255,.86); font-size:13px; line-height:1.45; }
+    .spellBody .line{ margin:6px 0; }
+    .spellBody .lbl{ color:var(--muted); font-weight:650; }
 
-    .skillGrid{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-    }
-    .skill{
-      padding: 10px 12px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.05);
-      display:flex;
-      align-items:center;
-      justify-content: space-between;
-      gap: 10px;
-      cursor: pointer;
-      user-select: none;
-      transition: transform 120ms ease, background 120ms ease;
-    }
-    .skill:hover{ background: rgba(255,255,255,0.07); }
-    .skill:active{ transform: scale(0.99); }
-    .skill .left{ display:flex; gap: 10px; align-items:center; min-width: 0; }
-    .skill .nm{ font-weight: 850; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .skill .ab{ color: var(--muted); font-size: 12px; }
-    .skill .right{ display:flex; gap: 8px; align-items:center; }
-    .skill .bonus{ font-family: var(--mono); font-weight: 900; }
-    .proBadge{
-      font-size: 11px;
-      padding: 4px 8px;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: rgba(0,0,0,0.20);
-      color: var(--muted);
-    }
-    .proBadge.on{
-      color: rgba(255,255,255,0.92);
-      border-color: rgba(255,255,255,0.28);
-      background: rgba(255,255,255,0.10);
-    }
+    .btn{ border:1px solid var(--border); background:rgba(255,255,255,.06); color:var(--text); padding:10px 12px; border-radius:14px; cursor:pointer; font-weight:700; font-size:13px; transition:background 120ms ease, transform 120ms ease; user-select:none; }
+    .btn:hover{ background:rgba(255,255,255,.09); }
+    .btn:active{ transform:scale(.99); }
+    .btn.small{ padding:8px 10px; font-size:12px; border-radius:12px; }
+    .btn.primary{ background:linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.05)); border-color:rgba(255,255,255,.28); }
 
-    .spellHeaderRow{ display:flex; flex-wrap: wrap; gap: 10px; align-items:center; justify-content: space-between; }
-    .counter{ display:flex; gap: 10px; flex-wrap: wrap; align-items:center; }
-    .countBox{ padding: 8px 10px; border-radius: 14px; border: 1px solid var(--border); background: rgba(255,255,255,0.06); font-size: 12.5px; }
-    .spellGrid{ display:grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .spellCard{ padding: 12px; border-radius: 16px; border: 1px solid var(--border); background: rgba(255,255,255,0.05); }
-    .spellTop{ display:flex; align-items:flex-start; justify-content: space-between; gap: 10px; }
-    .spellName{ font-weight: 850; letter-spacing: 0.2px; }
-    .tagRow{ display:flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
-    .tag{ font-size: 11.5px; color: var(--muted); border: 1px solid var(--border); background: rgba(0,0,0,0.20); padding: 4px 8px; border-radius: 999px; }
-    details{ margin-top: 10px; }
-    details summary{ cursor: pointer; color: rgba(255,255,255,0.88); font-weight: 700; }
-    .spellBody{ margin-top: 10px; color: rgba(255,255,255,0.86); font-size: 13px; line-height: 1.45; }
-    .spellBody .line{ margin: 6px 0; }
-    .spellBody .lbl{ color: var(--muted); font-weight: 650; }
+    .slots{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:10px; padding:10px; border-radius:16px; border:1px solid var(--border); background:rgba(255,255,255,.05); }
+    .slotDots{ display:flex; gap:8px; align-items:center; }
+    .slotDot{ width:18px; height:18px; border-radius:999px; border:1px solid rgba(255,255,255,.22); background:rgba(255,255,255,.08); cursor:pointer; transition:transform 120ms ease; }
+    .slotDot:active{ transform:scale(.96); }
+    .slotDot.used{ background:rgba(255,255,255,.10); opacity:.42; }
+    .slotDot.available{ background:var(--accent); box-shadow:0 0 0 3px rgba(255,255,255,.07); }
+    .stepper{ display:flex; gap:6px; align-items:center; }
+    .stepper .num{ min-width:28px; text-align:center; font-weight:900; }
 
-    .btn{
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.06);
-      color: var(--text);
-      padding: 10px 12px;
-      border-radius: 14px;
-      cursor: pointer;
-      font-weight: 700;
-      font-size: 13px;
-      transition: background 120ms ease, transform 120ms ease;
-      user-select: none;
-    }
-    .btn:hover{ background: rgba(255,255,255,0.09); }
-    .btn:active{ transform: scale(0.99); }
-    .btn.small{ padding: 8px 10px; font-size: 12px; border-radius: 12px; }
-    .btn.primary{
-      background: linear-gradient(135deg, rgba(255,255,255,0.10), rgba(255,255,255,0.05));
-      border-color: rgba(255,255,255,0.28);
-    }
+    .notesGrid{ display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+    .noteCard{ padding:12px; border-radius:16px; border:1px solid var(--border); background:rgba(255,255,255,.05); }
+    .noteCardHead{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:8px; }
+    .noteCardHead .ttl{ font-weight:900; }
+    textarea{ width:100%; min-height:170px; resize:vertical; padding:12px; border-radius:16px; border:1px solid var(--border); background:rgba(0,0,0,.25); color:var(--text); outline:none; font-size:13px; line-height:1.45; }
 
-    .slots{
-      display:flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      align-items: center;
-      margin-top: 10px;
-      padding: 10px;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.05);
-    }
-    .slotDots{ display:flex; gap: 8px; align-items:center; }
-    .slotDot{
-      width: 18px;
-      height: 18px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.22);
-      background: rgba(255,255,255,0.08);
-      cursor: pointer;
-      transition: transform 120ms ease;
-    }
-    .slotDot:active{ transform: scale(0.96); }
-    .slotDot.used{ background: rgba(255,255,255,0.10); opacity: 0.42; }
-    .slotDot.available{ background: var(--accent); box-shadow: 0 0 0 3px rgba(255,255,255,0.07); }
+    .invCols{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+    .invCol{ padding:12px; border-radius:16px; border:1px solid var(--border); background:rgba(255,255,255,.05); min-height:220px; }
+    .invCol h3{ margin:0 0 10px; font-size:13.5px; display:flex; justify-content:space-between; align-items:center; gap:10px; }
+    .invCol .small{ color:var(--muted); font-size:11.5px; }
+    .invItem{ padding:10px; border-radius:14px; border:1px solid var(--border); background:rgba(0,0,0,.22); margin-bottom:10px; cursor:grab; }
+    .invItem:active{ cursor:grabbing; }
+    .invItem .name{ font-weight:850; }
+    .invItem .meta{ margin-top:4px; font-size:12px; color:var(--muted); display:flex; justify-content:space-between; gap:8px; }
+    .invItem .actions{ margin-top:8px; display:flex; gap:8px; flex-wrap:wrap; }
 
-    .stepper{ display:flex; gap: 6px; align-items:center; }
-    .stepper .num{ min-width: 28px; text-align:center; font-weight: 900; }
+    .invForm{ padding:14px; }
+    .invForm .row2{ display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+    .invForm .row3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; }
+    .input{ width:100%; padding:10px 12px; border-radius:14px; border:1px solid var(--border); background:rgba(0,0,0,.25); color:var(--text); outline:none; font-weight:650; font-size:13px; }
 
-    .notesGrid{ display:grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-    .noteCard{
-      padding: 12px;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.05);
-    }
-    .noteCardHead{
-      display:flex;
-      align-items:center;
-      justify-content: space-between;
-      gap: 10px;
-      margin-bottom: 8px;
-    }
-    .noteCardHead .ttl{ font-weight: 900; }
-    textarea{
-      width: 100%;
-      min-height: 170px;
-      resize: vertical;
-      padding: 12px;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      background: rgba(0,0,0,0.25);
-      color: var(--text);
-      outline: none;
-      font-size: 13px;
-      line-height: 1.45;
-    }
+    .footerRow{ margin-top:12px; display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between; }
+    .saveHint{ color:var(--muted); font-size:12px; }
 
-    .invGrid{ display:grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    .invCols{ display:grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-    .invCol{ padding: 12px; border-radius: 16px; border: 1px solid var(--border); background: rgba(255,255,255,0.05); min-height: 220px; }
-    .invCol h3{ margin: 0 0 10px; font-size: 13.5px; display:flex; justify-content: space-between; align-items:center; gap: 10px; }
-    .invCol .small{ color: var(--muted); font-size: 11.5px; }
-    .invItem{
-      padding: 10px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      background: rgba(0,0,0,0.22);
-      margin-bottom: 10px;
-      cursor: grab;
-    }
-    .invItem:active{ cursor: grabbing; }
-    .invItem .name{ font-weight: 850; }
-    .invItem .meta{ margin-top: 4px; font-size: 12px; color: var(--muted); display:flex; justify-content: space-between; gap: 8px; }
-    .invItem .actions{ margin-top: 8px; display:flex; gap: 8px; flex-wrap: wrap; }
+    .diceFab{ position:fixed; right:10px; top:50%; transform:translateY(-50%); width:44px; height:44px; border-radius:14px; border:1px solid var(--border); background:rgba(255,255,255,.08); backdrop-filter:blur(10px); display:grid; place-items:center; cursor:pointer; z-index:50; box-shadow:0 12px 30px rgba(0,0,0,.40); transition:transform 120ms ease, background 120ms ease; }
+    .diceFab:hover{ background:rgba(255,255,255,.10); }
+    .diceFab:active{ transform:translateY(-50%) scale(.98); }
+    .diceFab svg{ width:22px; height:22px; fill:none; stroke:rgba(255,255,255,.92); stroke-width:2; }
 
-    .invForm{
-      padding: 12px;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.05);
-    }
-    .invForm .row2{ display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .drawerOverlay{ position:fixed; inset:0; background:rgba(0,0,0,.50); opacity:0; pointer-events:none; transition:opacity 180ms ease; z-index:60; }
+    .drawerOverlay.on{ opacity:1; pointer-events:auto; }
+    .drawer{ position:fixed; top:0; right:0; height:100%; width:min(420px,92vw); transform:translateX(102%); transition:transform 220ms ease; z-index:70; display:flex; flex-direction:column; background:rgba(15,18,26,.92); border-left:1px solid rgba(255,255,255,.14); box-shadow:-18px 0 40px rgba(0,0,0,.45); backdrop-filter:blur(12px); }
+    body[data-theme="parchment-crimson"] .drawer{ background:rgba(38,30,22,.92); }
+    body[data-theme="glass-teal"] .drawer{ background:rgba(7,28,30,.92); }
+    .drawer.on{ transform:translateX(0); }
+    .drawerHead{ padding:14px 14px 10px; display:flex; align-items:center; justify-content:space-between; gap:10px; border-bottom:1px solid rgba(255,255,255,.14); }
+    .drawerHead .ttl{ font-weight:900; letter-spacing:.2px; }
+    .drawerBody{ padding:14px; overflow:auto; }
+    .drawerClose{ width:38px; height:38px; border-radius:14px; border:1px solid rgba(255,255,255,.16); background:rgba(255,255,255,.06); color:rgba(255,255,255,.92); cursor:pointer; display:grid; place-items:center; }
+    .diceTop{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    .rollAnim{ display:flex; align-items:center; justify-content:center; border-radius:18px; border:1px solid rgba(255,255,255,.16); background:rgba(0,0,0,.25); min-height:120px; position:relative; overflow:hidden; margin-top:12px; }
+    .rollAnim .big{ font-size:46px; font-weight:900; letter-spacing:.5px; text-shadow:0 10px 30px rgba(0,0,0,.45); }
+    .rollAnim .small{ position:absolute; bottom:10px; left:12px; right:12px; display:flex; justify-content:space-between; color:var(--muted); font-size:12px; }
+    .log{ margin-top:10px; padding:10px; border-radius:16px; border:1px solid rgba(255,255,255,.14); background:rgba(255,255,255,.05); max-height:220px; overflow:auto; font-family:var(--mono); font-size:12px; line-height:1.35; white-space:pre-wrap; }
 
-    .input{
-      width: 100%;
-      padding: 10px 12px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      background: rgba(0,0,0,0.25);
-      color: var(--text);
-      outline: none;
-      font-weight: 650;
-      font-size: 13px;
+    .pop{ position:fixed; inset:0; display:grid; place-items:center; pointer-events:none; z-index:90; }
+    .popCard{ pointer-events:none; width:min(420px,92vw); border-radius:20px; border:1px solid rgba(255,255,255,.18); background:rgba(0,0,0,.68); backdrop-filter:blur(12px); box-shadow:0 24px 60px rgba(0,0,0,.55); padding:16px 16px 14px; transform:translateY(14px) scale(.98); opacity:0; transition:opacity 180ms ease, transform 180ms ease; overflow:hidden; position:relative; }
+    .popCard.on{ opacity:1; transform:translateY(0) scale(1); }
+    .popGlow{ position:absolute; inset:-40px; background:
+      radial-gradient(420px 240px at 30% 30%, rgba(255,255,255,.12), transparent 60%),
+      radial-gradient(520px 320px at 70% 20%, rgba(255,255,255,.08), transparent 62%);
+      opacity:.9;
     }
+    .popMain{ position:relative; display:flex; gap:14px; align-items:center; }
+    .popNum{ width:74px; height:74px; border-radius:18px; display:grid; place-items:center; font-size:34px; font-weight:950; border:1px solid rgba(255,255,255,.18); background:rgba(255,255,255,.06); box-shadow:inset 0 0 0 1px rgba(255,255,255,.06); }
+    .popText{ flex:1; min-width:0; }
+    .popTitle{ font-weight:900; letter-spacing:.2px; }
+    .popDetail{ margin-top:4px; color:rgba(255,255,255,.78); font-size:13px; line-height:1.35; }
+    .popHint{ margin-top:8px; color:rgba(255,255,255,.62); font-size:12px; }
+    .popCard[data-tone="green"] .popNum{ border-color:rgba(80,227,164,.55); box-shadow:0 0 0 4px rgba(80,227,164,.10); }
+    .popCard[data-tone="red"] .popNum{ border-color:rgba(255,107,107,.55); box-shadow:0 0 0 4px rgba(255,107,107,.10); }
 
-    .footerRow{
-      margin-top: 12px;
-      display:flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      align-items:center;
-      justify-content: space-between;
-    }
-    .saveHint{ color: var(--muted); font-size: 12px; }
+    .modalOverlay{ position:fixed; inset:0; background:rgba(0,0,0,.55); opacity:0; pointer-events:none; transition:opacity 160ms ease; z-index:95; }
+    .modalOverlay.on{ opacity:1; pointer-events:auto; }
+    .modal{ position:fixed; inset:0; display:grid; place-items:center; z-index:96; pointer-events:none; }
+    .modalCard{ pointer-events:auto; width:min(560px,94vw); border-radius:22px; border:1px solid rgba(255,255,255,.18); background:rgba(12,14,20,.92); backdrop-filter:blur(14px); box-shadow:0 30px 80px rgba(0,0,0,.60); overflow:hidden; transform:translateY(10px) scale(.985); opacity:0; transition:opacity 160ms ease, transform 160ms ease; }
+    body[data-theme="parchment-crimson"] .modalCard{ background:rgba(28,22,16,.92); }
+    body[data-theme="glass-teal"] .modalCard{ background:rgba(7,22,24,.92); }
+    .modalCard.on{ opacity:1; transform:translateY(0) scale(1); }
+    .modalHead{ padding:14px 14px 12px; display:flex; align-items:center; justify-content:space-between; gap:10px; border-bottom:1px solid rgba(255,255,255,.14); background:linear-gradient(120deg, rgba(255,255,255,.06), transparent); }
+    .modalHead .ttl{ font-weight:950; letter-spacing:.2px; }
+    .modalBody{ padding:14px; display:grid; gap:10px; }
+    .modalFoot{ padding:12px 14px; border-top:1px solid rgba(255,255,255,.14); display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; background:rgba(255,255,255,.04); }
+    .danger{ border-color:rgba(255,107,107,.35) !important; background:rgba(255,107,107,.10) !important; }
 
-    .diceFab{
-      position: fixed;
-      right: 10px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 44px;
-      height: 44px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,0.08);
-      backdrop-filter: blur(10px);
-      display:grid;
-      place-items:center;
-      cursor: pointer;
-      z-index: 50;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.40);
-      transition: transform 120ms ease, background 120ms ease;
-    }
-    .diceFab:hover{ background: rgba(255,255,255,0.10); }
-    .diceFab:active{ transform: translateY(-50%) scale(0.98); }
-    .diceFab svg{ width: 22px; height: 22px; fill: none; stroke: rgba(255,255,255,0.92); stroke-width: 2; }
+    .familiarGrid{ display:grid; gap:12px; }
+    .statBlock{ padding:12px; border-radius:16px; border:1px solid var(--border); background:rgba(255,255,255,.05); }
+    .statBlock details{ margin-top:8px; }
+    .blockLine{ margin:6px 0; color:rgba(255,255,255,.86); font-size:13px; line-height:1.45; }
+    .blockLine .lbl{ color:var(--muted); font-weight:700; }
 
-    .drawerOverlay{
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.50);
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 180ms ease;
-      z-index: 60;
+    @media (max-width:980px){
+      header{ grid-template-columns:1fr; }
+      .spellGrid{ grid-template-columns:1fr; }
+      .notesGrid{ grid-template-columns:1fr; }
+      .invCols{ grid-template-columns:1fr 1fr; }
+      .miniGrid{ grid-template-columns:repeat(3,1fr); }
+      .skillGrid{ grid-template-columns:repeat(2,1fr); }
     }
-    .drawerOverlay.on{ opacity: 1; pointer-events: auto; }
-
-    .drawer{
-      position: fixed;
-      top: 0;
-      right: 0;
-      height: 100%;
-      width: min(420px, 92vw);
-      transform: translateX(102%);
-      transition: transform 220ms ease;
-      z-index: 70;
-      display:flex;
-      flex-direction: column;
-      background: rgba(15, 18, 26, 0.92);
-      border-left: 1px solid rgba(255,255,255,0.14);
-      box-shadow: -18px 0 40px rgba(0,0,0,0.45);
-      backdrop-filter: blur(12px);
-    }
-    body[data-theme="parchment-crimson"] .drawer{ background: rgba(38, 30, 22, 0.92); }
-    body[data-theme="glass-teal"] .drawer{ background: rgba(7, 28, 30, 0.92); }
-
-    .drawer.on{ transform: translateX(0); }
-    .drawerHead{
-      padding: 14px 14px 10px;
-      display:flex;
-      align-items:center;
-      justify-content: space-between;
-      gap: 10px;
-      border-bottom: 1px solid rgba(255,255,255,0.14);
-    }
-    .drawerHead .ttl{ font-weight: 900; letter-spacing: 0.2px; }
-    .drawerBody{ padding: 14px; overflow:auto; }
-    .drawerClose{
-      width: 38px;
-      height: 38px;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.16);
-      background: rgba(255,255,255,0.06);
-      color: rgba(255,255,255,0.92);
-      cursor: pointer;
-      display:grid;
-      place-items:center;
-    }
-
-    .diceTop{ display:flex; gap: 10px; flex-wrap: wrap; align-items:center; }
-    .rollAnim{
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      border-radius: 18px;
-      border: 1px solid rgba(255,255,255,0.16);
-      background: rgba(0,0,0,0.25);
-      min-height: 120px;
-      position: relative;
-      overflow: hidden;
-      margin-top: 12px;
-    }
-    .rollAnim .big{
-      font-size: 46px;
-      font-weight: 900;
-      letter-spacing: 0.5px;
-      text-shadow: 0 10px 30px rgba(0,0,0,0.45);
-    }
-    .rollAnim .small{
-      position:absolute;
-      bottom: 10px;
-      left: 12px;
-      right: 12px;
-      display:flex;
-      justify-content: space-between;
-      color: var(--muted);
-      font-size: 12px;
-    }
-    .log{
-      margin-top: 10px;
-      padding: 10px;
-      border-radius: 16px;
-      border: 1px solid rgba(255,255,255,0.14);
-      background: rgba(255,255,255,0.05);
-      max-height: 220px;
-      overflow:auto;
-      font-family: var(--mono);
-      font-size: 12px;
-      line-height: 1.35;
-      white-space: pre-wrap;
-    }
-
-    .pop{
-      position: fixed;
-      inset: 0;
-      display:grid;
-      place-items:center;
-      pointer-events: none;
-      z-index: 90;
-    }
-    .popCard{
-      pointer-events: none;
-      width: min(420px, 92vw);
-      border-radius: 20px;
-      border: 1px solid rgba(255,255,255,0.18);
-      background: rgba(0,0,0,0.68);
-      backdrop-filter: blur(12px);
-      box-shadow: 0 24px 60px rgba(0,0,0,0.55);
-      padding: 16px 16px 14px;
-      transform: translateY(14px) scale(0.98);
-      opacity: 0;
-      transition: opacity 180ms ease, transform 180ms ease;
-      overflow:hidden;
-      position: relative;
-    }
-    .popCard.on{ opacity: 1; transform: translateY(0) scale(1); }
-    .popGlow{
-      position:absolute;
-      inset: -40px;
-      background: radial-gradient(420px 240px at 30% 30%, rgba(255,255,255,0.12), transparent 60%),
-                  radial-gradient(520px 320px at 70% 20%, rgba(255,255,255,0.08), transparent 62%);
-      opacity: 0.9;
-      filter: blur(0px);
-    }
-    .popMain{
-      position: relative;
-      display:flex;
-      gap: 14px;
-      align-items:center;
-    }
-    .popNum{
-      width: 74px;
-      height: 74px;
-      border-radius: 18px;
-      display:grid;
-      place-items:center;
-      font-size: 34px;
-      font-weight: 950;
-      border: 1px solid rgba(255,255,255,0.18);
-      background: rgba(255,255,255,0.06);
-      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.06);
-    }
-    .popText{ flex:1; min-width: 0; }
-    .popTitle{ font-weight: 900; letter-spacing:0.2px; }
-    .popDetail{ margin-top: 4px; color: rgba(255,255,255,0.78); font-size: 13px; line-height: 1.35; }
-    .popHint{ margin-top: 8px; color: rgba(255,255,255,0.62); font-size: 12px; }
-
-    .popCard[data-tone="normal"] .popNum{ border-color: rgba(255,255,255,0.18); }
-    .popCard[data-tone="green"] .popNum{ border-color: rgba(80,227,164,0.55); box-shadow: 0 0 0 4px rgba(80,227,164,0.10); }
-    .popCard[data-tone="red"] .popNum{ border-color: rgba(255,107,107,0.55); box-shadow: 0 0 0 4px rgba(255,107,107,0.10); }
-
-    @media (max-width: 980px){
-      header{ grid-template-columns: 1fr; }
-      .spellGrid{ grid-template-columns: 1fr; }
-      .notesGrid{ grid-template-columns: 1fr; }
-      .invCols{ grid-template-columns: 1fr 1fr; }
-      .miniGrid{ grid-template-columns: repeat(3, 1fr); }
-      .skillGrid{ grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 560px){
-      .invCols{ grid-template-columns: 1fr; }
-      .miniGrid{ grid-template-columns: repeat(2, 1fr); }
-      .skillGrid{ grid-template-columns: 1fr; }
-      .diceFab{ right: 8px; }
+    @media (max-width:560px){
+      .invCols{ grid-template-columns:1fr; }
+      .miniGrid{ grid-template-columns:repeat(2,1fr); }
+      .skillGrid{ grid-template-columns:1fr; }
+      .diceFab{ right:8px; }
+      .invForm .row2,.invForm .row3{ grid-template-columns:1fr; }
     }
   </style>
 </head>
@@ -757,42 +274,12 @@
         </div>
 
         <div class="row">
-          <div class="field">
-            <div style="flex:1">
-              <label>AC</label>
-              <input type="number" min="0" step="1" value="14" data-k="ac" />
-            </div>
-          </div>
-          <div class="field">
-            <div style="flex:1">
-              <label>Initiative</label>
-              <input type="text" value="+4" data-k="init" />
-            </div>
-          </div>
-          <div class="field">
-            <div style="flex:1">
-              <label>Speed</label>
-              <input type="text" value="30 ft" data-k="speed" />
-            </div>
-          </div>
-          <div class="field">
-            <div style="flex:1">
-              <label>Fly</label>
-              <input type="text" value="30 ft" data-k="fly" />
-            </div>
-          </div>
-          <div class="field">
-            <div style="flex:1">
-              <label>Spell Save DC</label>
-              <input type="number" min="0" step="1" value="14" data-k="dc" />
-            </div>
-          </div>
-          <div class="field">
-            <div style="flex:1">
-              <label>Spell Attack</label>
-              <input type="text" value="+6" data-k="spellAtk" />
-            </div>
-          </div>
+          <div class="field"><div style="flex:1"><label>AC</label><input type="number" min="0" step="1" value="14" data-k="ac" /></div></div>
+          <div class="field"><div style="flex:1"><label>Initiative</label><input type="text" value="+4" data-k="init" /></div></div>
+          <div class="field"><div style="flex:1"><label>Speed</label><input type="text" value="30 ft" data-k="speed" /></div></div>
+          <div class="field"><div style="flex:1"><label>Fly</label><input type="text" value="30 ft" data-k="fly" /></div></div>
+          <div class="field"><div style="flex:1"><label>Spell Save DC</label><input type="number" min="0" step="1" value="13" data-k="dc" /></div></div>
+          <div class="field"><div style="flex:1"><label>Spell Attack</label><input type="text" value="+5" data-k="spellAtk" /></div></div>
         </div>
 
         <div class="hpBox" style="margin-top: 12px;">
@@ -802,28 +289,14 @@
                 <div style="font-weight:900">Health</div>
                 <div class="hint">Editable bar and numbers</div>
               </div>
-              <div class="hpBar" aria-label="Health bar">
-                <div class="hpFill" id="hpFill"></div>
-              </div>
-              <div class="hpMeta">
-                <div>State: <span id="hpState">Fine</span></div>
-                <div id="hpPct">100%</div>
-              </div>
+              <div class="hpBar" aria-label="Health bar"><div class="hpFill" id="hpFill"></div></div>
+              <div class="hpMeta"><div>State: <span id="hpState">Fine</span></div><div id="hpPct">100%</div></div>
             </div>
 
             <div class="num">
-              <div style="display:grid; gap:6px;">
-                <div style="font-size:11.5px; color:var(--muted)">Current</div>
-                <input type="number" min="0" step="1" value="9" data-k="hpCur" id="hpCur" />
-              </div>
-              <div style="display:grid; gap:6px;">
-                <div style="font-size:11.5px; color:var(--muted)">Max</div>
-                <input type="number" min="1" step="1" value="9" data-k="hpMax" id="hpMax" />
-              </div>
-              <div style="display:grid; gap:6px;">
-                <div style="font-size:11.5px; color:var(--muted)">Temp</div>
-                <input type="number" min="0" step="1" value="0" data-k="hpTemp" id="hpTemp" />
-              </div>
+              <div style="display:grid; gap:6px;"><div style="font-size:11.5px; color:var(--muted)">Current</div><input type="number" min="0" step="1" value="9" data-k="hpCur" id="hpCur" /></div>
+              <div style="display:grid; gap:6px;"><div style="font-size:11.5px; color:var(--muted)">Max</div><input type="number" min="1" step="1" value="9" data-k="hpMax" id="hpMax" /></div>
+              <div style="display:grid; gap:6px;"><div style="font-size:11.5px; color:var(--muted)">Temp</div><input type="number" min="0" step="1" value="0" data-k="hpTemp" id="hpTemp" /></div>
             </div>
           </div>
         </div>
@@ -865,6 +338,7 @@
       <nav class="tabBar" role="tablist" aria-label="Character sheet tabs">
         <button class="tabBtn" role="tab" aria-selected="true" aria-controls="tabSheet" id="tSheet">Sheet</button>
         <button class="tabBtn" role="tab" aria-selected="false" aria-controls="tabSpells" id="tSpells">Spells</button>
+        <button class="tabBtn" role="tab" aria-selected="false" aria-controls="tabFamiliar" id="tFam">Familiar</button>
         <button class="tabBtn" role="tab" aria-selected="false" aria-controls="tabInventory" id="tInv">Inventory</button>
         <button class="tabBtn" role="tab" aria-selected="false" aria-controls="tabNotes" id="tNotes">Notes</button>
       </nav>
@@ -872,11 +346,17 @@
       <div class="tabPanel active" id="tabSheet" role="tabpanel" aria-labelledby="tSheet">
         <div class="stack">
           <section class="card section">
-            <h2>
-              <span>Core</span>
-              <span class="hint">Click saves to roll</span>
-            </h2>
+            <h2><span>Ability Scores & Saving Throws</span><span class="hint">Click ability for checks, click Save for saves</span></h2>
+            <div class="miniGrid" id="abilityGrid"></div>
+          </section>
 
+          <section class="card section">
+            <h2><span>Skills</span><span class="hint">Proficient skills are marked</span></h2>
+            <div class="skillGrid" id="skillGrid"></div>
+          </section>
+
+          <section class="card section">
+            <h2><span>Core</span><span class="hint">Basics you glance at mid-fight</span></h2>
             <div class="list">
               <div class="kv"><div class="k">HP</div><div class="v"><span id="hpLine">9/9</span> <span style="color:var(--muted)">(+0 temp)</span></div></div>
               <div class="kv"><div class="k">Hit Dice</div><div class="v" contenteditable="true" data-k="hitdice">1d6</div></div>
@@ -885,34 +365,11 @@
               <div class="kv"><div class="k">Class Features</div><div class="v"><span contenteditable="true" data-k="feat1">Spellbook, prepared spells</span><span style="color:var(--muted)"> • </span><span contenteditable="true" data-k="feat2">1/day: recover 1st-level slots total 1</span></div></div>
               <div class="kv"><div class="k">Passive Perception</div><div class="v" id="passPer">—</div></div>
               <div class="kv"><div class="k">Passive Insight</div><div class="v" id="passIns">—</div></div>
-              <div class="kv">
-                <div class="k">Saving Throws</div>
-                <div class="v" id="saveChips" style="display:flex; gap:8px; flex-wrap: wrap; justify-content:flex-end;"></div>
-              </div>
             </div>
           </section>
 
           <section class="card section">
-            <h2>
-              <span>Ability Scores</span>
-              <span class="hint">Click to roll an ability check</span>
-            </h2>
-            <div class="miniGrid" id="abilityGrid"></div>
-          </section>
-
-          <section class="card section">
-            <h2>
-              <span>Skills</span>
-              <span class="hint">Proficient skills are marked</span>
-            </h2>
-            <div class="skillGrid" id="skillGrid"></div>
-          </section>
-
-          <section class="card section">
-            <h2>
-              <span>Attacks</span>
-              <span class="hint">Edit lines, then use weapon buttons in Inventory</span>
-            </h2>
+            <h2><span>Attacks</span><span class="hint">Edit lines, then use weapon buttons in Inventory</span></h2>
             <div class="list" id="attackList"></div>
           </section>
         </div>
@@ -923,9 +380,9 @@
           <div class="spellHeaderRow">
             <h2 style="margin:0">Spells</h2>
             <div class="counter">
-              <div class="countBox">Spellcasting mod: <b id="spellMod">+4</b></div>
-              <div class="countBox">Save DC: <b id="spellDC">14</b></div>
-              <div class="countBox">Attack: <b id="spellAtkTop">+6</b></div>
+              <div class="countBox">Spellcasting mod: <b id="spellMod">+3</b></div>
+              <div class="countBox">Save DC: <b id="spellDC">13</b></div>
+              <div class="countBox">Attack: <b id="spellAtkTop">+5</b></div>
             </div>
           </div>
 
@@ -941,83 +398,69 @@
             <button class="btn small" id="slotReset">Reset slots</button>
           </div>
 
-          <div class="hint" style="margin-top:10px;">
-            Cantrips don’t use slots. Click Cast to use a slot or roll dice when needed.
-          </div>
+          <div class="hint" style="margin-top:10px;">Cantrips don’t use slots. Click Cast to use a slot or roll dice when needed.</div>
         </div>
 
         <div class="card section" style="margin-top: 12px;">
-          <h2>
-            <span>Cantrips</span>
-            <span class="hint">No preparation needed</span>
-          </h2>
+          <h2><span>Cantrips</span><span class="hint">No preparation needed</span></h2>
           <div class="spellGrid" id="cantripGrid"></div>
         </div>
 
         <div class="card section" style="margin-top: 12px;">
-          <h2>
-            <span>1st-level spells</span>
-            <span class="hint">Prepared spells can be toggled</span>
-          </h2>
+          <h2><span>1st-level spells</span><span class="hint">Prepared spells can be toggled</span></h2>
           <div class="spellGrid" id="level1Grid"></div>
         </div>
       </div>
 
+      <div class="tabPanel" id="tabFamiliar" role="tabpanel" aria-labelledby="tFam">
+        <div class="card section">
+          <h2><span>Familiar Stat Blocks</span><span class="hint">Click to expand full stats</span></h2>
+          <div class="familiarGrid" id="familiarGrid"></div>
+        </div>
+      </div>
+
       <div class="tabPanel" id="tabInventory" role="tabpanel" aria-labelledby="tInv">
-        <div class="invGrid">
-          <section class="card section">
-            <h2>
-              <span>Inventory (drag and drop)</span>
-              <span class="hint">Weapons have roll buttons</span>
-            </h2>
-            <div class="invCols" id="invCols"></div>
-          </section>
+        <section class="card section">
+          <h2><span>Inventory (drag and drop)</span><span class="hint">Click to edit • Right click to delete</span></h2>
+          <div class="invCols" id="invCols"></div>
+        </section>
 
-          <aside class="card section invForm">
-            <h2>
-              <span>Add item</span>
-              <span class="hint">It will autosave</span>
-            </h2>
-            <div class="row2">
-              <input class="input" id="itemName" placeholder="Item name" />
-              <input class="input" id="itemQty" type="number" min="1" step="1" value="1" />
-            </div>
-            <div style="margin-top:10px;" class="row2">
-              <select class="input" id="itemCat">
-                <option value="Weapons">Weapons</option>
-                <option value="Gear">Gear</option>
-                <option value="Consumables">Consumables</option>
-                <option value="Misc">Misc</option>
-              </select>
-              <input class="input" id="itemNote" placeholder="Short note (optional)" />
-            </div>
-
-            <div id="weaponFields" style="margin-top:10px; display:none;">
-              <div class="row2">
-                <input class="input" id="weapAtk" placeholder="Attack bonus (e.g. +6)" />
-                <input class="input" id="weapDmg" placeholder="Damage (e.g. 1d8+4)" />
-              </div>
-              <div class="hint" style="margin-top:8px;">These only matter for Weapons. You can edit later too.</div>
-            </div>
-
-            <div style="margin-top:10px;" class="row2">
+        <section class="card section invForm" style="margin-top:12px;">
+          <h2><span>Add item</span><span class="hint">Autosaves instantly</span></h2>
+          <div class="row3">
+            <input class="input" id="itemName" placeholder="Item name" />
+            <input class="input" id="itemQty" type="number" min="1" step="1" value="1" />
+            <select class="input" id="itemCat">
+              <option value="Weapons">Weapons</option>
+              <option value="Gear">Gear</option>
+              <option value="Consumables">Consumables</option>
+              <option value="Misc">Misc</option>
+            </select>
+          </div>
+          <div style="margin-top:10px;" class="row2">
+            <input class="input" id="itemNote" placeholder="Short note (optional)" />
+            <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;">
               <button class="btn primary" id="addItem">Add item</button>
               <button class="btn" id="clearItems">Clear all</button>
             </div>
-            <div class="hint" style="margin-top:10px;">Drag items between columns. Click an item to edit. Right click to delete.</div>
-          </aside>
-        </div>
+          </div>
+
+          <div id="weaponFields" style="margin-top:10px; display:none;">
+            <div class="row2">
+              <input class="input" id="weapAtk" placeholder="Attack bonus (e.g. +5)" />
+              <input class="input" id="weapDmg" placeholder="Damage (e.g. 1d8+3)" />
+            </div>
+            <div class="hint" style="margin-top:8px;">Only for Weapons. You can leave it blank and add it later in Edit.</div>
+          </div>
+        </section>
       </div>
 
       <div class="tabPanel" id="tabNotes" role="tabpanel" aria-labelledby="tNotes">
         <div class="card section">
           <div class="spellHeaderRow">
             <h2 style="margin:0">Notes</h2>
-            <div style="display:flex; gap: 10px; flex-wrap: wrap;">
-              <button class="btn small" id="addNoteBox">Add note box</button>
-            </div>
+            <div style="display:flex; gap: 10px; flex-wrap: wrap;"><button class="btn small" id="addNoteBox">Add note box</button></div>
           </div>
-
           <div class="notesGrid" id="notesGrid" style="margin-top: 12px;"></div>
         </div>
       </div>
@@ -1050,21 +493,18 @@
         <button class="btn" data-die="12">d12</button>
         <button class="btn" data-die="20">d20</button>
         <button class="btn" data-die="100">d100</button>
-        <input class="input" id="mod" style="max-width:140px" placeholder="mod (e.g. +6)" />
+        <input class="input" id="mod" style="max-width:140px" placeholder="mod (e.g. +5)" />
         <button class="btn primary" id="rollBtn">Roll</button>
       </div>
 
       <div style="margin-top:10px; display:grid; grid-template-columns: 1fr 120px; gap: 10px;">
-        <input class="input" id="expr" placeholder="Expression (e.g. 2d6+3 or d20+6)" />
+        <input class="input" id="expr" placeholder="Expression (e.g. 2d6+3 or d20+5)" />
         <button class="btn" id="exprBtn">Roll expr</button>
       </div>
 
       <div class="rollAnim" aria-label="Dice roll animation">
         <div class="big" id="animNum">—</div>
-        <div class="small">
-          <div id="animLeft">Ready</div>
-          <div id="animRight"></div>
-        </div>
+        <div class="small"><div id="animLeft">Ready</div><div id="animRight"></div></div>
       </div>
 
       <div class="log" id="rollLog" aria-label="Roll history"></div>
@@ -1085,8 +525,46 @@
     </div>
   </div>
 
+  <div class="modalOverlay" id="modalOverlay"></div>
+  <div class="modal" aria-hidden="true">
+    <div class="modalCard" id="editModal">
+      <div class="modalHead">
+        <div class="ttl" id="editTitle">Edit item</div>
+        <button class="btn small" id="editClose">Close</button>
+      </div>
+      <div class="modalBody">
+        <div class="row2">
+          <input class="input" id="editName" placeholder="Item name" />
+          <input class="input" id="editQty" type="number" min="1" step="1" />
+        </div>
+        <div class="row2">
+          <select class="input" id="editCat">
+            <option value="Weapons">Weapons</option>
+            <option value="Gear">Gear</option>
+            <option value="Consumables">Consumables</option>
+            <option value="Misc">Misc</option>
+          </select>
+          <input class="input" id="editNote" placeholder="Note (optional)" />
+        </div>
+
+        <div id="editWeaponFields" style="display:none;">
+          <div class="row2">
+            <input class="input" id="editAtk" placeholder="Attack bonus (e.g. +5)" />
+            <input class="input" id="editDmg" placeholder="Damage (e.g. 1d8+3)" />
+          </div>
+          <div class="hint">Weapons can roll Attack and Damage from the item card.</div>
+        </div>
+      </div>
+      <div class="modalFoot">
+        <button class="btn danger" id="editDelete">Delete</button>
+        <button class="btn" id="editCancel">Cancel</button>
+        <button class="btn primary" id="editSave">Save</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    const STORAGE_KEY = "mirrith_sheet_v2";
+    const STORAGE_KEY = "mirrith_sheet_v3";
 
     const baseState = {
       meta: { theme: "ink-violet" },
@@ -1098,8 +576,8 @@
         init: "+4",
         speed: "30 ft",
         fly: "30 ft",
-        dc: 14,
-        spellAtk: "+6",
+        dc: 13,
+        spellAtk: "+5",
         badge1: "Quiet, watches everything",
         badge2: "Ancient magic simulacrum, stitched together by mistakes",
         hpCur: 9,
@@ -1110,129 +588,166 @@
         traits: "Darkvision 60 ft, Fire Resistance, Flight (no heavy armour)",
         feat1: "Spellbook, prepared spells",
         feat2: "1/day: recover 1st-level slots total 1",
+        notesNPC: "",
+        notesQuests: "",
+        notesClues: "",
+        notesLoot: ""
       },
       abilities: [
-        { key: "str", name: "STR", score: 6,  mod: -2 },
-        { key: "dex", name: "DEX", score: 18, mod: 4 },
-        { key: "con", name: "CON", score: 16, mod: 3 },
-        { key: "int", name: "INT", score: 19, mod: 4 },
-        { key: "wis", name: "WIS", score: 15, mod: 2 },
-        { key: "cha", name: "CHA", score: 17, mod: 3 },
+        { key:"str", name:"STR", score:18, mod:4 },
+        { key:"dex", name:"DEX", score:18, mod:4 },
+        { key:"con", name:"CON", score:15, mod:2 },
+        { key:"int", name:"INT", score:16, mod:3 },
+        { key:"wis", name:"WIS", score:16, mod:3 },
+        { key:"cha", name:"CHA", score:8,  mod:-1 }
       ],
       proficiencyBonus: 2,
       saves: {
-        str: { prof: false }, dex: { prof: false }, con: { prof: false },
-        int: { prof: true  }, wis: { prof: true  }, cha: { prof: false },
+        str:{ prof:false }, dex:{ prof:false }, con:{ prof:false },
+        int:{ prof:true  }, wis:{ prof:true  }, cha:{ prof:false }
       },
       skills: [
-        { id: "acrobatics", name: "Acrobatics", abil: "dex", prof: false },
-        { id: "animal_handling", name: "Animal Handling", abil: "wis", prof: false },
-        { id: "arcana", name: "Arcana", abil: "int", prof: true },
-        { id: "athletics", name: "Athletics", abil: "str", prof: false },
-        { id: "deception", name: "Deception", abil: "cha", prof: false },
-        { id: "history", name: "History", abil: "int", prof: true },
-        { id: "insight", name: "Insight", abil: "wis", prof: true },
-        { id: "intimidation", name: "Intimidation", abil: "cha", prof: false },
-        { id: "investigation", name: "Investigation", abil: "int", prof: true },
-        { id: "medicine", name: "Medicine", abil: "wis", prof: false },
-        { id: "nature", name: "Nature", abil: "int", prof: false },
-        { id: "perception", name: "Perception", abil: "wis", prof: false },
-        { id: "performance", name: "Performance", abil: "cha", prof: false },
-        { id: "persuasion", name: "Persuasion", abil: "cha", prof: false },
-        { id: "religion", name: "Religion", abil: "int", prof: false },
-        { id: "sleight_of_hand", name: "Sleight of Hand", abil: "dex", prof: false },
-        { id: "stealth", name: "Stealth", abil: "dex", prof: false },
-        { id: "survival", name: "Survival", abil: "wis", prof: false },
+        { id:"acrobatics", name:"Acrobatics", abil:"dex", prof:false },
+        { id:"animal_handling", name:"Animal Handling", abil:"wis", prof:false },
+        { id:"arcana", name:"Arcana", abil:"int", prof:true },
+        { id:"athletics", name:"Athletics", abil:"str", prof:false },
+        { id:"deception", name:"Deception", abil:"cha", prof:false },
+        { id:"history", name:"History", abil:"int", prof:true },
+        { id:"insight", name:"Insight", abil:"wis", prof:true },
+        { id:"intimidation", name:"Intimidation", abil:"cha", prof:false },
+        { id:"investigation", name:"Investigation", abil:"int", prof:true },
+        { id:"medicine", name:"Medicine", abil:"wis", prof:false },
+        { id:"nature", name:"Nature", abil:"int", prof:false },
+        { id:"perception", name:"Perception", abil:"wis", prof:false },
+        { id:"performance", name:"Performance", abil:"cha", prof:false },
+        { id:"persuasion", name:"Persuasion", abil:"cha", prof:false },
+        { id:"religion", name:"Religion", abil:"int", prof:false },
+        { id:"sleight_of_hand", name:"Sleight of Hand", abil:"dex", prof:false },
+        { id:"stealth", name:"Stealth", abil:"dex", prof:false },
+        { id:"survival", name:"Survival", abil:"wis", prof:false }
       ],
       attacks: [
-        { name: "Dagger", bonus: "+6", dmg: "1d4+4 piercing", notes: "finesse, light, thrown 20/60" },
-        { name: "Light Crossbow", bonus: "+6", dmg: "1d8+4 piercing", notes: "80/320, loading, two-handed" },
+        { name:"Dagger", bonus:"+6", dmg:"1d4+4", notes:"finesse, light, thrown 20/60" },
+        { name:"Light Crossbow", bonus:"+6", dmg:"1d8+4", notes:"80/320, loading, two-handed" }
       ],
       spells: {
         prepMax: 5,
         slotMax: 2,
         slotRemain: 2,
-        slots: [true, true],
+        slots: [true,true],
         list: [
-          { id:"mind_sliver", name:"Mind Sliver", level:0, school:"Enchantment", castingTime:"1 action", range:"60 ft", components:"V", duration:"1 round",
+          {
+            id:"mind_sliver", name:"Mind Sliver", level:0, school:"Enchantment",
+            castingTime:"1 action", range:"60 ft", components:"V", duration:"1 round",
             tags:["Cantrip"], prepared:true,
-            summary:"You jab a creature’s mind. On a failed Int save it takes psychic damage and has a penalty on its next saving throw before the end of your next turn.",
-            mechanics:[{k:"Save",v:"Intelligence (target)"},{k:"Damage",v:"1d6 psychic (level 1)"},{k:"Extra",v:"Subtract 1d4 from the next save"}],
-            notes:"Great for setting up another spell that needs a save.",
-            cast:{usesSlot:false,dice:"1d6",label:"Mind Sliver damage"}
+            summary:"Psychic jab plus a penalty on the target’s next saving throw.",
+            full:"You drive a spike of psychic static into the mind of one creature you can see within range. The target must make an Intelligence saving throw. On a failed save, it takes 1d6 psychic damage, and the next time it makes a saving throw before the end of your next turn, it subtracts 1d4 from that saving throw. On a successful save, the target takes no damage and suffers no penalty. The spell’s damage increases by 1d6 at 5th level (2d6), 11th level (3d6), and 17th level (4d6).",
+            mechanics:[{k:"Save",v:"Intelligence (target)"},{k:"Damage",v:"1d6 psychic"},{k:"Extra",v:"-1d4 to next save"}],
+            notes:"",
+            cast:{usesSlot:false, dice:"1d6", label:"Mind Sliver damage"}
           },
-          { id:"mage_hand", name:"Mage Hand", level:0, school:"Conjuration", castingTime:"1 action", range:"30 ft", components:"V, S", duration:"1 minute",
+          {
+            id:"mage_hand", name:"Mage Hand", level:0, school:"Conjuration",
+            castingTime:"1 action", range:"30 ft", components:"V, S", duration:"1 minute",
             tags:["Cantrip"], prepared:true,
-            summary:"A floating hand appears. It can manipulate objects at range. It cannot attack or use magic items that require activation.",
-            mechanics:[{k:"Hand",v:"Spectral"},{k:"Limits",v:"No attacks / no magic item activations"}],
-            notes:"Useful for traps, doors, and doing things without touching them.",
+            summary:"A spectral hand that can manipulate objects at range.",
+            full:"A spectral, floating hand appears at a point you choose within range. The hand lasts for the duration or until you dismiss it as an action. The hand vanishes if it is ever more than 30 feet away from you or if you cast this spell again. You can use your action to control the hand. You can use the hand to manipulate an object, open an unlocked door or container, stow or retrieve an item from an open container, or pour out the contents of a vial. The hand can’t attack, activate magic items, or carry more than 10 pounds.",
+            mechanics:[{k:"Carry",v:"Up to 10 lb"},{k:"Limits",v:"No attacks; no magic item activation"}],
+            notes:"",
             cast:{usesSlot:false}
           },
-          { id:"prestidigitation", name:"Prestidigitation", level:0, school:"Transmutation", castingTime:"1 action", range:"10 ft", components:"V, S", duration:"Up to 1 hour",
+          {
+            id:"prestidigitation", name:"Prestidigitation", level:0, school:"Transmutation",
+            castingTime:"1 action", range:"10 ft", components:"V, S", duration:"Up to 1 hour",
             tags:["Cantrip"], prepared:true,
-            summary:"Small magical tricks: clean or soil, chill or warm, create tiny harmless effects, mark objects, and other minor flavour magic.",
-            mechanics:[{k:"Power",v:"Minor utility"},{k:"Limits",v:"No real combat impact"}],
-            notes:"Perfect for looking effortless even when you are stressed.",
+            summary:"Minor magical tricks and small utility effects.",
+            full:"This spell is a collection of minor magical effects. You create one of the following effects within range: you create an instantaneous, harmless sensory effect (such as sparks, a puff of wind, faint musical notes, or an odd odor); you instantly light or snuff out a candle, a torch, or a small campfire; you instantly clean or soil an object no larger than 1 cubic foot; you chill, warm, or flavor up to 1 cubic foot of nonliving material for 1 hour; you make a color, a small mark, or a symbol appear on an object or a surface for 1 hour; you create a small nonmagical trinket or an illusory image that can fit in your hand and that lasts until the end of your next turn. If you cast this spell multiple times, you can have up to three of its non-instantaneous effects active at a time, and you can dismiss one of those effects as an action.",
+            mechanics:[{k:"Use",v:"Utility cantrip"}],
+            notes:"",
             cast:{usesSlot:false}
           },
 
-          { id:"comprehend_languages", name:"Comprehend Languages", level:1, school:"Divination (ritual)", castingTime:"1 action (or 10 min as ritual)",
-            range:"Self", components:"V, S, M", duration:"1 hour", tags:["1st level","Ritual"], prepared:false,
-            summary:"For 1 hour you understand the literal meaning of spoken languages you hear and written languages you see. It does not decode secret ciphers.",
-            mechanics:[{k:"Ritual",v:"Yes"},{k:"Limits",v:"Literal meaning only"}],
-            notes:"Swap this in when the session smells like ancient writing.",
+          {
+            id:"comprehend_languages", name:"Comprehend Languages", level:1, school:"Divination (ritual)",
+            castingTime:"1 action (or 10 min as ritual)", range:"Self", components:"V, S, M", duration:"1 hour",
+            tags:["1st level","Ritual"], prepared:false,
+            summary:"Understand spoken and written languages (literal meaning).",
+            full:"For the duration, you understand the literal meaning of any spoken language that you hear. You also understand any written language that you see, but you must be touching the surface on which the words are written. It takes about 1 minute to read one page of text. This spell doesn’t decode secret messages in a text or a glyph, such as an arcane sigil, unless the writing is itself in a language you know.",
+            mechanics:[{k:"Ritual",v:"Yes"},{k:"Limits",v:"Literal meaning only; no ciphers"}],
+            notes:"",
             cast:{usesSlot:true}
           },
-          { id:"mage_armor", name:"Mage Armour", level:1, school:"Abjuration", castingTime:"1 action", range:"Touch", components:"V, S, M", duration:"8 hours",
+          {
+            id:"mage_armor", name:"Mage Armour", level:1, school:"Abjuration",
+            castingTime:"1 action", range:"Touch", components:"V, S, M", duration:"8 hours",
             tags:["1st level"], prepared:true,
-            summary:"Protective force surrounds a willing creature without armour. Their AC becomes 13 + Dex modifier for the duration.",
+            summary:"Target’s AC becomes 13 + Dex (no armour).",
+            full:"You touch a willing creature who isn’t wearing armour, and a protective magical force surrounds it until the spell ends. The target’s base AC becomes 13 + its Dexterity modifier. The spell ends if the target dons armour or if you dismiss the spell as an action.",
             mechanics:[{k:"AC",v:"13 + Dex"},{k:"Duration",v:"8 hours"}],
-            notes:"Your safe default in the morning.",
+            notes:"",
             cast:{usesSlot:true}
           },
-          { id:"shield", name:"Shield", level:1, school:"Abjuration", castingTime:"1 reaction (when hit or targeted by magic missile)",
-            range:"Self", components:"V, S", duration:"1 round", tags:["1st level","Reaction"], prepared:true,
-            summary:"A sudden barrier bumps your AC up until your next turn, and it blocks magic missile.",
+          {
+            id:"shield", name:"Shield", level:1, school:"Abjuration",
+            castingTime:"1 reaction (when hit or targeted by magic missile)", range:"Self", components:"V, S", duration:"1 round",
+            tags:["1st level","Reaction"], prepared:true,
+            summary:"+5 AC until your next turn; blocks magic missile.",
+            full:"An invisible barrier of magical force appears and protects you. Until the start of your next turn, you have a +5 bonus to AC, including against the triggering attack, and you take no damage from magic missile.",
             mechanics:[{k:"AC bonus",v:"+5 until your next turn"},{k:"Blocks",v:"Magic Missile"}],
-            notes:"Use it when getting hit would be annoying or lethal.",
+            notes:"",
             cast:{usesSlot:true}
           },
-          { id:"find_familiar", name:"Find Familiar", level:1, school:"Conjuration (ritual)", castingTime:"1 hour (or 1 hour 10 min as ritual)",
-            range:"10 ft", components:"V, S, M", duration:"Instantaneous", tags:["1st level","Ritual"], prepared:true,
-            summary:"You summon a spirit that takes an animal form. It acts on its own initiative, can scout, and you can see through its senses for a moment. If it drops to 0 HP, it vanishes.",
-            mechanics:[{k:"Form",v:"Owl"},{k:"Resummon",v:"Yes"},{k:"Help",v:"Can use Help action"}],
-            notes:"Owl is amazing for scouting and fly-by harassment.",
+          {
+            id:"find_familiar", name:"Find Familiar", level:1, school:"Conjuration (ritual)",
+            castingTime:"1 hour (or 1 hour 10 min as ritual)", range:"10 ft", components:"V, S, M", duration:"Instantaneous",
+            tags:["1st level","Ritual"], prepared:true,
+            summary:"Summon a spirit animal companion (owl by default).",
+            full:"You gain the service of a familiar, a spirit that takes an animal form you choose: bat, cat, crab, frog, hawk, lizard, octopus, owl, poisonous snake, fish (quipper), rat, raven, sea horse, spider, or weasel. Your familiar uses the chosen form’s statistics, though it is a celestial, fey, or fiend instead of a beast. Your familiar acts independently, but it always obeys your commands. In combat, it rolls its own initiative and acts on its own turn. A familiar can’t attack, but it can take other actions as normal. As an action, you can temporarily see through your familiar’s eyes and hear what it hears until the start of your next turn, gaining the benefits of any special senses it has. During this time, you are deaf and blind with regard to your own senses. As an action, you can dismiss your familiar into a pocket dimension, and as an action you can cause it to reappear in any unoccupied space within 30 feet of you. When the familiar drops to 0 hit points, it disappears, leaving behind no physical form. It reappears after you cast this spell again. You can’t have more than one familiar at a time. When you cast this spell, you can choose one of the normal forms, or one of the special forms allowed by your DM.",
+            mechanics:[{k:"Form",v:"Owl (default)"}],
+            notes:"",
             cast:{usesSlot:true}
           },
-          { id:"detect_magic", name:"Detect Magic", level:1, school:"Divination (ritual)", castingTime:"1 action (or 10 min as ritual)",
-            range:"Self (30 ft)", components:"V, S", duration:"Concentration, up to 10 minutes", tags:["1st level","Ritual","Concentration"], prepared:true,
-            summary:"For the duration, you sense magic within 30 feet and can learn the school of magic from a visible aura.",
+          {
+            id:"detect_magic", name:"Detect Magic", level:1, school:"Divination (ritual)",
+            castingTime:"1 action (or 10 min as ritual)", range:"Self (30 ft)", components:"V, S", duration:"Concentration, up to 10 minutes",
+            tags:["1st level","Ritual","Concentration"], prepared:true,
+            summary:"Sense magic within 30 ft; learn school from visible auras.",
+            full:"For the duration, you sense the presence of magic within 30 feet of you. If you sense magic in this way, you can use your action to see a faint aura around any visible creature or object in the area that bears magic, and you learn its school of magic, if any. The spell can penetrate most barriers, but it is blocked by 1 foot of stone, 1 inch of common metal, a thin sheet of lead, or 3 feet of wood or dirt.",
             mechanics:[{k:"Range",v:"30 ft"},{k:"Concentration",v:"Yes"}],
-            notes:"Cast as a ritual if you have time.",
+            notes:"",
             cast:{usesSlot:true}
           },
-          { id:"sleep", name:"Sleep", level:1, school:"Enchantment", castingTime:"1 action",
-            range:"90 ft", components:"V, S, M", duration:"1 minute", tags:["1st level"], prepared:true,
-            summary:"You roll a pool of hit points and affect creatures in an area, starting with the lowest current HP. Those affected fall unconscious for up to 1 minute (or until shaken awake or damaged).",
-            mechanics:[{k:"No save",v:"Works by HP"},{k:"Best vs",v:"Low HP groups"}],
-            notes:"At level 1 this can delete an encounter.",
-            cast:{usesSlot:true,dice:"5d8",label:"Sleep HP pool"}
+          {
+            id:"sleep", name:"Sleep", level:1, school:"Enchantment",
+            castingTime:"1 action", range:"90 ft", components:"V, S, M", duration:"1 minute",
+            tags:["1st level"], prepared:true,
+            summary:"Roll 5d8 HP; creatures in area fall unconscious starting from lowest HP.",
+            full:"This spell sends creatures into a magical slumber. Roll 5d8; the total is how many hit points of creatures this spell can affect. Creatures within 20 feet of a point you choose within range are affected in ascending order of their current hit points (ignoring unconscious creatures). Starting with the creature that has the lowest current hit points, each creature is affected until the total hit points are used up. Affected creatures fall unconscious until the spell ends, the sleeper takes damage, or someone uses an action to shake or slap the sleeper awake. Undead and creatures immune to being charmed aren’t affected by this spell.",
+            mechanics:[{k:"Area",v:"20-foot radius"},{k:"Roll",v:"5d8 HP pool"}],
+            notes:"",
+            cast:{usesSlot:true, dice:"5d8", label:"Sleep HP pool"}
           },
-          { id:"silvery_barbs", name:"Silvery Barbs", level:1, school:"Enchantment", castingTime:"1 reaction",
-            range:"60 ft", components:"V", duration:"Instantaneous", tags:["1st level","Reaction"], prepared:false,
-            summary:"When a creature you can see succeeds on an attack, check, or save, you distract it so it must reroll and use the lower result. Then you grant advantage to a different creature’s next relevant roll soon after.",
-            mechanics:[{k:"Trigger",v:"A success you hate"},{k:"Effect",v:"Force reroll, take lower"},{k:"Bonus",v:"Give advantage to someone else"}],
-            notes:"Ask your DM if it is allowed at your table.",
+          {
+            id:"silvery_barbs", name:"Silvery Barbs", level:1, school:"Enchantment",
+            castingTime:"1 reaction", range:"60 ft", components:"V", duration:"Instantaneous",
+            tags:["1st level","Reaction"], prepared:false,
+            summary:"Force a reroll on a success, then grant advantage to someone else.",
+            full:"When a creature you can see within range succeeds on an attack roll, an ability check, or a saving throw, you can distract it with a burst of unsettling magic. The triggering creature rerolls the d20 and must use the lower result. You then choose a different creature you can see within range (you can choose yourself). That chosen creature gains advantage on the next attack roll, ability check, or saving throw it makes within the next minute. The advantage ends after it is used once.",
+            mechanics:[{k:"Trigger",v:"A visible creature succeeds on a d20 roll"},{k:"Effect",v:"Reroll and use lower; grant advantage"}],
+            notes:"",
             cast:{usesSlot:true}
           },
-          { id:"catapult", name:"Catapult", level:1, school:"Transmutation", castingTime:"1 action",
-            range:"60 ft", components:"S", duration:"Instantaneous", tags:["1st level"], prepared:false,
-            summary:"You fling a loose object at high speed in a straight line. The first creature in the path must make a Dex save or take bludgeoning damage.",
-            mechanics:[{k:"Save",v:"Dexterity (target)"},{k:"Damage",v:"3d8 bludgeoning (level 1)"},{k:"Trick",v:"Choose weird ammo"}],
-            notes:"It is the most disrespectful way to throw a chair at someone.",
-            cast:{usesSlot:true,dice:"3d8",label:"Catapult damage"}
-          },
-        ],
+          {
+            id:"catapult", name:"Catapult", level:1, school:"Transmutation",
+            castingTime:"1 action", range:"60 ft", components:"S", duration:"Instantaneous",
+            tags:["1st level"], prepared:false,
+            summary:"Hurl a loose object; Dex save or 3d8 bludgeoning.",
+            full:"Choose one object weighing 1 to 5 pounds within range that isn’t being worn or carried. The object flies in a straight line up to 90 feet in a direction you choose, stopping early if it hits a solid surface. If the object would strike a creature, that creature must make a Dexterity saving throw. On a failed save, the object hits and the creature takes 3d8 bludgeoning damage. On a successful save, the creature takes no damage, and the object continues flying (which can cause it to hit something else if your DM rules it does).",
+            mechanics:[{k:"Save",v:"Dexterity (target)"},{k:"Damage",v:"3d8 bludgeoning"}],
+            notes:"",
+            cast:{usesSlot:true, dice:"3d8", label:"Catapult damage"}
+          }
+        ]
       },
       inventory: {
         items: [
@@ -1241,7 +756,7 @@
           { id:"i3", name:"Dagger", qty:1, note:"Finesse", cat:"Weapons", atk:"+6", dmg:"1d4+4" },
           { id:"i4", name:"Light crossbow", qty:1, note:"Loading", cat:"Weapons", atk:"+6", dmg:"1d8+4" },
           { id:"i5", name:"Bolts", qty:20, note:"", cat:"Consumables" },
-          { id:"i6", name:"Scholar’s pack", qty:1, note:"Books, parchments", cat:"Gear" },
+          { id:"i6", name:"Scholar’s pack", qty:1, note:"Books, parchments", cat:"Gear" }
         ]
       },
       notes: {
@@ -1249,453 +764,359 @@
           { id:"npc", title:"NPCs", key:"notesNPC", text:"" },
           { id:"quests", title:"Quests", key:"notesQuests", text:"" },
           { id:"clues", title:"Clues", key:"notesClues", text:"" },
-          { id:"loot", title:"Loot", key:"notesLoot", text:"" },
+          { id:"loot", title:"Loot", key:"notesLoot", text:"" }
         ],
         custom: []
       },
+      familiars: [
+        { id:"owl", name:"Owl", sizeType:"Tiny beast, unaligned", ac:"11", hp:"1 (1d4-1)", speed:"5 ft., fly 60 ft.",
+          stats:"STR 3 (-4) DEX 13 (+1) CON 8 (-1) INT 2 (-4) WIS 12 (+1) CHA 7 (-2)",
+          skills:"Perception +3, Stealth +3", senses:"Darkvision 120 ft., passive Perception 13",
+          traits:[ ["Flyby","The owl doesn’t provoke opportunity attacks when it flies out of an enemy’s reach."], ["Keen Hearing and Sight","The owl has advantage on Wisdom (Perception) checks that rely on hearing or sight."] ],
+          actions:[ ["Talons","Melee Weapon Attack: +3 to hit, reach 5 ft., one target. Hit: 1 slashing damage."] ]
+        },
+        { id:"bat", name:"Bat", sizeType:"Tiny beast, unaligned", ac:"12", hp:"1 (1d4-1)", speed:"5 ft., fly 30 ft.",
+          stats:"STR 2 (-4) DEX 15 (+2) CON 8 (-1) INT 2 (-4) WIS 12 (+1) CHA 4 (-3)",
+          skills:"", senses:"Blindsight 60 ft., passive Perception 11",
+          traits:[ ["Echolocation","The bat can’t use its blindsight while deafened."], ["Keen Hearing","The bat has advantage on Wisdom (Perception) checks that rely on hearing."] ],
+          actions:[ ["Bite","Melee Weapon Attack: +0 to hit, reach 5 ft., one creature. Hit: 1 piercing damage."] ]
+        },
+        { id:"raven", name:"Raven", sizeType:"Tiny beast, unaligned", ac:"12", hp:"1 (1d4-1)", speed:"10 ft., fly 50 ft.",
+          stats:"STR 2 (-4) DEX 14 (+2) CON 8 (-1) INT 2 (-4) WIS 12 (+1) CHA 6 (-2)",
+          skills:"Perception +3", senses:"Passive Perception 13",
+          traits:[ ["Mimicry","The raven can mimic simple sounds it has heard. A creature that hears the sounds can tell they are imitations with a successful Wisdom (Insight) check (DC 10)."] ],
+          actions:[ ["Beak","Melee Weapon Attack: +4 to hit, reach 5 ft., one target. Hit: 1 piercing damage."] ]
+        },
+        { id:"cat", name:"Cat", sizeType:"Tiny beast, unaligned", ac:"12", hp:"2 (1d4)", speed:"40 ft., climb 30 ft.",
+          stats:"STR 3 (-4) DEX 15 (+2) CON 10 (+0) INT 3 (-4) WIS 12 (+1) CHA 7 (-2)",
+          skills:"Perception +3, Stealth +4", senses:"Darkvision 60 ft., passive Perception 13",
+          traits:[ ["Keen Smell","The cat has advantage on Wisdom (Perception) checks that rely on smell."] ],
+          actions:[ ["Claws","Melee Weapon Attack: +0 to hit, reach 5 ft., one target. Hit: 1 slashing damage."] ]
+        },
+        { id:"poisonous_snake", name:"Poisonous Snake", sizeType:"Tiny beast, unaligned", ac:"13", hp:"2 (1d4)", speed:"30 ft., swim 30 ft.",
+          stats:"STR 2 (-4) DEX 16 (+3) CON 11 (+0) INT 1 (-5) WIS 10 (+0) CHA 3 (-4)",
+          skills:"", senses:"Blindsight 10 ft., passive Perception 10",
+          traits:[],
+          actions:[ ["Bite","Melee Weapon Attack: +5 to hit, reach 5 ft., one target. Hit: 1 piercing damage plus 2d4 poison damage. The target must make a DC 10 Constitution saving throw, taking the poison damage on a failed save, or half as much on a successful one."] ]
+        },
+        { id:"spider", name:"Spider", sizeType:"Tiny beast, unaligned", ac:"12", hp:"1 (1d4-1)", speed:"20 ft., climb 20 ft.",
+          stats:"STR 2 (-4) DEX 14 (+2) CON 8 (-1) INT 1 (-5) WIS 10 (+0) CHA 2 (-4)",
+          skills:"Stealth +4", senses:"Darkvision 30 ft., passive Perception 10",
+          traits:[ ["Spider Climb","The spider can climb difficult surfaces, including upside down on ceilings, without needing to make an ability check."], ["Web Sense","While in contact with a web, the spider knows the exact location of any other creature in contact with the same web."], ["Web Walker","The spider ignores movement restrictions caused by webbing."] ],
+          actions:[ ["Bite","Melee Weapon Attack: +4 to hit, reach 5 ft., one creature. Hit: 1 piercing damage plus 1d4 poison damage. The target must make a DC 9 Constitution saving throw, taking the poison damage on a failed save, or half as much on a successful one."] ]
+        }
+      ],
       ui: { rollLog: [] }
     };
 
-    const deepClone = (x) => JSON.parse(JSON.stringify(x));
+    const deepClone = (x)=>JSON.parse(JSON.stringify(x));
     let state = deepClone(baseState);
 
-    function setSaveState(text){
-      const el = document.getElementById("saveState");
-      if(el) el.textContent = text;
-    }
+    function setSaveState(t){ const el=document.getElementById("saveState"); if(el) el.textContent=t; }
 
     function load(){
       try{
-        const raw2 = localStorage.getItem(STORAGE_KEY);
-        if(raw2){
-          const parsed = JSON.parse(raw2);
-          if(parsed && parsed.fields && parsed.spells) { state = parsed; return; }
-        }
-      }catch(e){}
-
-      try{
-        const raw1 = localStorage.getItem("mirrith_sheet_v1");
-        if(!raw1) return;
-        const p = JSON.parse(raw1);
-        if(p?.fields){
-          state.fields = { ...state.fields, ...p.fields };
-          if(p.spells?.slotMax){
-            state.spells.slotMax = p.spells.slotMax;
-            state.spells.slots = p.spells.slots || state.spells.slots;
-            state.spells.slotRemain = p.spells.slotRemain ?? state.spells.slotRemain;
-          }
-          if(p.inventory?.items) state.inventory.items = p.inventory.items;
-          if(p.meta?.theme) state.meta.theme = p.meta.theme;
-          if(p.ui?.rollLog) state.ui.rollLog = p.ui.rollLog;
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if(raw){
+          const parsed = JSON.parse(raw);
+          if(parsed && parsed.fields && parsed.spells){ state = parsed; return; }
         }
       }catch(e){}
     }
 
-    let saveTimer = null;
+    let saveTimer=null;
     function saveSoon(){
       setSaveState("Saving...");
       clearTimeout(saveTimer);
-      saveTimer = setTimeout(() => {
+      saveTimer=setTimeout(()=>{
         try{
           localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
           setSaveState("Saved");
-          setTimeout(() => setSaveState("Ready"), 700);
-        }catch(e){
-          setSaveState("Save failed");
-        }
-      }, 240);
+          setTimeout(()=>setSaveState("Ready"),700);
+        }catch(e){ setSaveState("Save failed"); }
+      },220);
     }
 
-    const tabs = [
-      { btn: "tSheet", panel: "tabSheet" },
-      { btn: "tSpells", panel: "tabSpells" },
-      { btn: "tInv", panel: "tabInventory" },
-      { btn: "tNotes", panel: "tabNotes" },
-    ];
+    const tabs=[{btn:"tSheet",panel:"tabSheet"},{btn:"tSpells",panel:"tabSpells"},{btn:"tFam",panel:"tabFamiliar"},{btn:"tInv",panel:"tabInventory"},{btn:"tNotes",panel:"tabNotes"}];
     function activateTab(panelId){
       for(const t of tabs){
-        const b = document.getElementById(t.btn);
-        const p = document.getElementById(t.panel);
-        const on = (t.panel === panelId);
-        if(b) b.setAttribute("aria-selected", on ? "true" : "false");
+        const b=document.getElementById(t.btn);
+        const p=document.getElementById(t.panel);
+        const on=(t.panel===panelId);
+        if(b) b.setAttribute("aria-selected", on?"true":"false");
         if(p) p.classList.toggle("active", on);
       }
     }
-    function bindTabs(){
-      for(const t of tabs){
-        const b = document.getElementById(t.btn);
-        if(!b) continue;
-        b.addEventListener("click", () => activateTab(t.panel));
-      }
-    }
+    function bindTabs(){ for(const t of tabs){ const b=document.getElementById(t.btn); if(b) b.addEventListener("click",()=>activateTab(t.panel)); } }
 
-    function setTheme(theme){
-      document.body.setAttribute("data-theme", theme);
-      state.meta.theme = theme;
-      saveSoon();
-    }
-    function bindTheme(){
-      document.querySelectorAll("[data-theme-btn]").forEach(btn => {
-        btn.addEventListener("click", () => setTheme(btn.getAttribute("data-theme-btn")));
-      });
-    }
+    function setTheme(theme){ document.body.setAttribute("data-theme", theme); state.meta.theme=theme; saveSoon(); }
+    function bindTheme(){ document.querySelectorAll("[data-theme-btn]").forEach(btn=>btn.addEventListener("click",()=>setTheme(btn.getAttribute("data-theme-btn")))); }
 
     function bindFields(){
-      document.querySelectorAll("[data-k]").forEach(el => {
-        const key = el.getAttribute("data-k");
+      document.querySelectorAll("[data-k]").forEach(el=>{
+        const key=el.getAttribute("data-k");
         if(key in state.fields){
-          if(el.tagName === "INPUT" || el.tagName === "SELECT" || el.tagName === "TEXTAREA"){
-            el.value = state.fields[key] ?? "";
-          }else{
-            el.textContent = state.fields[key] ?? "";
-          }
+          if(el.tagName==="INPUT"||el.tagName==="SELECT"||el.tagName==="TEXTAREA") el.value=state.fields[key]??"";
+          else el.textContent=state.fields[key]??"";
         }
-
-        const handler = () => {
-          if(el.tagName === "INPUT" || el.tagName === "SELECT" || el.tagName === "TEXTAREA"){
-            const v = (el.type === "number") ? Number(el.value) : el.value;
-            state.fields[key] = v;
-          }else{
-            state.fields[key] = el.textContent;
-          }
+        const handler=()=>{
+          if(el.tagName==="INPUT"||el.tagName==="SELECT"||el.tagName==="TEXTAREA"){
+            const v=(el.type==="number")?Number(el.value):el.value;
+            state.fields[key]=v;
+          }else state.fields[key]=el.textContent;
           if(key.startsWith("hp")) updateHP();
-          if(key === "dc" || key === "spellAtk") updateSpellHeader();
+          if(key==="dc"||key==="spellAtk") updateSpellHeader();
           saveSoon();
         };
-
-        if(el.tagName === "INPUT" || el.tagName === "SELECT" || el.tagName === "TEXTAREA"){
-          el.addEventListener("input", handler);
-          el.addEventListener("change", handler);
+        if(el.tagName==="INPUT"||el.tagName==="SELECT"||el.tagName==="TEXTAREA"){
+          el.addEventListener("input",handler);
+          el.addEventListener("change",handler);
         }else{
-          el.addEventListener("input", handler);
-          el.addEventListener("blur", handler);
+          el.addEventListener("input",handler);
+          el.addEventListener("blur",handler);
         }
       });
-
       if(state.meta?.theme) document.body.setAttribute("data-theme", state.meta.theme);
     }
 
-    function clamp(n, a, b){ return Math.max(a, Math.min(b, n)); }
+    const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
     function updateHP(){
-      const cur = Number(state.fields.hpCur ?? 0);
-      const max = Math.max(1, Number(state.fields.hpMax ?? 1));
-      const temp = Math.max(0, Number(state.fields.hpTemp ?? 0));
-
-      const curClamped = clamp(cur, 0, max);
-      if(cur !== curClamped){
-        state.fields.hpCur = curClamped;
-        const hpCurEl = document.getElementById("hpCur");
-        if(hpCurEl) hpCurEl.value = curClamped;
+      const cur=Number(state.fields.hpCur??0);
+      const max=Math.max(1,Number(state.fields.hpMax??1));
+      const temp=Math.max(0,Number(state.fields.hpTemp??0));
+      const curClamped=clamp(cur,0,max);
+      if(cur!==curClamped){
+        state.fields.hpCur=curClamped;
+        const hpCurEl=document.getElementById("hpCur"); if(hpCurEl) hpCurEl.value=curClamped;
       }
-
-      const pct = Math.round((curClamped / max) * 100);
-      const fill = document.getElementById("hpFill");
-      if(fill) fill.style.width = pct + "%";
-
-      const hpPct = document.getElementById("hpPct");
-      if(hpPct) hpPct.textContent = pct + "%";
-
-      const hpLine = document.getElementById("hpLine");
-      if(hpLine) hpLine.textContent = `${curClamped}/${max}`;
-
-      const st = document.getElementById("hpState");
+      const pct=Math.round((curClamped/max)*100);
+      const fill=document.getElementById("hpFill"); if(fill) fill.style.width=pct+"%";
+      const hpPct=document.getElementById("hpPct"); if(hpPct) hpPct.textContent=pct+"%";
+      const hpLine=document.getElementById("hpLine"); if(hpLine) hpLine.textContent=`${curClamped}/${max}`;
+      const st=document.getElementById("hpState");
       if(st){
-        let label = "Fine";
-        if(curClamped === 0) label = "Down";
-        else if(pct <= 25) label = "Rough";
-        else if(pct <= 50) label = "Hurt";
-        st.textContent = label;
+        let label="Fine";
+        if(curClamped===0) label="Down";
+        else if(pct<=25) label="Rough";
+        else if(pct<=50) label="Hurt";
+        st.textContent=label;
       }
-
-      const hpLineMeta = document.querySelector("#hpLine + span");
-      if(hpLineMeta) hpLineMeta.textContent = `(+${temp} temp)`;
-
-      if(pct <= 25){
-        document.documentElement.style.setProperty('--hp', 'var(--bad)');
-        document.documentElement.style.setProperty('--hp2', 'rgba(255,107,107,0.75)');
-      } else if(pct <= 50){
-        document.documentElement.style.setProperty('--hp', 'var(--warn)');
-        document.documentElement.style.setProperty('--hp2', 'rgba(255,204,102,0.75)');
-      } else {
-        document.documentElement.style.setProperty('--hp', 'var(--good)');
-        document.documentElement.style.setProperty('--hp2', 'rgba(80,227,164,0.78)');
-      }
+      const hpLineMeta=document.querySelector("#hpLine + span");
+      if(hpLineMeta) hpLineMeta.textContent=`(+${temp} temp)`;
+      if(pct<=25){ document.documentElement.style.setProperty("--hp","var(--bad)"); document.documentElement.style.setProperty("--hp2","rgba(255,107,107,.75)"); }
+      else if(pct<=50){ document.documentElement.style.setProperty("--hp","var(--warn)"); document.documentElement.style.setProperty("--hp2","rgba(255,204,102,.75)"); }
+      else { document.documentElement.style.setProperty("--hp","var(--good)"); document.documentElement.style.setProperty("--hp2","rgba(80,227,164,.78)"); }
     }
 
-    const randInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-    const modString = (m) => (m >= 0 ? "+" : "") + m;
+    const randInt=(min,max)=>Math.floor(Math.random()*(max-min+1))+min;
+    const modString=(m)=>(m>=0?"+":"")+m;
 
-    function showPopup({title, total, detail, hint, tone}){
-      const card = document.getElementById("popCard");
-      const num = document.getElementById("popNum");
-      const t = document.getElementById("popTitle");
-      const d = document.getElementById("popDetail");
-      const h = document.getElementById("popHint");
-      if(!card || !num || !t || !d || !h) return;
-
-      card.dataset.tone = tone || "normal";
-      t.textContent = title || "Roll";
-      num.textContent = (total ?? "—");
-      d.textContent = detail || "";
-      h.textContent = hint || "";
-
+    function showPopup({title,total,detail,hint,tone}){
+      const card=document.getElementById("popCard"), num=document.getElementById("popNum"), t=document.getElementById("popTitle"), d=document.getElementById("popDetail"), h=document.getElementById("popHint");
+      if(!card||!num||!t||!d||!h) return;
+      card.dataset.tone=tone||"normal";
+      t.textContent=title||"Roll";
+      num.textContent=(total??"—");
+      d.textContent=detail||"";
+      h.textContent=hint||"";
       card.classList.add("on");
       clearTimeout(showPopup._timer);
-      showPopup._timer = setTimeout(() => card.classList.remove("on"), 1400);
+      showPopup._timer=setTimeout(()=>card.classList.remove("on"),1400);
     }
 
     function addRollLog(line){
-      const log = document.getElementById("rollLog");
-      const stamp = new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
-      const entry = `[${stamp}] ${line}`;
+      const log=document.getElementById("rollLog");
+      const stamp=new Date().toLocaleTimeString([], {hour:"2-digit", minute:"2-digit"});
+      const entry=`[${stamp}] ${line}`;
       state.ui.rollLog.unshift(entry);
-      state.ui.rollLog = state.ui.rollLog.slice(0, 60);
-      if(log) log.textContent = state.ui.rollLog.join("\n");
+      state.ui.rollLog=state.ui.rollLog.slice(0,60);
+      if(log) log.textContent=state.ui.rollLog.join("\n");
       saveSoon();
     }
 
     async function rollWithAnimation(label, rollerFn){
-      const animNum = document.getElementById("animNum");
-      const animLeft = document.getElementById("animLeft");
-      const animRight = document.getElementById("animRight");
-      if(animLeft) animLeft.textContent = label;
+      const animNum=document.getElementById("animNum"), animLeft=document.getElementById("animLeft"), animRight=document.getElementById("animRight");
+      if(animLeft) animLeft.textContent=label;
 
-      const start = performance.now();
-      const dur = 850;
-      const tick = () => {
-        const t = performance.now();
-        const p = (t - start) / dur;
-        const fake = randInt(1, 20);
-        if(animNum) animNum.textContent = String(fake);
-        if(p < 1) requestAnimationFrame(tick);
+      const start=performance.now(), dur=850;
+      const tick=()=>{
+        const t=performance.now(); const p=(t-start)/dur;
+        const fake=randInt(1,20);
+        if(animNum) animNum.textContent=String(fake);
+        if(p<1) requestAnimationFrame(tick);
       };
       requestAnimationFrame(tick);
+      await new Promise(r=>setTimeout(r,dur));
 
-      await new Promise(r => setTimeout(r, dur));
-      const result = rollerFn();
-
-      if(animNum) animNum.textContent = String(result.total);
-      if(animRight) animRight.textContent = result.detail || "";
-
+      const result=rollerFn();
+      if(animNum) animNum.textContent=String(result.total);
+      if(animRight) animRight.textContent=result.detail||"";
       addRollLog(result.logLine);
 
-      const tone = (result.nat === 20) ? "green" : (result.nat === 1 ? "red" : "normal");
-      showPopup({
-        title: result.popupTitle || label,
-        total: result.total,
-        detail: result.detail || "",
-        hint: result.popupHint || "",
-        tone
-      });
-
+      const tone=(result.nat===20)?"green":(result.nat===1?"red":"normal");
+      showPopup({ title: result.popupTitle||label, total: result.total, detail: result.detail||"", hint: result.popupHint||"", tone });
       return result;
     }
 
     function parseExpression(expr){
-      const cleaned = (expr || "").replace(/\s+/g, "").toLowerCase();
+      const cleaned=(expr||"").replace(/\s+/g,"").toLowerCase();
       if(!cleaned) return null;
       if(!/^[0-9d+\-]+$/.test(cleaned)) return null;
-
-      const tokens = [];
-      let cur = "";
+      const tokens=[]; let cur="";
       for(let i=0;i<cleaned.length;i++){
-        const c = cleaned[i];
-        if((c === "+" || c === "-") && i !== 0){
-          tokens.push(cur);
-          cur = c;
-        }else{
-          cur += c;
-        }
+        const c=cleaned[i];
+        if((c==="+"||c==="-") && i!==0){ tokens.push(cur); cur=c; } else cur+=c;
       }
       if(cur) tokens.push(cur);
-
-      const parts = tokens.map(t => {
-        const sign = t[0] === "-" ? -1 : 1;
-        const s = (t[0] === "+" || t[0] === "-") ? t.slice(1) : t;
+      const parts=tokens.map(t=>{
+        const sign=t[0]==="-"?-1:1;
+        const s=(t[0]==="+"||t[0]==="-")?t.slice(1):t;
         if(s.includes("d")){
-          const [a, b] = s.split("d");
-          const n = a === "" ? 1 : Number(a);
-          const sides = Number(b);
-          if(!Number.isFinite(n) || !Number.isFinite(sides) || n <= 0 || sides <= 0) return null;
-          return { type: "dice", sign, n, sides };
-        } else {
-          const k = Number(s);
+          const [a,b]=s.split("d");
+          const n=a===""?1:Number(a);
+          const sides=Number(b);
+          if(!Number.isFinite(n)||!Number.isFinite(sides)||n<=0||sides<=0) return null;
+          return {type:"dice",sign,n,sides};
+        }else{
+          const k=Number(s);
           if(!Number.isFinite(k)) return null;
-          return { type: "flat", sign, k };
+          return {type:"flat",sign,k};
         }
       });
-
-      if(parts.some(p => p === null)) return null;
+      if(parts.some(p=>p===null)) return null;
       return parts;
     }
 
     async function rollD20(title, bonus, hint){
-      const b = Number(String(bonus).replace("+","")) || 0;
-      return rollWithAnimation(title, () => {
-        const nat = randInt(1, 20);
-        const total = nat + b;
-        const detail = `${nat}${b ? (b >= 0 ? ` + ${b}` : ` - ${Math.abs(b)}`) : ""}`.trim();
+      const b=Number(String(bonus).replace("+",""))||0;
+      return rollWithAnimation(title, ()=>{
+        const nat=randInt(1,20);
+        const total=nat+b;
+        const detail=`${nat}${b?(b>=0?` + ${b}`:` - ${Math.abs(b)}`):""}`.trim();
         return {
-          nat,
-          total,
-          detail,
-          popupTitle: title,
-          popupHint: hint || "",
-          logLine: `${title}: d20${b ? (b>=0?`+${b}`:`${b}`) : ""} = ${total} (${detail})`
+          nat, total, detail,
+          popupTitle:title,
+          popupHint:hint||"",
+          logLine:`${title}: d20${b?(b>=0?`+${b}`:`${b}`):""} = ${total} (${detail})`
         };
       });
     }
 
     async function rollDiceExpr(title, expr, hint){
-      const parts = parseExpression(expr);
+      const parts=parseExpression(expr);
       if(!parts){
-        showPopup({ title: "Invalid roll", total: "—", detail: expr, hint: "Use formats like 2d6+3 or d20+6", tone: "normal" });
+        showPopup({ title:"Invalid roll", total:"—", detail:expr, hint:"Use formats like 2d6+3 or d20+5", tone:"normal" });
         return null;
       }
-      return rollWithAnimation(title, () => {
-        let total = 0;
-        const chunks = [];
-        let nat = null;
-
+      return rollWithAnimation(title, ()=>{
+        let total=0; const chunks=[]; let nat=null;
         for(const p of parts){
-          if(p.type === "flat"){
-            total += p.sign * p.k;
-            chunks.push(`${p.sign === 1 ? "+" : "-"}${p.k}`);
+          if(p.type==="flat"){
+            total+=p.sign*p.k;
+            chunks.push(`${p.sign===1?"+":"-"}${p.k}`);
           }else{
-            const rolls = Array.from({length: p.n}, () => randInt(1, p.sides));
-            const sum = rolls.reduce((a,b)=>a+b,0);
-            total += p.sign * sum;
-            const core = `${p.n}d${p.sides}(${rolls.join(",")})=${sum}`;
-            chunks.push(`${p.sign === 1 ? "+" : "-"}${core}`);
-            if(p.sides === 20 && p.n === 1 && nat === null){
-              nat = rolls[0];
-            } else {
-              if(nat !== null && (p.sides !== 20 || p.n !== 1)) nat = null;
-            }
+            const rolls=Array.from({length:p.n},()=>randInt(1,p.sides));
+            const sum=rolls.reduce((a,b)=>a+b,0);
+            total+=p.sign*sum;
+            const core=`${p.n}d${p.sides}(${rolls.join(",")})=${sum}`;
+            chunks.push(`${p.sign===1?"+":"-"}${core}`);
+            if(p.sides===20 && p.n===1 && nat===null) nat=rolls[0];
+            else if(nat!==null && (p.sides!==20 || p.n!==1)) nat=null;
           }
         }
-
-        const detail = chunks.join(" ").replace(/^\+/, "").trim();
+        const detail=chunks.join(" ").replace(/^\+/,"").trim();
         return {
-          nat,
-          total,
-          detail,
-          popupTitle: title,
-          popupHint: hint || "",
-          logLine: `${title}: ${expr} = ${total} (${detail})`
+          nat, total, detail,
+          popupTitle:title,
+          popupHint:hint||"",
+          logLine:`${title}: ${expr} = ${total} (${detail})`
         };
       });
     }
 
-    function abilityMod(key){
-      const a = state.abilities.find(x => x.key === key);
-      return a ? a.mod : 0;
-    }
-    function calcSave(key){
-      const mod = abilityMod(key);
-      const prof = state.saves[key]?.prof ? state.proficiencyBonus : 0;
-      return mod + prof;
-    }
-    function calcSkill(skill){
-      const mod = abilityMod(skill.abil);
-      const prof = skill.prof ? state.proficiencyBonus : 0;
-      return mod + prof;
+    function abilityMod(key){ const a=state.abilities.find(x=>x.key===key); return a?a.mod:0; }
+    function calcSave(key){ const mod=abilityMod(key); const prof=state.saves[key]?.prof?state.proficiencyBonus:0; return mod+prof; }
+    function calcSkill(skill){ const mod=abilityMod(skill.abil); const prof=skill.prof?state.proficiencyBonus:0; return mod+prof; }
+
+    function escapeHtml(s){
+      return String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#039;");
     }
 
     function renderAbilities(){
-      const grid = document.getElementById("abilityGrid");
+      const grid=document.getElementById("abilityGrid");
       if(!grid) return;
-      grid.innerHTML = "";
-
+      grid.innerHTML="";
       for(const a of state.abilities){
-        const el = document.createElement("div");
-        el.className = "stat";
-        el.innerHTML = `
-          <div class="top">
-            <div class="name">${a.name}</div>
-            <div class="mod">${modString(a.mod)}</div>
+        const saveBonus=calcSave(a.key);
+        const isPro=!!state.saves[a.key]?.prof;
+        const el=document.createElement("div");
+        el.className="stat";
+        el.innerHTML=`
+          <div class="main" data-abil="${a.key}">
+            <div class="top">
+              <div class="name">${a.name}</div>
+              <div class="mod">${modString(a.mod)}</div>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:10px;">
+              <div class="score">${a.score}</div>
+              <div class="hint">Check</div>
+            </div>
           </div>
-          <div style="display:flex; align-items:center; justify-content: space-between; gap: 10px;">
-            <div class="score">${a.score}</div>
-            <div class="hint">Check</div>
+          <div class="saveLine" data-save="${a.key}" title="Click to roll save">
+            <div class="lbl">Save</div>
+            <div class="right">
+              <span class="proBadge ${isPro?"on":""}">${isPro?"PRO":""}</span>
+              <span class="bonus">${modString(saveBonus)}</span>
+            </div>
           </div>
         `;
-        el.addEventListener("click", () => rollD20(`${a.name} check`, a.mod, `Modifier ${modString(a.mod)}`));
+        el.querySelector("[data-abil]").addEventListener("click",()=>rollD20(`${a.name} check`, a.mod, `Modifier ${modString(a.mod)}`));
+        el.querySelector("[data-save]").addEventListener("click",()=>rollD20(`${a.name} save`, saveBonus, isPro?"Proficient save":"Not proficient"));
         grid.appendChild(el);
-      }
-    }
-
-    function renderSaves(){
-      const box = document.getElementById("saveChips");
-      if(!box) return;
-      box.innerHTML = "";
-      const order = ["str","dex","con","int","wis","cha"];
-      for(const k of order){
-        const val = calcSave(k);
-        const pro = !!state.saves[k]?.prof;
-        const chip = document.createElement("div");
-        chip.className = "chip";
-        chip.dataset.pro = pro ? "true" : "false";
-        chip.innerHTML = `<span class="mark"></span><span style="text-transform:uppercase">${k}</span><span style="opacity:.85; font-family: var(--mono)">${modString(val)}</span>`;
-        chip.title = "Click to roll";
-        chip.addEventListener("click", () => rollD20(`${k.toUpperCase()} save`, val, pro ? "Proficient" : "Not proficient"));
-        box.appendChild(chip);
       }
     }
 
     function renderSkills(){
-      const grid = document.getElementById("skillGrid");
+      const grid=document.getElementById("skillGrid");
       if(!grid) return;
-      grid.innerHTML = "";
-
-      const skills = [...state.skills].sort((a,b) => a.name.localeCompare(b.name));
+      grid.innerHTML="";
+      const skills=[...state.skills].sort((a,b)=>a.name.localeCompare(b.name));
       for(const s of skills){
-        const bonus = calcSkill(s);
-        const el = document.createElement("div");
-        el.className = "skill";
-        el.innerHTML = `
+        const bonus=calcSkill(s);
+        const el=document.createElement("div");
+        el.className="skill";
+        el.innerHTML=`
           <div class="left">
-            <div class="nm">${s.name}</div>
+            <div class="nm">${escapeHtml(s.name)}</div>
             <div class="ab">(${s.abil.toUpperCase()})</div>
           </div>
           <div class="right">
-            <span class="proBadge ${s.prof ? "on" : ""}">${s.prof ? "PRO" : ""}</span>
+            <span class="proBadge ${s.prof?"on":""}">${s.prof?"PRO":""}</span>
             <span class="bonus">${modString(bonus)}</span>
           </div>
         `;
-        el.title = "Click to roll";
-        el.addEventListener("click", () => rollD20(`${s.name}`, bonus, `${s.abil.toUpperCase()} ${modString(abilityMod(s.abil))}${s.prof ? ` + prof ${state.proficiencyBonus}` : ""}`));
+        el.title="Click to roll";
+        el.addEventListener("click",()=>rollD20(`${s.name}`, bonus, `${s.abil.toUpperCase()} ${modString(abilityMod(s.abil))}${s.prof?` + prof ${state.proficiencyBonus}`:""}`));
         grid.appendChild(el);
       }
-
-      const per = skills.find(x => x.id === "perception");
-      const ins = skills.find(x => x.id === "insight");
-      const passPer = 10 + (per ? calcSkill(per) : abilityMod("wis"));
-      const passIns = 10 + (ins ? calcSkill(ins) : abilityMod("wis"));
-      const pp = document.getElementById("passPer");
-      const pi = document.getElementById("passIns");
-      if(pp) pp.textContent = String(passPer);
-      if(pi) pi.textContent = String(passIns);
-    }
-
-    function escapeHtml(s){
-      return String(s)
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#039;");
+      const per=skills.find(x=>x.id==="perception");
+      const ins=skills.find(x=>x.id==="insight");
+      const passPer=10+(per?calcSkill(per):abilityMod("wis"));
+      const passIns=10+(ins?calcSkill(ins):abilityMod("wis"));
+      const pp=document.getElementById("passPer");
+      const pi=document.getElementById("passIns");
+      if(pp) pp.textContent=String(passPer);
+      if(pi) pi.textContent=String(passIns);
     }
 
     function renderAttacks(){
-      const list = document.getElementById("attackList");
+      const list=document.getElementById("attackList");
       if(!list) return;
-      list.innerHTML = "";
-
-      state.attacks.forEach((atk, idx) => {
-        const row = document.createElement("div");
-        row.className = "kv";
-        row.innerHTML = `
+      list.innerHTML="";
+      state.attacks.forEach((atk,idx)=>{
+        const row=document.createElement("div");
+        row.className="kv";
+        row.innerHTML=`
           <div style="display:grid; gap:4px;">
             <div class="k" contenteditable="true" data-atk="name" data-idx="${idx}">${escapeHtml(atk.name)}</div>
             <div class="hint" contenteditable="true" data-atk="notes" data-idx="${idx}">${escapeHtml(atk.notes)}</div>
@@ -1705,100 +1126,85 @@
             <div class="hint" contenteditable="true" data-atk="dmg" data-idx="${idx}">${escapeHtml(atk.dmg)}</div>
           </div>
         `;
-
-        row.querySelectorAll("[data-atk]").forEach(el => {
-          el.addEventListener("input", () => {
-            const i = Number(el.getAttribute("data-idx"));
-            const k = el.getAttribute("data-atk");
-            state.attacks[i][k] = el.textContent;
+        row.querySelectorAll("[data-atk]").forEach(el=>{
+          el.addEventListener("input",()=>{
+            const i=Number(el.getAttribute("data-idx"));
+            const k=el.getAttribute("data-atk");
+            state.attacks[i][k]=el.textContent;
             saveSoon();
           });
         });
-
         list.appendChild(row);
       });
     }
 
     function updateSpellHeader(){
-      const mod = abilityMod("int");
-      const dc = Number(state.fields.dc ?? (8 + state.proficiencyBonus + mod));
-      const atk = String(state.fields.spellAtk ?? modString(state.proficiencyBonus + mod));
-
-      const sm = document.getElementById("spellMod");
-      const sd = document.getElementById("spellDC");
-      const sa = document.getElementById("spellAtkTop");
-      if(sm) sm.textContent = modString(mod);
-      if(sd) sd.textContent = String(dc);
-      if(sa) sa.textContent = atk;
+      const mod=abilityMod("int");
+      const dc=Number(state.fields.dc ?? (8+state.proficiencyBonus+mod));
+      const atk=String(state.fields.spellAtk ?? modString(state.proficiencyBonus+mod));
+      const sm=document.getElementById("spellMod"), sd=document.getElementById("spellDC"), sa=document.getElementById("spellAtkTop");
+      if(sm) sm.textContent=modString(mod);
+      if(sd) sd.textContent=String(dc);
+      if(sa) sa.textContent=atk;
     }
 
     function renderSlots(){
-      const dots = document.getElementById("slotDots");
+      const dots=document.getElementById("slotDots");
       if(!dots) return;
-      dots.innerHTML = "";
-
-      state.spells.slots = (state.spells.slots || []).slice(0, state.spells.slotMax);
-      while(state.spells.slots.length < state.spells.slotMax) state.spells.slots.push(true);
-      state.spells.slotRemain = state.spells.slots.filter(Boolean).length;
+      dots.innerHTML="";
+      state.spells.slots=(state.spells.slots||[]).slice(0,state.spells.slotMax);
+      while(state.spells.slots.length<state.spells.slotMax) state.spells.slots.push(true);
+      state.spells.slotRemain=state.spells.slots.filter(Boolean).length;
 
       for(let i=0;i<state.spells.slotMax;i++){
-        const d = document.createElement("div");
-        d.className = "slotDot " + (state.spells.slots[i] ? "available" : "used");
-        d.title = state.spells.slots[i] ? "Available" : "Used";
-        d.addEventListener("click", () => {
-          state.spells.slots[i] = !state.spells.slots[i];
-          state.spells.slotRemain = state.spells.slots.filter(Boolean).length;
+        const d=document.createElement("div");
+        d.className="slotDot "+(state.spells.slots[i]?"available":"used");
+        d.title=state.spells.slots[i]?"Available":"Used";
+        d.addEventListener("click",()=>{
+          state.spells.slots[i]=!state.spells.slots[i];
+          state.spells.slotRemain=state.spells.slots.filter(Boolean).length;
           renderSlots();
           saveSoon();
         });
         dots.appendChild(d);
       }
-
-      const slotNum = document.getElementById("slotNum");
-      if(slotNum) slotNum.textContent = String(state.spells.slotRemain);
-
-      const slotUp = document.getElementById("slotUp");
-      const slotDown = document.getElementById("slotDown");
-      if(slotUp) slotUp.disabled = (state.spells.slotRemain >= state.spells.slotMax);
-      if(slotDown) slotDown.disabled = (state.spells.slotRemain <= 0);
+      const slotNum=document.getElementById("slotNum");
+      if(slotNum) slotNum.textContent=String(state.spells.slotRemain);
     }
 
     function setRemain(n){
-      const max = state.spells.slotMax;
-      const remain = clamp(n, 0, max);
-      state.spells.slots = Array.from({length: max}, (_, i) => i < remain);
-      state.spells.slotRemain = remain;
+      const max=state.spells.slotMax;
+      const remain=clamp(n,0,max);
+      state.spells.slots=Array.from({length:max},(_,i)=>i<remain);
+      state.spells.slotRemain=remain;
       renderSlots();
       saveSoon();
     }
 
     function useSlot(){
-      if(state.spells.slotRemain <= 0){
-        showPopup({ title: "No slots left", total: "—", detail: "You’re out of 1st-level slots.", hint: "Reset on long rest, or use Arcane Recovery.", tone: "normal" });
+      if(state.spells.slotRemain<=0){
+        showPopup({ title:"No slots left", total:"—", detail:"You’re out of 1st-level slots.", hint:"Reset on long rest, or use Arcane Recovery.", tone:"normal" });
         return false;
       }
-      setRemain(state.spells.slotRemain - 1);
+      setRemain(state.spells.slotRemain-1);
       return true;
     }
 
     function renderSpellCard(sp, allowPreparedToggle){
-      const card = document.createElement("div");
-      card.className = "spellCard";
-
-      const tags = sp.tags.map(t => `<span class="tag">${t}</span>`).join("");
-
-      const preparedChip = allowPreparedToggle ? `
-        <div class="chip" data-chip="prepared" data-id="${sp.id}" data-pro="${sp.prepared ? "true":"false"}" style="gap:8px;">
-          <span class="mark"></span><span>Prepared</span>
-        </div>` : "";
-
-      card.innerHTML = `
+      const card=document.createElement("div");
+      card.className="spellCard";
+      const tags=sp.tags.map(t=>`<span class="tag">${escapeHtml(t)}</span>`).join("");
+      const preparedChip=allowPreparedToggle?`
+        <div class="btn small" data-chip="prepared" data-id="${sp.id}" style="padding:8px 10px;">
+          ${sp.prepared?"Prepared":"Not prepared"}
+        </div>`:"";
+      card.innerHTML=`
         <div class="spellTop">
           <div>
             <div class="spellName">${escapeHtml(sp.name)}</div>
             <div class="tagRow">${tags}</div>
           </div>
-          <div style="display:flex; gap:8px; align-items:center; flex-wrap: wrap; justify-content:flex-end;">
+          <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap; justify-content:flex-end;">
             ${preparedChip}
             <button class="btn small primary" data-cast="${sp.id}">Cast</button>
           </div>
@@ -1807,18 +1213,24 @@
         <details>
           <summary>Spell details</summary>
           <div class="spellBody">
-            <div class="line"><span class="lbl">Level:</span> ${sp.level === 0 ? "Cantrip" : sp.level}</div>
+            <div class="line"><span class="lbl">Level:</span> ${sp.level===0?"Cantrip":sp.level}</div>
             <div class="line"><span class="lbl">School:</span> ${escapeHtml(sp.school)}</div>
             <div class="line"><span class="lbl">Casting Time:</span> ${escapeHtml(sp.castingTime)}</div>
             <div class="line"><span class="lbl">Range:</span> ${escapeHtml(sp.range)}</div>
             <div class="line"><span class="lbl">Components:</span> ${escapeHtml(sp.components)}</div>
             <div class="line"><span class="lbl">Duration:</span> ${escapeHtml(sp.duration)}</div>
-            <div class="line" style="margin-top:10px;"><span class="lbl">What it does:</span> ${escapeHtml(sp.summary)}</div>
+
+            <div class="line" style="margin-top:10px;"><span class="lbl">Short:</span> ${escapeHtml(sp.summary)}</div>
+
+            <div class="line" style="margin-top:10px;"><span class="lbl">Full description:</span></div>
+            <div class="line" style="margin-top:6px;">${escapeHtml(sp.full)}</div>
+
             <div class="line" style="margin-top:10px;"><span class="lbl">Quick mechanics:</span></div>
-            <ul style="margin: 6px 0 0 18px; padding:0; color: rgba(255,255,255,0.84)">
-              ${sp.mechanics.map(m => `<li><span class="lbl">${escapeHtml(m.k)}:</span> ${escapeHtml(m.v)}</li>`).join("")}
+            <ul style="margin:6px 0 0 18px; padding:0; color:rgba(255,255,255,.84)">
+              ${sp.mechanics.map(m=>`<li><span class="lbl">${escapeHtml(m.k)}:</span> ${escapeHtml(m.v)}</li>`).join("")}
             </ul>
-            <div class="line" style="margin-top:10px;"><span class="lbl">Notes:</span> <span contenteditable="true" data-spnote="${sp.id}">${escapeHtml(sp.notes || "")}</span></div>
+
+            <div class="line" style="margin-top:10px;"><span class="lbl">Notes:</span> <span contenteditable="true" data-spnote="${sp.id}">${escapeHtml(sp.notes||"")}</span></div>
           </div>
         </details>
       `;
@@ -1826,71 +1238,70 @@
     }
 
     function renderSpells(){
-      const cantripGrid = document.getElementById("cantripGrid");
-      const level1Grid = document.getElementById("level1Grid");
-      if(!cantripGrid || !level1Grid) return;
+      const cantripGrid=document.getElementById("cantripGrid");
+      const level1Grid=document.getElementById("level1Grid");
+      if(!cantripGrid||!level1Grid) return;
+      cantripGrid.innerHTML="";
+      level1Grid.innerHTML="";
 
-      cantripGrid.innerHTML = "";
-      level1Grid.innerHTML = "";
+      const cantrips=state.spells.list.filter(s=>s.level===0);
+      const level1=state.spells.list.filter(s=>s.level===1);
 
-      const cantrips = state.spells.list.filter(s => s.level === 0);
-      const level1 = state.spells.list.filter(s => s.level === 1);
+      cantrips.forEach(sp=>cantripGrid.appendChild(renderSpellCard(sp,false)));
+      level1.forEach(sp=>level1Grid.appendChild(renderSpellCard(sp,true)));
 
-      cantrips.forEach(sp => cantripGrid.appendChild(renderSpellCard(sp, false)));
-      level1.forEach(sp => level1Grid.appendChild(renderSpellCard(sp, true)));
-
-      level1Grid.querySelectorAll("[data-chip='prepared']").forEach(ch => {
-        ch.addEventListener("click", () => {
-          const id = ch.getAttribute("data-id");
-          const spell = state.spells.list.find(s => s.id === id);
+      level1Grid.querySelectorAll("[data-chip='prepared']").forEach(ch=>{
+        ch.addEventListener("click",()=>{
+          const id=ch.getAttribute("data-id");
+          const spell=state.spells.list.find(s=>s.id===id);
           if(!spell) return;
-
-          const nowOn = !(spell.prepared);
+          const nowOn=!spell.prepared;
           if(nowOn){
-            const preparedCount = state.spells.list.filter(s => s.level === 1 && s.prepared).length;
-            if(preparedCount >= state.spells.prepMax){
-              showPopup({ title: "Prepared limit", total: "—", detail: `You can prepare ${state.spells.prepMax} spells.`, hint: "Unprepare one first.", tone: "normal" });
+            const preparedCount=state.spells.list.filter(s=>s.level===1 && s.prepared).length;
+            if(preparedCount>=state.spells.prepMax){
+              showPopup({ title:"Prepared limit", total:"—", detail:`You can prepare ${state.spells.prepMax} spells.`, hint:"Unprepare one first.", tone:"normal" });
               return;
             }
           }
-          spell.prepared = nowOn;
-          ch.dataset.pro = nowOn ? "true" : "false";
-          ch.setAttribute("data-pro", nowOn ? "true" : "false");
+          spell.prepared=nowOn;
+          ch.textContent=nowOn?"Prepared":"Not prepared";
           saveSoon();
         });
       });
 
-      document.querySelectorAll("[data-spnote]").forEach(el => {
-        el.addEventListener("input", () => {
-          const id = el.getAttribute("data-spnote");
-          const spell = state.spells.list.find(s => s.id === id);
+      document.querySelectorAll("[data-spnote]").forEach(el=>{
+        el.addEventListener("input",()=>{
+          const id=el.getAttribute("data-spnote");
+          const spell=state.spells.list.find(s=>s.id===id);
           if(!spell) return;
-          spell.notes = el.textContent;
+          spell.notes=el.textContent;
           saveSoon();
         });
       });
 
-      document.querySelectorAll("[data-cast]").forEach(btn => {
-        btn.addEventListener("click", async () => {
-          const id = btn.getAttribute("data-cast");
-          const spell = state.spells.list.find(s => s.id === id);
+      document.querySelectorAll("[data-cast]").forEach(btn=>{
+        btn.addEventListener("click", async ()=>{
+          const id=btn.getAttribute("data-cast");
+          const spell=state.spells.list.find(s=>s.id===id);
           if(!spell) return;
 
           if(spell.cast?.usesSlot){
-            const ok = useSlot();
+            const ok=useSlot();
             if(!ok) return;
           }
 
           if(spell.cast?.dice){
-            await rollDiceExpr(spell.cast.label || `Cast ${spell.name}`, spell.cast.dice, `Spell: ${spell.name}`);
-          } else {
-            showPopup({ title: `Cast ${spell.name}`, total: "✓", detail: spell.cast?.usesSlot ? "Slot used." : "No slot used.", hint: "", tone: "normal" });
+            await rollDiceExpr(spell.cast.label||`Cast ${spell.name}`, spell.cast.dice, `Spell: ${spell.name}`);
+          }else{
+            showPopup({ title:`Cast ${spell.name}`, total:"✓", detail:spell.cast?.usesSlot?"Slot used.":"No slot used.", hint:"", tone:"normal" });
           }
 
-          if(spell.id === "mage_armor"){
-            state.fields.ac = 17;
-            const acEl = document.querySelector("[data-k='ac']");
-            if(acEl) acEl.value = 17;
+          if(spell.id==="mage_armor"){
+            const dexMod=abilityMod("dex");
+            const newAC=13+dexMod;
+            state.fields.ac=newAC;
+            const acEl=document.querySelector("[data-k='ac']");
+            if(acEl) acEl.value=newAC;
             saveSoon();
           }
         });
@@ -1898,76 +1309,65 @@
     }
 
     function bindSlotButtons(){
-      const up = document.getElementById("slotUp");
-      const down = document.getElementById("slotDown");
-      const reset = document.getElementById("slotReset");
-      if(up) up.addEventListener("click", () => setRemain(state.spells.slotRemain + 1));
-      if(down) down.addEventListener("click", () => setRemain(state.spells.slotRemain - 1));
-      if(reset) reset.addEventListener("click", () => setRemain(state.spells.slotMax));
+      const up=document.getElementById("slotUp");
+      const down=document.getElementById("slotDown");
+      const reset=document.getElementById("slotReset");
+      if(up) up.addEventListener("click",()=>setRemain(state.spells.slotRemain+1));
+      if(down) down.addEventListener("click",()=>setRemain(state.spells.slotRemain-1));
+      if(reset) reset.addEventListener("click",()=>setRemain(state.spells.slotMax));
     }
 
-    const invCats = ["Weapons", "Gear", "Consumables", "Misc"];
+    const invCats=["Weapons","Gear","Consumables","Misc"];
 
     function renderInventory(){
-      const cols = document.getElementById("invCols");
+      const cols=document.getElementById("invCols");
       if(!cols) return;
-      cols.innerHTML = "";
+      cols.innerHTML="";
 
-      invCats.forEach(cat => {
-        const col = document.createElement("div");
-        col.className = "invCol";
-        col.setAttribute("data-cat", cat);
-        col.innerHTML = `
-          <h3>${cat} <span class="small" id="count_${cat}"></span></h3>
-          <div class="dropZone" style="min-height: 140px;"></div>
-        `;
+      invCats.forEach(cat=>{
+        const col=document.createElement("div");
+        col.className="invCol";
+        col.setAttribute("data-cat",cat);
+        col.innerHTML=`<h3>${cat} <span class="small" id="count_${cat}"></span></h3><div class="dropZone" style="min-height:140px;"></div>`;
+        const zone=col.querySelector(".dropZone");
 
-        const zone = col.querySelector(".dropZone");
-        zone.addEventListener("dragover", (e) => {
+        zone.addEventListener("dragover",(e)=>{ e.preventDefault(); zone.style.outline="2px dashed rgba(255,255,255,.22)"; zone.style.borderRadius="14px"; });
+        zone.addEventListener("dragleave",()=>{ zone.style.outline="none"; });
+        zone.addEventListener("drop",(e)=>{
           e.preventDefault();
-          zone.style.outline = "2px dashed rgba(255,255,255,0.22)";
-          zone.style.borderRadius = "14px";
-        });
-        zone.addEventListener("dragleave", () => { zone.style.outline = "none"; });
-        zone.addEventListener("drop", (e) => {
-          e.preventDefault();
-          zone.style.outline = "none";
-          const id = e.dataTransfer.getData("text/plain");
-          const item = state.inventory.items.find(x => x.id === id);
+          zone.style.outline="none";
+          const id=e.dataTransfer.getData("text/plain");
+          const item=state.inventory.items.find(x=>x.id===id);
           if(!item) return;
-          item.cat = cat;
+          item.cat=cat;
           renderInventory();
           saveSoon();
         });
 
-        const items = state.inventory.items.filter(i => i.cat === cat);
-        const countEl = col.querySelector(`#count_${cat}`);
-        if(countEl) countEl.textContent = items.length ? `(${items.length})` : "";
+        const items=state.inventory.items.filter(i=>i.cat===cat);
+        const countEl=col.querySelector(`#count_${cat}`);
+        if(countEl) countEl.textContent=items.length?`(${items.length})`:"";
 
-        items.forEach(item => {
-          const it = document.createElement("div");
-          it.className = "invItem";
-          it.draggable = true;
+        items.forEach(item=>{
+          const it=document.createElement("div");
+          it.className="invItem";
+          it.draggable=true;
           it.setAttribute("data-id", item.id);
 
-          const isWeapon = (cat === "Weapons");
-          it.innerHTML = `
+          const isWeapon=(cat==="Weapons");
+          it.innerHTML=`
             <div class="name">${escapeHtml(item.name)}</div>
-            <div class="meta">
-              <span>Qty: <b>${item.qty}</b></span>
-              <span>${escapeHtml(item.note || "")}</span>
-            </div>
-            ${isWeapon ? `
+            <div class="meta"><span>Qty: <b>${item.qty}</b></span><span>${escapeHtml(item.note||"")}</span></div>
+            ${isWeapon?`
               <div class="actions">
-                <button class="btn small" data-watk="${item.id}">Attack ${escapeHtml(item.atk || "")}</button>
-                <button class="btn small" data-wdmg="${item.id}">Damage ${escapeHtml(item.dmg || "")}</button>
-              </div>
-            ` : ``}
+                <button class="btn small" data-watk="${item.id}">Attack ${escapeHtml(item.atk||"")}</button>
+                <button class="btn small" data-wdmg="${item.id}">Damage ${escapeHtml(item.dmg||"")}</button>
+              </div>`:""}
           `;
 
-          it.addEventListener("dragstart", (e) => e.dataTransfer.setData("text/plain", item.id));
-          it.addEventListener("click", () => editInventoryItem(item.id));
-          it.addEventListener("contextmenu", (e) => { e.preventDefault(); deleteInventoryItem(item.id); });
+          it.addEventListener("dragstart",(e)=>e.dataTransfer.setData("text/plain", item.id));
+          it.addEventListener("click",()=>openEditModal(item.id));
+          it.addEventListener("contextmenu",(e)=>{ e.preventDefault(); openEditModal(item.id,true); });
 
           zone.appendChild(it);
         });
@@ -1975,25 +1375,26 @@
         cols.appendChild(col);
       });
 
-      document.querySelectorAll("[data-watk]").forEach(btn => {
-        btn.addEventListener("click", (e) => {
+      document.querySelectorAll("[data-watk]").forEach(btn=>{
+        btn.addEventListener("click",(e)=>{
           e.stopPropagation();
-          const id = btn.getAttribute("data-watk");
-          const item = state.inventory.items.find(x => x.id === id);
+          const id=btn.getAttribute("data-watk");
+          const item=state.inventory.items.find(x=>x.id===id);
           if(!item) return;
-          const b = Number(String(item.atk || "+0").replace("+","")) || 0;
+          const b=Number(String(item.atk||"+0").replace("+",""))||0;
           rollD20(`${item.name} attack`, b, `Attack bonus ${modString(b)}`);
         });
       });
-      document.querySelectorAll("[data-wdmg]").forEach(btn => {
-        btn.addEventListener("click", (e) => {
+
+      document.querySelectorAll("[data-wdmg]").forEach(btn=>{
+        btn.addEventListener("click",(e)=>{
           e.stopPropagation();
-          const id = btn.getAttribute("data-wdmg");
-          const item = state.inventory.items.find(x => x.id === id);
+          const id=btn.getAttribute("data-wdmg");
+          const item=state.inventory.items.find(x=>x.id===id);
           if(!item) return;
-          const expr = (item.dmg || "").trim();
+          const expr=(item.dmg||"").trim();
           if(!expr){
-            showPopup({ title: "No damage set", total: "—", detail: item.name, hint: "Edit the weapon to add a damage roll.", tone: "normal" });
+            showPopup({ title:"No damage set", total:"—", detail:item.name, hint:"Edit the weapon to add a damage roll.", tone:"normal" });
             return;
           }
           rollDiceExpr(`${item.name} damage`, expr, "");
@@ -2002,314 +1403,348 @@
     }
 
     function bindInventoryForm(){
-      const add = document.getElementById("addItem");
-      const clear = document.getElementById("clearItems");
-      const catEl = document.getElementById("itemCat");
-      const weaponFields = document.getElementById("weaponFields");
+      const add=document.getElementById("addItem");
+      const clear=document.getElementById("clearItems");
+      const catEl=document.getElementById("itemCat");
+      const weaponFields=document.getElementById("weaponFields");
+      function updateWeaponFields(){ weaponFields.style.display=(catEl.value==="Weapons")?"block":"none"; }
+      if(catEl){ catEl.addEventListener("change", updateWeaponFields); updateWeaponFields(); }
 
-      function updateWeaponFields(){
-        const isW = (catEl.value === "Weapons");
-        weaponFields.style.display = isW ? "block" : "none";
-      }
-      if(catEl){
-        catEl.addEventListener("change", updateWeaponFields);
-        updateWeaponFields();
-      }
+      if(add) add.addEventListener("click",()=>{
+        const name=document.getElementById("itemName").value.trim();
+        const qty=Number(document.getElementById("itemQty").value)||1;
+        const cat=document.getElementById("itemCat").value;
+        const note=document.getElementById("itemNote").value.trim();
+        const atk=document.getElementById("weapAtk").value.trim();
+        const dmg=document.getElementById("weapDmg").value.trim();
 
-      if(add) add.addEventListener("click", () => {
-        const name = document.getElementById("itemName").value.trim();
-        const qty = Number(document.getElementById("itemQty").value) || 1;
-        const cat = document.getElementById("itemCat").value;
-        const note = document.getElementById("itemNote").value.trim();
+        if(!name){ showPopup({ title:"Name needed", total:"—", detail:"", hint:"", tone:"normal" }); return; }
 
-        const atk = document.getElementById("weapAtk").value.trim();
-        const dmg = document.getElementById("weapDmg").value.trim();
-
-        if(!name){
-          showPopup({ title: "Name needed", total: "—", detail: "", hint: "", tone: "normal" });
-          return;
-        }
-        const id = "i" + Math.random().toString(16).slice(2);
-        const item = { id, name, qty: Math.max(1, qty), note, cat };
-        if(cat === "Weapons"){
-          item.atk = atk || "+0";
-          item.dmg = dmg || "";
-        }
+        const id="i"+Math.random().toString(16).slice(2);
+        const item={ id, name, qty:Math.max(1,qty), note, cat };
+        if(cat==="Weapons"){ item.atk=atk||"+0"; item.dmg=dmg||""; }
         state.inventory.items.unshift(item);
 
-        document.getElementById("itemName").value = "";
-        document.getElementById("itemNote").value = "";
-        document.getElementById("weapAtk").value = "";
-        document.getElementById("weapDmg").value = "";
+        document.getElementById("itemName").value="";
+        document.getElementById("itemNote").value="";
+        document.getElementById("weapAtk").value="";
+        document.getElementById("weapDmg").value="";
 
         renderInventory();
         saveSoon();
       });
 
-      if(clear) clear.addEventListener("click", () => {
+      if(clear) clear.addEventListener("click",()=>{
         if(!confirm("Clear all inventory items?")) return;
-        state.inventory.items = [];
+        state.inventory.items=[];
         renderInventory();
         saveSoon();
       });
     }
 
-    function editInventoryItem(id){
-      const item = state.inventory.items.find(x => x.id === id);
+    // themed edit modal
+    let editId=null;
+
+    function openEditModal(id, autoFocusDelete=false){
+      const item=state.inventory.items.find(x=>x.id===id);
       if(!item) return;
+      editId=id;
 
-      const newName = prompt("Item name:", item.name);
-      if(newName === null) return;
-      const newQtyRaw = prompt("Quantity:", String(item.qty));
-      if(newQtyRaw === null) return;
-      const newQty = Math.max(1, Number(newQtyRaw) || item.qty);
-      const newNote = prompt("Note (optional):", item.note || "");
-      if(newNote === null) return;
+      const overlay=document.getElementById("modalOverlay");
+      const modal=document.getElementById("editModal");
+      document.getElementById("editTitle").textContent=`Edit: ${item.name}`;
 
-      item.name = newName.trim() || item.name;
-      item.qty = newQty;
-      item.note = newNote.trim();
+      document.getElementById("editName").value=item.name;
+      document.getElementById("editQty").value=item.qty;
+      document.getElementById("editCat").value=item.cat;
+      document.getElementById("editNote").value=item.note||"";
 
-      if(item.cat === "Weapons"){
-        const newAtk = prompt("Attack bonus (e.g. +6):", item.atk || "+0");
-        if(newAtk === null) return;
-        const newDmg = prompt("Damage (e.g. 1d8+4):", item.dmg || "");
-        if(newDmg === null) return;
-        item.atk = newAtk.trim() || item.atk || "+0";
-        item.dmg = newDmg.trim();
-      }
+      const wf=document.getElementById("editWeaponFields");
+      wf.style.display=(item.cat==="Weapons")?"block":"none";
+      document.getElementById("editAtk").value=item.atk||"+0";
+      document.getElementById("editDmg").value=item.dmg||"";
 
-      renderInventory();
-      saveSoon();
+      document.getElementById("editCat").onchange=()=>{
+        const cat=document.getElementById("editCat").value;
+        document.getElementById("editWeaponFields").style.display=(cat==="Weapons")?"block":"none";
+      };
+
+      overlay.classList.add("on");
+      modal.classList.add("on");
+
+      if(autoFocusDelete) setTimeout(()=>document.getElementById("editDelete").focus(),50);
+      else setTimeout(()=>document.getElementById("editName").focus(),50);
     }
 
-    function deleteInventoryItem(id){
-      const item = state.inventory.items.find(x => x.id === id);
-      if(!item) return;
-      if(!confirm(`Delete "${item.name}"?`)) return;
-      state.inventory.items = state.inventory.items.filter(x => x.id !== id);
-      renderInventory();
-      saveSoon();
+    function closeEditModal(){
+      document.getElementById("modalOverlay").classList.remove("on");
+      document.getElementById("editModal").classList.remove("on");
+      editId=null;
     }
 
-    function ensureNoteFields(){
-      if(state.fields.notesNPC === undefined) state.fields.notesNPC = "";
-      if(state.fields.notesQuests === undefined) state.fields.notesQuests = "";
-      if(state.fields.notesClues === undefined) state.fields.notesClues = "";
-      if(state.fields.notesLoot === undefined) state.fields.notesLoot = "";
+    function bindEditModal(){
+      const overlay=document.getElementById("modalOverlay");
+      const close=document.getElementById("editClose");
+      const cancel=document.getElementById("editCancel");
+      const saveBtn=document.getElementById("editSave");
+      const delBtn=document.getElementById("editDelete");
+
+      const closeAll=()=>closeEditModal();
+      overlay.addEventListener("click", closeAll);
+      close.addEventListener("click", closeAll);
+      cancel.addEventListener("click", closeAll);
+
+      saveBtn.addEventListener("click",()=>{
+        if(!editId) return;
+        const item=state.inventory.items.find(x=>x.id===editId);
+        if(!item) return;
+
+        const name=document.getElementById("editName").value.trim();
+        const qty=Math.max(1, Number(document.getElementById("editQty").value)||1);
+        const cat=document.getElementById("editCat").value;
+        const note=document.getElementById("editNote").value.trim();
+
+        item.name=name||item.name;
+        item.qty=qty;
+        item.cat=cat;
+        item.note=note;
+
+        if(cat==="Weapons"){
+          item.atk=(document.getElementById("editAtk").value.trim()||"+0");
+          item.dmg=(document.getElementById("editDmg").value.trim()||"");
+        }else{
+          delete item.atk;
+          delete item.dmg;
+        }
+
+        renderInventory();
+        saveSoon();
+        closeEditModal();
+      });
+
+      delBtn.addEventListener("click",()=>{
+        if(!editId) return;
+        const item=state.inventory.items.find(x=>x.id===editId);
+        if(!item) return;
+        if(!confirm(`Delete "${item.name}"?`)) return;
+        state.inventory.items=state.inventory.items.filter(x=>x.id!==editId);
+        renderInventory();
+        saveSoon();
+        closeEditModal();
+      });
+
+      document.addEventListener("keydown",(e)=>{
+        if(e.key==="Escape"){
+          if(document.getElementById("modalOverlay").classList.contains("on")) closeEditModal();
+        }
+      });
     }
 
     function renderNotes(){
-      const grid = document.getElementById("notesGrid");
+      const grid=document.getElementById("notesGrid");
       if(!grid) return;
-      grid.innerHTML = "";
+      grid.innerHTML="";
 
-      const all = [
-        ...state.notes.builtIn.map(n => ({...n, custom:false})),
-        ...state.notes.custom.map(n => ({...n, custom:true}))
-      ];
-
-      all.forEach(n => {
-        const card = document.createElement("div");
-        card.className = "noteCard";
-        card.innerHTML = `
+      const all=[...state.notes.builtIn.map(n=>({...n,custom:false})), ...state.notes.custom.map(n=>({...n,custom:true}))];
+      all.forEach(n=>{
+        const card=document.createElement("div");
+        card.className="noteCard";
+        card.innerHTML=`
           <div class="noteCardHead">
             <div class="ttl">${escapeHtml(n.title)}</div>
-            ${n.custom ? `<button class="btn small" data-delnote="${n.id}">Delete</button>` : ``}
+            ${n.custom?`<button class="btn small" data-delnote="${n.id}">Delete</button>`:""}
           </div>
           <textarea data-noteid="${n.id}" placeholder="Write here..."></textarea>
         `;
-        const ta = card.querySelector("textarea");
-        const text = n.custom ? (n.text || "") : (state.fields[n.key] || "");
-        ta.value = text;
-
-        ta.addEventListener("input", () => {
+        const ta=card.querySelector("textarea");
+        ta.value=n.custom?(n.text||""):(state.fields[n.key]||"");
+        ta.addEventListener("input",()=>{
           if(n.custom){
-            const ref = state.notes.custom.find(x => x.id === n.id);
-            if(ref) ref.text = ta.value;
-          }else{
-            state.fields[n.key] = ta.value;
-          }
+            const ref=state.notes.custom.find(x=>x.id===n.id);
+            if(ref) ref.text=ta.value;
+          }else state.fields[n.key]=ta.value;
           saveSoon();
         });
-
-        const del = card.querySelector("[data-delnote]");
+        const del=card.querySelector("[data-delnote]");
         if(del){
-          del.addEventListener("click", () => {
+          del.addEventListener("click",()=>{
             if(!confirm("Delete this note box?")) return;
-            state.notes.custom = state.notes.custom.filter(x => x.id !== n.id);
+            state.notes.custom=state.notes.custom.filter(x=>x.id!==n.id);
             renderNotes();
             saveSoon();
           });
         }
-
         grid.appendChild(card);
       });
     }
 
     function bindNotes(){
-      const add = document.getElementById("addNoteBox");
-      if(add) add.addEventListener("click", () => {
-        const title = prompt("New note box name:");
+      const add=document.getElementById("addNoteBox");
+      if(add) add.addEventListener("click",()=>{
+        const title=prompt("New note box name:");
         if(!title) return;
-        const id = "n" + Math.random().toString(16).slice(2);
-        state.notes.custom.unshift({ id, title: title.trim(), text: "" });
+        const id="n"+Math.random().toString(16).slice(2);
+        state.notes.custom.unshift({ id, title:title.trim(), text:"" });
         renderNotes();
         saveSoon();
       });
     }
 
-    function bindExportImport(){
-      const ex = document.getElementById("btnExport");
-      const file = document.getElementById("importFile");
-      const reset = document.getElementById("btnReset");
+    function renderFamiliars(){
+      const grid=document.getElementById("familiarGrid");
+      if(!grid) return;
+      grid.innerHTML="";
+      state.familiars.forEach(f=>{
+        const card=document.createElement("div");
+        card.className="statBlock";
+        card.innerHTML=`
+          <div style="display:flex; align-items:baseline; justify-content:space-between; gap:10px;">
+            <div style="font-weight:950; font-size:14px;">${escapeHtml(f.name)}</div>
+            <div class="hint">${escapeHtml(f.sizeType)}</div>
+          </div>
+          <details>
+            <summary>Show full stats</summary>
+            <div class="blockLine"><span class="lbl">AC:</span> ${escapeHtml(f.ac)}</div>
+            <div class="blockLine"><span class="lbl">HP:</span> ${escapeHtml(f.hp)}</div>
+            <div class="blockLine"><span class="lbl">Speed:</span> ${escapeHtml(f.speed)}</div>
+            <div class="blockLine"><span class="lbl">Stats:</span> ${escapeHtml(f.stats)}</div>
+            ${f.skills?`<div class="blockLine"><span class="lbl">Skills:</span> ${escapeHtml(f.skills)}</div>`:""}
+            <div class="blockLine"><span class="lbl">Senses:</span> ${escapeHtml(f.senses)}</div>
+            ${(f.traits && f.traits.length)?`
+              <div class="blockLine"><span class="lbl">Traits:</span></div>
+              <ul style="margin:6px 0 0 18px; padding:0; color:rgba(255,255,255,.84)">
+                ${f.traits.map(t=>`<li><b>${escapeHtml(t[0])}.</b> ${escapeHtml(t[1])}</li>`).join("")}
+              </ul>`:""}
+            ${(f.actions && f.actions.length)?`
+              <div class="blockLine" style="margin-top:10px;"><span class="lbl">Actions:</span></div>
+              <ul style="margin:6px 0 0 18px; padding:0; color:rgba(255,255,255,.84)">
+                ${f.actions.map(a=>`<li><b>${escapeHtml(a[0])}.</b> ${escapeHtml(a[1])}</li>`).join("")}
+              </ul>`:""}
+          </details>
+        `;
+        grid.appendChild(card);
+      });
+    }
 
-      if(ex) ex.addEventListener("click", () => {
-        const blob = new Blob([JSON.stringify(state, null, 2)], {type: "application/json"});
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(blob);
-        a.download = "mirrith-sheet.json";
+    function bindExportImport(){
+      const ex=document.getElementById("btnExport");
+      const file=document.getElementById("importFile");
+      const reset=document.getElementById("btnReset");
+
+      if(ex) ex.addEventListener("click",()=>{
+        const blob=new Blob([JSON.stringify(state,null,2)], {type:"application/json"});
+        const a=document.createElement("a");
+        a.href=URL.createObjectURL(blob);
+        a.download="mirrith-sheet.json";
         a.click();
         URL.revokeObjectURL(a.href);
       });
 
-      if(file) file.addEventListener("change", async () => {
-        const f = file.files?.[0];
+      if(file) file.addEventListener("change", async ()=>{
+        const f=file.files?.[0];
         if(!f) return;
-        const text = await f.text();
+        const text=await f.text();
         try{
-          const parsed = JSON.parse(text);
+          const parsed=JSON.parse(text);
           if(!parsed.fields || !parsed.spells) throw new Error("Not a sheet file");
-          state = parsed;
+          state=parsed;
           rebuild();
           saveSoon();
-          showPopup({ title: "Imported", total: "✓", detail: "", hint: "", tone: "normal" });
-        }catch(e){
-          alert("Import failed: " + e.message);
-        }
-        file.value = "";
+          showPopup({ title:"Imported", total:"✓", detail:"", hint:"", tone:"normal" });
+        }catch(e){ alert("Import failed: "+e.message); }
+        file.value="";
       });
 
-      if(reset) reset.addEventListener("click", () => {
+      if(reset) reset.addEventListener("click",()=>{
         if(!confirm("Reset sheet to defaults?")) return;
-        state = deepClone(baseState);
+        state=deepClone(baseState);
         rebuild();
         saveSoon();
       });
     }
 
     function bindDiceDrawer(){
-      const fab = document.getElementById("diceFab");
-      const overlay = document.getElementById("drawerOverlay");
-      const drawer = document.getElementById("drawer");
-      const close = document.getElementById("drawerClose");
+      const fab=document.getElementById("diceFab");
+      const overlay=document.getElementById("drawerOverlay");
+      const drawer=document.getElementById("drawer");
+      const close=document.getElementById("drawerClose");
 
-      function open(){
-        drawer.classList.add("on");
-        overlay.classList.add("on");
-      }
-      function shut(){
-        drawer.classList.remove("on");
-        overlay.classList.remove("on");
-      }
+      function open(){ drawer.classList.add("on"); overlay.classList.add("on"); }
+      function shut(){ drawer.classList.remove("on"); overlay.classList.remove("on"); }
 
       if(fab) fab.addEventListener("click", open);
       if(close) close.addEventListener("click", shut);
       if(overlay) overlay.addEventListener("click", shut);
-
-      document.addEventListener("keydown", (e) => {
-        if(e.key === "Escape") shut();
-      });
+      document.addEventListener("keydown",(e)=>{ if(e.key==="Escape") shut(); });
     }
 
     function bindDiceUI(){
-      const modEl = document.getElementById("mod");
-      const exprEl = document.getElementById("expr");
-      const rollBtn = document.getElementById("rollBtn");
-      const exprBtn = document.getElementById("exprBtn");
+      const modEl=document.getElementById("mod");
+      const exprEl=document.getElementById("expr");
+      const rollBtn=document.getElementById("rollBtn");
+      const exprBtn=document.getElementById("exprBtn");
 
-      const log = document.getElementById("rollLog");
-      if(log) log.textContent = (state.ui.rollLog || []).join("\n");
+      const log=document.getElementById("rollLog");
+      if(log) log.textContent=(state.ui.rollLog||[]).join("\n");
 
-      let selectedDie = 20;
+      let selectedDie=20;
 
-      document.querySelectorAll("[data-die]").forEach(btn => {
-        btn.addEventListener("click", async () => {
-          selectedDie = Number(btn.getAttribute("data-die"));
-          const mod = Number((modEl?.value || "0").replace("+", "")) || 0;
-
-          await rollWithAnimation(`Rolling d${selectedDie}`, () => {
-            const nat = randInt(1, selectedDie);
-            const total = nat + mod;
-            const detail = `${nat} ${mod ? (mod >= 0 ? `+ ${mod}` : `- ${Math.abs(mod)}`) : ""}`.trim();
+      document.querySelectorAll("[data-die]").forEach(btn=>{
+        btn.addEventListener("click", async ()=>{
+          selectedDie=Number(btn.getAttribute("data-die"));
+          const mod=Number((modEl?.value||"0").replace("+",""))||0;
+          await rollWithAnimation(`Rolling d${selectedDie}`, ()=>{
+            const nat=randInt(1,selectedDie);
+            const total=nat+mod;
+            const detail=`${nat} ${mod?(mod>=0?`+ ${mod}`:`- ${Math.abs(mod)}`):""}`.trim();
             return {
-              nat: selectedDie === 20 ? nat : null,
+              nat: selectedDie===20?nat:null,
               total,
               detail,
-              popupTitle: `d${selectedDie}`,
-              popupHint: mod ? `Modifier ${modString(mod)}` : "",
-              logLine: `d${selectedDie}${mod ? (mod >= 0 ? `+${mod}` : `${mod}`) : ""} = ${total} (${detail})`
+              popupTitle:`d${selectedDie}`,
+              popupHint: mod?`Modifier ${modString(mod)}`:"",
+              logLine:`d${selectedDie}${mod?(mod>=0?`+${mod}`:`${mod}`):""} = ${total} (${detail})`
             };
           });
         });
       });
 
-      if(rollBtn) rollBtn.addEventListener("click", async () => {
-        const mod = Number((modEl?.value || "0").replace("+", "")) || 0;
-        await rollWithAnimation(`Rolling d${selectedDie}`, () => {
-          const nat = randInt(1, selectedDie);
-          const total = nat + mod;
-          const detail = `${nat} ${mod ? (mod >= 0 ? `+ ${mod}` : `- ${Math.abs(mod)}`) : ""}`.trim();
-          return {
-            nat: selectedDie === 20 ? nat : null,
-            total,
-            detail,
-            popupTitle: `d${selectedDie}`,
-            popupHint: mod ? `Modifier ${modString(mod)}` : "",
-            logLine: `d${selectedDie}${mod ? (mod >= 0 ? `+${mod}` : `${mod}`) : ""} = ${total} (${detail})`
-          };
-        });
-      });
+      if(rollBtn) rollBtn.addEventListener("click",()=>document.querySelector(`[data-die="${selectedDie}"]`)?.click());
 
-      if(exprBtn) exprBtn.addEventListener("click", async () => {
-        const expr = exprEl?.value || "";
+      if(exprBtn) exprBtn.addEventListener("click", async ()=>{
+        const expr=exprEl?.value||"";
         await rollDiceExpr("Expression", expr, "");
       });
 
-      if(exprEl) exprEl.addEventListener("keydown", (e) => {
-        if(e.key === "Enter") exprBtn?.click();
-      });
+      if(exprEl) exprEl.addEventListener("keydown",(e)=>{ if(e.key==="Enter") exprBtn?.click(); });
     }
 
     function rebuild(){
       bindFields();
       updateHP();
       renderAbilities();
-      renderSaves();
       renderSkills();
       renderAttacks();
       updateSpellHeader();
       renderSlots();
       renderSpells();
+      renderFamiliars();
       renderInventory();
-      ensureNoteFields();
       renderNotes();
-
-      const log = document.getElementById("rollLog");
-      if(log) log.textContent = (state.ui.rollLog || []).join("\n");
+      const log=document.getElementById("rollLog");
+      if(log) log.textContent=(state.ui.rollLog||[]).join("\n");
     }
 
     function init(){
       load();
       bindTabs();
       bindTheme();
-      bindFields();
       bindExportImport();
       bindDiceDrawer();
       bindDiceUI();
       bindSlotButtons();
       bindInventoryForm();
-      ensureNoteFields();
+      bindEditModal();
       bindNotes();
       rebuild();
     }
