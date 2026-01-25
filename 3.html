@@ -1,0 +1,1772 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Mirr’ith — The Archmage (Level 12)</title>
+<style>
+:root{
+  --bg:#0b0d12; --panel:rgba(14,16,24,.78); --panel2:rgba(14,16,24,.62);
+  --text:#eef0f6; --muted:rgba(238,240,246,.72); --border:rgba(238,240,246,.16);
+  --shadow:0 14px 40px rgba(0,0,0,.45); --r:16px; --a:#8f5bff;
+  --good:#50e3a4; --bad:#ff6b6b; --warn:#ffcc66;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+  --font:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font-family:var(--font);color:var(--text);background:var(--bg);overflow-x:hidden}
+.bg{position:fixed;inset:0;background-image:url('https://i.imgur.com/MHPPfK1.jpeg');background-size:cover;background-position:center;background-attachment:fixed;filter:saturate(.95) contrast(1.05) brightness(.72);transform:scale(1.04);z-index:-3}
+.bg:after{content:"";position:absolute;inset:0;background:radial-gradient(1200px 700px at 30% 10%, rgba(255,255,255,.10), transparent 60%),linear-gradient(to bottom, rgba(0,0,0,.55), rgba(0,0,0,.72))}
+.wrap{max-width:1180px;margin:0 auto;padding:22px 16px 54px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow);overflow:hidden}
+header{display:grid;grid-template-columns:1fr 340px;gap:14px}
+@media(max-width:980px){header{grid-template-columns:1fr}}
+.titleCard{padding:16px}
+h1{margin:0;font-size:clamp(22px,3.2vw,30px)}
+.sub{margin-top:6px;color:var(--muted);font-size:13.5px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid var(--border);font-size:12.5px}
+.dot{width:8px;height:8px;border-radius:999px;background:var(--a);box-shadow:0 0 0 3px rgba(255,255,255,.06)}
+.row{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px}
+.field{display:flex;gap:8px;align-items:center;background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:12px;padding:10px;flex:1 1 180px;min-width:160px}
+.field label{font-size:11.5px;color:var(--muted);display:block}
+.field input{width:100%;background:transparent;color:var(--text);border:none;outline:none;font-size:14px;font-weight:650}
+.hpBox{padding:12px;border-radius:16px;border:1px solid var(--border);background:rgba(255,255,255,.05);margin-top:12px}
+.hpRow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.hpRow input{width:92px;padding:10px;border-radius:12px;border:1px solid var(--border);background:rgba(0,0,0,.25);color:var(--text);outline:none;font-weight:800;font-size:14px}
+.hpBar{margin-top:10px;height:16px;border-radius:999px;border:1px solid var(--border);background:rgba(0,0,0,.30);overflow:hidden}
+.hpFill{height:100%;width:100%;background:linear-gradient(90deg,var(--good),rgba(80,227,164,.78));transition:width 180ms ease}
+.hpMeta{display:flex;justify-content:space-between;margin-top:8px;color:var(--muted);font-size:12px}
+.portraitTop{padding:14px 14px 10px;display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid var(--border);background:linear-gradient(120deg, rgba(255,255,255,.05), transparent)}
+.themeBtn{width:34px;height:34px;border-radius:12px;border:1px solid var(--border);background:rgba(255,255,255,.06);cursor:pointer;display:grid;place-items:center}
+.themeSwatch{width:14px;height:14px;border-radius:999px;box-shadow:0 0 0 4px rgba(255,255,255,.08)}
+.portraitImg{position:relative;background:rgba(0,0,0,.28)}
+.portraitImg img{width:100%;height:100%;object-fit:cover;display:block}
+.portraitBadge{position:absolute;bottom:12px;left:12px;right:12px;padding:10px 12px;border-radius:14px;background:rgba(0,0,0,.58);border:1px solid rgba(255,255,255,.16);backdrop-filter:blur(10px)}
+.portraitBadge .small{color:rgba(255,255,255,.78);font-size:12px}
+.portraitBadge .big{font-size:14px;font-weight:700;margin-top:4px}
+.tabs{margin-top:14px}
+.tabBar{display:flex;gap:8px;flex-wrap:wrap;padding:10px;background:var(--panel2);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow)}
+.tabBtn{border:1px solid var(--border);background:rgba(255,255,255,.06);color:var(--text);padding:10px 12px;border-radius:14px;cursor:pointer;font-weight:650;font-size:13px}
+.tabBtn[aria-selected="true"]{background:linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.05));border-color:rgba(255,255,255,.28)}
+.tabPanel{display:none;margin-top:12px}
+.tabPanel.active{display:block}
+.section{padding:14px}
+.section h2{margin:0 0 10px;font-size:14px;color:rgba(255,255,255,.92);display:flex;align-items:center;justify-content:space-between;gap:10px}
+.hint{color:var(--muted);font-size:12px}
+.kv{display:flex;justify-content:space-between;gap:12px;padding:10px 12px;border-radius:14px;border:1px solid var(--border);background:rgba(255,255,255,.05)}
+.kv .k{color:var(--muted);font-size:12px}
+.kv .v{font-weight:750}
+.list{display:grid;gap:10px}
+.miniGrid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px}
+@media(max-width:980px){.miniGrid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:560px){.miniGrid{grid-template-columns:repeat(2,1fr)}}
+.stat{padding:12px;border:1px solid var(--border);background:rgba(255,255,255,.05);border-radius:14px;display:grid;gap:8px;user-select:none}
+.stat .main{cursor:pointer;padding:6px;border-radius:12px}
+.stat .main:hover{background:rgba(255,255,255,.06)}
+.stat .top{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.stat .name{color:var(--muted);font-size:11.5px;letter-spacing:.5px}
+.stat .score{font-size:18px;font-weight:800}
+.stat .mod{font-family:var(--mono);font-size:12.5px;color:rgba(255,255,255,.85)}
+.saveLine{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px;border-radius:12px;border:1px solid rgba(255,255,255,.14);background:rgba(0,0,0,.18);cursor:pointer}
+.saveLine:hover{background:rgba(255,255,255,.06)}
+.proBadge{font-size:11px;padding:4px 8px;border-radius:999px;border:1px solid var(--border);background:rgba(0,0,0,.20);color:var(--muted);min-width:44px;text-align:center}
+.proBadge.on{color:rgba(255,255,255,.92);border-color:rgba(255,255,255,.28);background:rgba(255,255,255,.10)}
+.proBadge.x2{color:rgba(255,255,255,.92);border-color:rgba(255,255,255,.28);background:rgba(255,255,255,.10)}
+.skillGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:980px){.skillGrid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.skillGrid{grid-template-columns:1fr}}
+.skill{padding:10px 12px;border-radius:14px;border:1px solid var(--border);background:rgba(255,255,255,.05);display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;user-select:none}
+.skill:hover{background:rgba(255,255,255,.07)}
+.skill .nm{font-weight:850;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.skill .ab{color:var(--muted);font-size:12px}
+.skill .bonus{font-family:var(--mono);font-weight:900}
+.btn{border:1px solid var(--border);background:rgba(255,255,255,.06);color:var(--text);padding:10px 12px;border-radius:14px;cursor:pointer;font-weight:700;font-size:13px;user-select:none}
+.btn.small{padding:8px 10px;font-size:12px;border-radius:12px}
+.btn.primary{background:linear-gradient(135deg, rgba(255,255,255,.10), rgba(255,255,255,.05));border-color:rgba(255,255,255,.28)}
+.spellHeaderRow{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
+.counter{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.countBox{padding:8px 10px;border-radius:14px;border:1px solid var(--border);background:rgba(255,255,255,.06);font-size:12.5px}
+.slotsStack{display:grid;gap:10px;margin-top:10px}
+.slots{display:flex;gap:10px;flex-wrap:wrap;align-items:center;padding:10px;border-radius:16px;border:1px solid var(--border);background:rgba(255,255,255,.05)}
+.slotDots{display:flex;gap:8px;align-items:center}
+.slotDot{width:18px;height:18px;border-radius:999px;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);cursor:pointer}
+.slotDot.used{opacity:.42}
+.slotDot.available{background:var(--a);box-shadow:0 0 0 3px rgba(255,255,255,.07)}
+.stepper{display:flex;gap:6px;align-items:center}
+.stepper .num{min-width:28px;text-align:center;font-weight:900}
+.spellGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(max-width:980px){.spellGrid{grid-template-columns:1fr}}
+.spellCard{padding:12px;border-radius:16px;border:1px solid var(--border);background:rgba(255,255,255,.05)}
+.spellTop{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.spellName{font-weight:850}
+.tagRow{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.tag{font-size:11.5px;color:var(--muted);border:1px solid var(--border);background:rgba(0,0,0,.20);padding:4px 8px;border-radius:999px}
+details{margin-top:10px}
+details summary{cursor:pointer;color:rgba(255,255,255,.88);font-weight:700}
+.spellBody{margin-top:10px;color:rgba(255,255,255,.86);font-size:13px;line-height:1.45}
+.spellBody .lbl{color:var(--muted);font-weight:650}
+.invCols{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+@media(max-width:980px){.invCols{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.invCols{grid-template-columns:1fr}}
+.invCol{padding:12px;border-radius:16px;border:1px solid var(--border);background:rgba(255,255,255,.05);min-height:220px}
+.invCol h3{margin:0 0 10px;font-size:13.5px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.invCol .small{color:var(--muted);font-size:11.5px}
+.invItem{padding:10px;border-radius:14px;border:1px solid var(--border);background:rgba(0,0,0,.22);margin-bottom:10px;cursor:grab}
+.invItem:active{cursor:grabbing}
+.invItem .name{font-weight:850}
+.invItem .meta{margin-top:4px;font-size:12px;color:var(--muted);display:flex;justify-content:space-between;gap:8px}
+.invItem .actions{margin-top:8px;display:flex;gap:8px;flex-wrap:wrap}
+.invForm{padding:14px}
+.invForm .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.invForm .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+@media(max-width:560px){.invForm .row2,.invForm .row3{grid-template-columns:1fr}}
+.input{width:100%;padding:10px 12px;border-radius:14px;border:1px solid var(--border);background:rgba(0,0,0,.25);color:var(--text);outline:none;font-weight:650;font-size:13px}
+.notesGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(max-width:980px){.notesGrid{grid-template-columns:1fr}}
+.noteCard{padding:12px;border-radius:16px;border:1px solid var(--border);background:rgba(255,255,255,.05)}
+.noteCardHead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+textarea{width:100%;min-height:170px;resize:vertical;padding:12px;border-radius:16px;border:1px solid var(--border);background:rgba(0,0,0,.25);color:var(--text);outline:none;font-size:13px;line-height:1.45}
+.footerRow{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.diceFab{position:fixed;right:10px;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:14px;border:1px solid var(--border);background:rgba(255,255,255,.08);backdrop-filter:blur(10px);display:grid;place-items:center;cursor:pointer;z-index:50;box-shadow:0 12px 30px rgba(0,0,0,.40)}
+.diceFab svg{width:22px;height:22px;fill:none;stroke:rgba(255,255,255,.92);stroke-width:2}
+.drawerOverlay{position:fixed;inset:0;background:rgba(0,0,0,.50);opacity:0;pointer-events:none;transition:opacity 180ms ease;z-index:60}
+.drawerOverlay.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(420px,92vw);transform:translateX(102%);transition:transform 220ms ease;z-index:70;display:flex;flex-direction:column;background:rgba(15,18,26,.92);border-left:1px solid rgba(255,255,255,.14);box-shadow:-18px 0 40px rgba(0,0,0,.45);backdrop-filter:blur(12px)}
+.drawer.on{transform:translateX(0)}
+.drawerHead{padding:14px 14px 10px;display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid rgba(255,255,255,.14)}
+.drawerBody{padding:14px;overflow:auto}
+.drawerClose{width:38px;height:38px;border-radius:14px;border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:rgba(255,255,255,.92);cursor:pointer;display:grid;place-items:center}
+.rollAnim{display:flex;align-items:center;justify-content:center;border-radius:18px;border:1px solid rgba(255,255,255,.16);background:rgba(0,0,0,.25);min-height:120px;position:relative;overflow:hidden;margin-top:12px}
+.rollAnim .big{font-size:46px;font-weight:900;text-shadow:0 10px 30px rgba(0,0,0,.45)}
+.rollAnim .small{position:absolute;bottom:10px;left:12px;right:12px;display:flex;justify-content:space-between;color:var(--muted);font-size:12px}
+.log{margin-top:10px;padding:10px;border-radius:16px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.05);max-height:220px;overflow:auto;font-family:var(--mono);font-size:12px;line-height:1.35;white-space:pre-wrap}
+.pop{position:fixed;inset:0;display:grid;place-items:center;pointer-events:none;z-index:90}
+.popCard{pointer-events:none;width:min(420px,92vw);border-radius:20px;border:1px solid rgba(255,255,255,.18);background:rgba(0,0,0,.68);backdrop-filter:blur(12px);box-shadow:0 24px 60px rgba(0,0,0,.55);padding:16px;transform:translateY(14px) scale(.98);opacity:0;transition:opacity 180ms ease,transform 180ms ease;position:relative;overflow:hidden}
+.popCard.on{opacity:1;transform:translateY(0) scale(1)}
+.popMain{position:relative;display:flex;gap:14px;align-items:center}
+.popNum{width:74px;height:74px;border-radius:18px;display:grid;place-items:center;font-size:34px;font-weight:950;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06)}
+.popTitle{font-weight:900}
+.popDetail{margin-top:4px;color:rgba(255,255,255,.78);font-size:13px}
+.popHint{margin-top:8px;color:rgba(255,255,255,.62);font-size:12px}
+.popCard[data-tone="green"] .popNum{border-color:rgba(80,227,164,.55);box-shadow:0 0 0 4px rgba(80,227,164,.10)}
+.popCard[data-tone="red"] .popNum{border-color:rgba(255,107,107,.55);box-shadow:0 0 0 4px rgba(255,107,107,.10)}
+.modalOverlay{position:fixed;inset:0;background:rgba(0,0,0,.55);opacity:0;pointer-events:none;transition:opacity 160ms ease;z-index:95}
+.modalOverlay.on{opacity:1;pointer-events:auto}
+.modal{position:fixed;inset:0;display:grid;place-items:center;z-index:96;pointer-events:none}
+.modalCard{pointer-events:auto;width:min(560px,94vw);border-radius:22px;border:1px solid rgba(255,255,255,.18);background:rgba(12,14,20,.92);backdrop-filter:blur(14px);box-shadow:0 30px 80px rgba(0,0,0,.60);overflow:hidden;transform:translateY(10px) scale(.985);opacity:0;transition:opacity 160ms ease,transform 160ms ease}
+.modalCard.on{opacity:1;transform:translateY(0) scale(1)}
+.modalHead{padding:14px;display:flex;align-items:center;justify-content:space-between;gap:10px;border-bottom:1px solid rgba(255,255,255,.14);background:linear-gradient(120deg, rgba(255,255,255,.06), transparent)}
+.modalHead .ttl{font-weight:950}
+.modalBody{padding:14px;display:grid;gap:10px}
+.modalFoot{padding:12px 14px;border-top:1px solid rgba(255,255,255,.14);display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end;background:rgba(255,255,255,.04)}
+.danger{border-color:rgba(255,107,107,.35)!important;background:rgba(255,107,107,.10)!important}
+.familiarGrid{display:grid;gap:12px}
+.statBlock{padding:12px;border-radius:16px;border:1px solid var(--border);background:rgba(255,255,255,.05)}
+.blockLine{margin:6px 0;color:rgba(255,255,255,.86);font-size:13px;line-height:1.45}
+.blockLine .lbl{color:var(--muted);font-weight:700}
+</style>
+</head>
+
+<body>
+<div class="bg" aria-hidden="true"></div>
+
+<div class="wrap">
+  <header>
+    <section class="card titleCard">
+      <h1 contenteditable="true" data-k="name">Mirr’ith — The Archmage</h1>
+      <div class="sub">
+        <span class="pill"><span class="dot"></span><span contenteditable="true" data-k="line1">Medium Humanoid • Wizard 12</span></span>
+        <span class="pill"><span class="dot" style="background:var(--good)"></span><span contenteditable="true" data-k="line2">Proficiency +4 • Fly 30 ft • Fire + Necrotic Resist</span></span>
+        <span class="pill" style="gap:10px"><span style="color:var(--muted);font-size:11.5px">Autosave</span><b id="saveState">Ready</b></span>
+      </div>
+
+      <div class="row">
+        <div class="field"><div style="flex:1"><label>AC</label><input type="number" min="0" step="1" value="19" data-k="ac" /></div></div>
+        <div class="field"><div style="flex:1"><label>Initiative</label><input type="text" value="+4" data-k="init" /></div></div>
+        <div class="field"><div style="flex:1"><label>Speed</label><input type="text" value="30 ft" data-k="speed" /></div></div>
+        <div class="field"><div style="flex:1"><label>Fly</label><input type="text" value="30 ft" data-k="fly" /></div></div>
+        <div class="field"><div style="flex:1"><label>Spell Save DC</label><input type="number" min="0" step="1" value="19" data-k="dc" /></div></div>
+        <div class="field"><div style="flex:1"><label>Spell Attack</label><input type="text" value="+11" data-k="spellAtk" /></div></div>
+      </div>
+
+      <div class="hpBox">
+        <div class="hpRow">
+          <div style="flex:1;min-width:220px">
+            <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px">
+              <div style="font-weight:900">Health</div>
+              <div class="hint">Editable</div>
+            </div>
+            <div class="hpBar"><div class="hpFill" id="hpFill"></div></div>
+            <div class="hpMeta"><div>State: <span id="hpState">Fine</span></div><div id="hpPct">100%</div></div>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:end">
+            <div style="display:grid;gap:6px"><div style="font-size:11.5px;color:var(--muted)">Current</div><input id="hpCur" type="number" min="0" step="1" value="107" data-k="hpCur" /></div>
+            <div style="display:grid;gap:6px"><div style="font-size:11.5px;color:var(--muted)">Max</div><input id="hpMax" type="number" min="1" step="1" value="107" data-k="hpMax" /></div>
+            <div style="display:grid;gap:6px"><div style="font-size:11.5px;color:var(--muted)">Temp</div><input id="hpTemp" type="number" min="0" step="1" value="0" data-k="hpTemp" /></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="footerRow">
+        <div class="hint">Saved in your browser • Export/Import keeps everything.</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn small" id="btnExport">Export JSON</button>
+          <label class="btn small" for="importFile">Import JSON</label>
+          <input id="importFile" type="file" accept="application/json" style="display:none" />
+          <button class="btn small" id="btnReset">Reset</button>
+        </div>
+      </div>
+    </section>
+
+    <aside class="card">
+      <div class="portraitTop">
+        <div>
+          <div style="font-weight:900">Portrait</div>
+          <div class="hint">Theme switcher</div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="themeBtn" data-theme="violet" title="Violet"><span class="themeSwatch" style="background:#8f5bff"></span></button>
+          <button class="themeBtn" data-theme="crimson" title="Crimson"><span class="themeSwatch" style="background:#ff4d6d"></span></button>
+          <button class="themeBtn" data-theme="teal" title="Teal"><span class="themeSwatch" style="background:#19d3d3"></span></button>
+        </div>
+      </div>
+      <div class="portraitImg" style="height:420px">
+        <img src="https://i.imgur.com/lDcuRv1.jpeg" alt="Character art" />
+        <div class="portraitBadge">
+          <div class="small" contenteditable="true" data-k="badge1">Robe of the Archmagi, and something older underneath it</div>
+          <div class="big" contenteditable="true" data-k="badge2">Unknown Magic: his Counterspell is always treated as 9th level</div>
+        </div>
+      </div>
+    </aside>
+  </header>
+
+  <section class="tabs">
+    <nav class="tabBar" role="tablist">
+      <button class="tabBtn" role="tab" aria-selected="true" aria-controls="tabSheet" id="tSheet">Sheet</button>
+      <button class="tabBtn" role="tab" aria-selected="false" aria-controls="tabSpells" id="tSpells">Spells</button>
+      <button class="tabBtn" role="tab" aria-selected="false" aria-controls="tabFamiliar" id="tFam">Familiar</button>
+      <button class="tabBtn" role="tab" aria-selected="false" aria-controls="tabInventory" id="tInv">Inventory</button>
+      <button class="tabBtn" role="tab" aria-selected="false" aria-controls="tabNotes" id="tNotes">Notes</button>
+    </nav>
+
+    <!-- SHEET -->
+    <div class="tabPanel active" id="tabSheet" role="tabpanel" aria-labelledby="tSheet">
+      <div class="card section">
+        <h2><span>Ability Scores & Saving Throws</span><span class="hint">Click ability for checks • click Save for saves</span></h2>
+        <div class="miniGrid" id="abilityGrid"></div>
+      </div>
+
+      <div class="card section" style="margin-top:12px">
+        <h2><span>Skills</span><span class="hint">History uses doubled proficiency (Forgotten Lore)</span></h2>
+        <div class="skillGrid" id="skillGrid"></div>
+      </div>
+
+      <div class="card section" style="margin-top:12px">
+        <h2><span>Core</span><span class="hint">Under Skills, full row</span></h2>
+        <div class="list">
+          <div class="kv"><div class="k">HP</div><div class="v"><span id="hpLine">107/107</span> <span style="color:var(--muted)" id="hpTempLine">(+0 temp)</span></div></div>
+          <div class="kv"><div class="k">Hit Dice</div><div class="v" contenteditable="true" data-k="hitdice">12d6</div></div>
+          <div class="kv"><div class="k">Languages</div><div class="v" contenteditable="true" data-k="langs">Common, Celestial, Elvish, Infernal</div></div>
+          <div class="kv"><div class="k">Traits</div><div class="v" contenteditable="true" data-k="traits">Winged Tiefling, War Caster, Telekinetic, Metamagic Adept, Robe of the Archmagi, Rod of Hellish Flames, Ancient Spell Savant, Forgotten Lore, Lost Powers, Unknown Magic</div></div>
+          <div class="kv"><div class="k">Class Features</div><div class="v" contenteditable="true" data-k="features">Robe: advantage vs spells; +2 spell attack/DC. Rod: 1/day Hellish Rebuke (4th, DC 16); 1/day maximise fire/necrotic spell. Lost Powers (1/LR). Unknown Magic. Telekinetic shove (BA). War Caster.</div></div>
+          <div class="kv"><div class="k">Passive Perception</div><div class="v" id="passPer">12</div></div>
+          <div class="kv"><div class="k">Passive Insight</div><div class="v" id="passIns">12</div></div>
+
+          <div class="kv">
+            <div class="k">Sorcery Points (Metamagic Adept)</div>
+            <div class="v" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+              <button class="btn small" id="spDown">-</button>
+              <span id="spNum" style="font-family:var(--mono);font-weight:950">2</span>
+              <button class="btn small" id="spUp">+</button>
+              <button class="btn small" id="spReset">Reset</button>
+            </div>
+          </div>
+
+          <div class="kv">
+            <div class="k">Time Aspects (Chrono Reservoir)</div>
+            <div class="v" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+              <button class="btn small" id="taDown">-</button>
+              <span id="taNum" style="font-family:var(--mono);font-weight:950">0</span>
+              <button class="btn small" id="taUp">+</button>
+              <button class="btn small" id="taReset">Reset</button>
+            </div>
+          </div>
+
+          <div class="kv">
+            <div class="k">Rod (daily)</div>
+            <div class="v" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+              <span class="hint">Hellish Rebuke</span>
+              <button class="btn small" id="rodRebuke">Use</button>
+              <span id="rodRebukeState" class="proBadge on">Ready</span>
+              <span class="hint">Maximise</span>
+              <button class="btn small" id="rodMax">Use</button>
+              <span id="rodMaxState" class="proBadge on">Ready</span>
+              <button class="btn small" id="rodReset">Reset daily</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card section" style="margin-top:12px">
+        <h2><span>Attacks</span><span class="hint">Click to roll</span></h2>
+        <div class="list" id="attackList"></div>
+      </div>
+
+      <div class="card section" style="margin-top:12px">
+        <h2><span>Reactions & Important Rules</span><span class="hint">Click lines for reminders / rolls</span></h2>
+        <div class="list" id="traitList"></div>
+      </div>
+    </div>
+
+    <!-- SPELLS -->
+    <div class="tabPanel" id="tabSpells" role="tabpanel" aria-labelledby="tSpells">
+      <div class="card section">
+        <div class="spellHeaderRow">
+          <h2 style="margin:0">Spells</h2>
+          <div class="counter">
+            <div class="countBox">Spellcasting mod: <b id="spellMod">+5</b></div>
+            <div class="countBox">Save DC: <b id="spellDC">19</b></div>
+            <div class="countBox">Spell attack: <b id="spellAtkTop">+11</b></div>
+          </div>
+        </div>
+        <div class="slotsStack" id="slotsStack"></div>
+        <div class="hint" style="margin-top:10px">Cantrips don’t use slots. Click Cast to spend a slot and roll dice when the spell needs it.</div>
+      </div>
+
+      <div class="card section" style="margin-top:12px">
+        <h2><span>Cantrips</span><span class="hint">At will</span></h2>
+        <div class="spellGrid" id="cantripGrid"></div>
+      </div>
+
+      <div class="card section" style="margin-top:12px">
+        <h2><span>1st level</span><span class="hint">4 slots</span></h2>
+        <div class="spellGrid" id="lvl1Grid"></div>
+      </div>
+
+      <div class="card section" style="margin-top:12px">
+        <h2><span>2nd level</span><span class="hint">3 slots</span></h2>
+        <div class="spellGrid" id="lvl2Grid"></div>
+      </div>
+
+      <div class="card section" style="margin-top:12px">
+        <h2><span>3rd level</span><span class="hint">3 slots</span></h2>
+        <div class="spellGrid" id="lvl3Grid"></div>
+      </div>
+
+      <div class="card section" style="margin-top:12px">
+        <h2><span>4th level</span><span class="hint">3 slots</span></h2>
+        <div class="spellGrid" id="lvl4Grid"></div>
+      </div>
+
+      <div class="card section" style="margin-top:12px">
+        <h2><span>5th level</span><span class="hint">2 slots</span></h2>
+        <div class="spellGrid" id="lvl5Grid"></div>
+      </div>
+
+      <div class="card section" style="margin-top:12px">
+        <h2><span>6th level</span><span class="hint">1 slot</span></h2>
+        <div class="spellGrid" id="lvl6Grid"></div>
+      </div>
+
+      <div class="card section" style="margin-top:12px">
+        <h2><span>Ancient Spells</span><span class="hint">Runes + Chronomancy</span></h2>
+        <div class="spellGrid" id="ancientGrid"></div>
+      </div>
+    </div>
+
+    <!-- FAMILIAR -->
+    <div class="tabPanel" id="tabFamiliar" role="tabpanel" aria-labelledby="tFam">
+      <div class="card section">
+        <h2><span>Familiar Stat Blocks</span><span class="hint">Dropdown per creature</span></h2>
+        <div class="familiarGrid" id="familiarGrid"></div>
+      </div>
+    </div>
+
+    <!-- INVENTORY -->
+    <div class="tabPanel" id="tabInventory" role="tabpanel" aria-labelledby="tInv">
+      <section class="card section">
+        <h2><span>Inventory (drag and drop)</span><span class="hint">Click to edit • uses themed popup</span></h2>
+        <div class="invCols" id="invCols"></div>
+      </section>
+
+      <section class="card section invForm" style="margin-top:12px">
+        <h2><span>Add item</span><span class="hint">Full row, at bottom</span></h2>
+        <div class="row3">
+          <input class="input" id="itemName" placeholder="Item name" />
+          <input class="input" id="itemQty" type="number" min="1" step="1" value="1" />
+          <select class="input" id="itemCat">
+            <option value="Weapons">Weapons</option>
+            <option value="Gear">Gear</option>
+            <option value="Consumables">Consumables</option>
+            <option value="Misc">Misc</option>
+          </select>
+        </div>
+        <div style="margin-top:10px" class="row2">
+          <input class="input" id="itemNote" placeholder="Short note (optional)" />
+          <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end">
+            <button class="btn primary" id="addItem">Add item</button>
+            <button class="btn" id="clearItems">Clear all</button>
+          </div>
+        </div>
+        <div id="weaponFields" style="margin-top:10px;display:none">
+          <div class="row2">
+            <input class="input" id="weapAtk" placeholder="Attack bonus (e.g. +11)" />
+            <input class="input" id="weapDmg" placeholder="Damage (e.g. 3d10)" />
+          </div>
+          <div class="hint" style="margin-top:8px">Weapons can roll Attack and Damage from the item card.</div>
+        </div>
+      </section>
+    </div>
+
+    <!-- NOTES -->
+    <div class="tabPanel" id="tabNotes" role="tabpanel" aria-labelledby="tNotes">
+      <div class="card section">
+        <div class="spellHeaderRow">
+          <h2 style="margin:0">Notes</h2>
+          <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn small" id="addNoteBox">Add note box</button></div>
+        </div>
+        <div class="notesGrid" id="notesGrid" style="margin-top:12px"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Dice sidebar button -->
+<button class="diceFab" id="diceFab" title="Dice roller" aria-label="Open dice roller">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M21 8.5 12 3 3 8.5v7L12 21l9-5.5v-7Z"></path>
+    <path d="M12 3v18"></path>
+    <path d="M3 8.5l9 5.2 9-5.2"></path>
+  </svg>
+</button>
+
+<div class="drawerOverlay" id="drawerOverlay"></div>
+<aside class="drawer" id="drawer" aria-label="Dice roller drawer">
+  <div class="drawerHead">
+    <div style="font-weight:900">Dice roller</div>
+    <button class="drawerClose" id="drawerClose" aria-label="Close">✕</button>
+  </div>
+  <div class="drawerBody">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
+      <button class="btn" data-die="4">d4</button>
+      <button class="btn" data-die="6">d6</button>
+      <button class="btn" data-die="8">d8</button>
+      <button class="btn" data-die="10">d10</button>
+      <button class="btn" data-die="12">d12</button>
+      <button class="btn" data-die="20">d20</button>
+      <button class="btn" data-die="100">d100</button>
+      <input class="input" id="mod" style="max-width:140px" placeholder="mod (e.g. +11)" />
+      <button class="btn primary" id="rollBtn">Roll</button>
+    </div>
+
+    <div style="margin-top:10px;display:grid;grid-template-columns:1fr 120px;gap:10px">
+      <input class="input" id="expr" placeholder="Expression (e.g. 8d6 or 3d10+5)" />
+      <button class="btn" id="exprBtn">Roll expr</button>
+    </div>
+
+    <div class="rollAnim">
+      <div class="big" id="animNum">—</div>
+      <div class="small"><div id="animLeft">Ready</div><div id="animRight"></div></div>
+    </div>
+
+    <div class="log" id="rollLog"></div>
+  </div>
+</aside>
+
+<!-- Popup animation -->
+<div class="pop" aria-hidden="true">
+  <div class="popCard" id="popCard" data-tone="normal">
+    <div class="popMain">
+      <div class="popNum" id="popNum">—</div>
+      <div>
+        <div class="popTitle" id="popTitle">Roll</div>
+        <div class="popDetail" id="popDetail"></div>
+        <div class="popHint" id="popHint"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Inventory edit modal -->
+<div class="modalOverlay" id="modalOverlay"></div>
+<div class="modal" aria-hidden="true">
+  <div class="modalCard" id="editModal">
+    <div class="modalHead">
+      <div class="ttl" id="editTitle">Edit item</div>
+      <button class="btn small" id="editClose">Close</button>
+    </div>
+    <div class="modalBody">
+      <div class="invForm row2">
+        <input class="input" id="editName" placeholder="Item name" />
+        <input class="input" id="editQty" type="number" min="1" step="1" />
+      </div>
+      <div class="invForm row2">
+        <select class="input" id="editCat">
+          <option value="Weapons">Weapons</option>
+          <option value="Gear">Gear</option>
+          <option value="Consumables">Consumables</option>
+          <option value="Misc">Misc</option>
+        </select>
+        <input class="input" id="editNote" placeholder="Note (optional)" />
+      </div>
+      <div id="editWeaponFields" style="display:none">
+        <div class="invForm row2">
+          <input class="input" id="editAtk" placeholder="Attack bonus (e.g. +11)" />
+          <input class="input" id="editDmg" placeholder="Damage (e.g. 3d10)" />
+        </div>
+      </div>
+    </div>
+    <div class="modalFoot">
+      <button class="btn danger" id="editDelete">Delete</button>
+      <button class="btn" id="editCancel">Cancel</button>
+      <button class="btn primary" id="editSave">Save</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* Sheet state + helpers */
+const KEY="archmage_sheet_v12";
+const deep=(x)=>JSON.parse(JSON.stringify(x));
+const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
+const rand=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+const modStr=(m)=>(m>=0?"+":"")+m;
+const esc=(s)=>String(s).replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;");
+
+function setSaveState(t){ const el=document.getElementById("saveState"); if(el) el.textContent=t; }
+let saveTimer=null;
+function saveSoon(){
+  setSaveState("Saving...");
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(()=>{
+    try{ localStorage.setItem(KEY, JSON.stringify(state)); setSaveState("Saved"); setTimeout(()=>setSaveState("Ready"),650); }
+    catch(e){ setSaveState("Save failed"); }
+  },220);
+}
+
+const base = {
+  meta:{ theme:"violet" },
+  fields:{
+    name:"Mirr’ith — The Archmage",
+    line1:"Medium Humanoid • Wizard 12",
+    line2:"Proficiency +4 • Fly 30 ft • Fire + Necrotic Resist",
+    ac:19, init:"+4", speed:"30 ft", fly:"30 ft", dc:19, spellAtk:"+11",
+    badge1:"Robe of the Archmagi, and something older underneath it",
+    badge2:"Unknown Magic: his Counterspell is always treated as 9th level",
+    hpCur:107, hpMax:107, hpTemp:0,
+    hitdice:"12d6",
+    langs:"Common, Celestial, Elvish, Infernal",
+    traits:"Winged Tiefling. War Caster. Telekinetic. Metamagic Adept. Robe of the Archmagi. Rod of Hellish Flames. Ancient Spell Savant. Forgotten Lore. Lost Powers. Unknown Magic.",
+    features:"Robe: AC base 15+Dex, advantage vs spells, +2 to spell attacks/DC. Rod: fire+necrotic resist; 1/day Hellish Rebuke as 4th (DC 16); 1/day maximise a fire/necrotic spell. Lost Powers (1/LR). Unknown Magic changes Dispel/Counter and boosts your Counterspell."
+  },
+  proficiencyBonus:4,
+  abilities:[
+    {key:"str",name:"STR",score:6,mod:-2},
+    {key:"dex",name:"DEX",score:18,mod:4},
+    {key:"con",name:"CON",score:18,mod:4},
+    {key:"int",name:"INT",score:20,mod:5},
+    {key:"wis",name:"WIS",score:15,mod:2},
+    {key:"cha",name:"CHA",score:15,mod:2},
+  ],
+  saves:{ str:{prof:false}, dex:{prof:false}, con:{prof:false}, int:{prof:true}, wis:{prof:true}, cha:{prof:false} },
+  skills:[
+    {id:"acrobatics",name:"Acrobatics",abil:"dex",prof:false},
+    {id:"animal_handling",name:"Animal Handling",abil:"wis",prof:false},
+    {id:"arcana",name:"Arcana",abil:"int",prof:true},
+    {id:"athletics",name:"Athletics",abil:"str",prof:false},
+    {id:"deception",name:"Deception",abil:"cha",prof:false},
+    {id:"history",name:"History",abil:"int",prof:true,expertise:true}, // Forgotten Lore
+    {id:"insight",name:"Insight",abil:"wis",prof:false},
+    {id:"intimidation",name:"Intimidation",abil:"cha",prof:false},
+    {id:"investigation",name:"Investigation",abil:"int",prof:true},
+    {id:"medicine",name:"Medicine",abil:"wis",prof:false},
+    {id:"nature",name:"Nature",abil:"int",prof:false},
+    {id:"perception",name:"Perception",abil:"wis",prof:false},
+    {id:"performance",name:"Performance",abil:"cha",prof:false},
+    {id:"persuasion",name:"Persuasion",abil:"cha",prof:false},
+    {id:"religion",name:"Religion",abil:"int",prof:false},
+    {id:"sleight_of_hand",name:"Sleight of Hand",abil:"dex",prof:false},
+    {id:"stealth",name:"Stealth",abil:"dex",prof:false},
+    {id:"survival",name:"Survival",abil:"wis",prof:false},
+  ],
+  resources:{
+    sorceryMax:2, sorcery:2,
+    timeAspects:0, timeAspectsMax:50,
+    rodRebukeUsed:false, rodMaxUsed:false
+  },
+  attacks:[
+    {name:"Longsword",bonus:"-2",dmg:"1d8-2",notes:"Versatile: 1d10-2"},
+    {name:"Double-Bladed Scimitar",bonus:"-2",dmg:"2d4-2",notes:"Two-handed"},
+    {name:"Fire Blast",bonus:"+11",dmg:"3d10",notes:"Ranged 120 ft"},
+    {name:"Mind Sliver",bonus:"",dmg:"3d6",notes:"DC 19 Int save; fail: damage and -1d4 to next save"},
+  ],
+  traitCards:[
+    {title:"Shield (Reaction)",text:"When hit or targeted by Magic Missile: +5 AC until start of your next turn; negate Magic Missile.",kind:"remind"},
+    {title:"Absorb Elements (Reaction)",text:"When you take acid/cold/fire/lightning/thunder: resist that instance and type until next turn; add damage to next melee hit.",kind:"remind"},
+    {title:"Hellish Rebuke (Rod; 1/day)",text:"When damaged by a creature you can see within 60 ft: cast as 4th level (DC 16). Marks as used.",kind:"rod"},
+    {title:"War Caster",text:"Advantage on Con saves to maintain concentration; can cast a spell as an OA (1 action, targets only that creature).",kind:"remind"},
+    {title:"Telekinetic Shove (BA)",text:"DC 19 Strength save or move 5 ft toward/away (target can choose to fail).",kind:"remind"},
+    {title:"Counterspell (Unknown Magic)",text:"When you cast Counterspell, treat it as cast with a 9th-level slot.",kind:"remind"}
+  ],
+  spells:{
+    slots:{
+      1:{max:4,remain:4,dots:[true,true,true,true]},
+      2:{max:3,remain:3,dots:[true,true,true]},
+      3:{max:3,remain:3,dots:[true,true,true]},
+      4:{max:3,remain:3,dots:[true,true,true]},
+      5:{max:2,remain:2,dots:[true,true]},
+      6:{max:1,remain:1,dots:[true]},
+    },
+    list:[]
+  },
+  inventory:{
+    items:[
+      {id:"g1",name:"Robe of the Archmagi",qty:1,note:"Adv vs spells; +2 DC/attack",cat:"Gear"},
+      {id:"g2",name:"Bag of Holding",qty:1,note:"",cat:"Gear"},
+      {id:"g3",name:"Rod of Hellish Flames",qty:1,note:"1/day Rebuke; 1/day maximise fire/necrotic",cat:"Gear"},
+      {id:"g4",name:"Alchemical Compendium",qty:1,note:"",cat:"Gear"},
+      {id:"w1",name:"Double-Bladed Scimitar",qty:1,note:"",cat:"Weapons",atk:"-2",dmg:"2d4-2"},
+      {id:"w2",name:"Longsword",qty:1,note:"Versatile",cat:"Weapons",atk:"-2",dmg:"1d8-2"},
+    ]
+  },
+  notes:{
+    builtIn:[
+      {id:"npc",title:"NPCs",key:"notesNPC"},
+      {id:"quests",title:"Quests",key:"notesQuests"},
+      {id:"clues",title:"Clues",key:"notesClues"},
+      {id:"loot",title:"Loot",key:"notesLoot"},
+    ],
+    custom:[]
+  },
+  familiars:[
+    {id:"owl",name:"Owl",sizeType:"Tiny beast, unaligned",ac:"11",hp:"1 (1d4-1)",speed:"5 ft., fly 60 ft.",
+     stats:"STR 3 (-4) DEX 13 (+1) CON 8 (-1) INT 2 (-4) WIS 12 (+1) CHA 7 (-2)",
+     skills:"Perception +3, Stealth +3",senses:"Darkvision 120 ft., passive Perception 13",
+     traits:[["Flyby","Doesn’t provoke opportunity attacks when it flies out of an enemy’s reach."],["Keen Hearing and Sight","Advantage on Perception checks relying on hearing or sight."]],
+     actions:[["Talons","Melee Weapon Attack: +3 to hit, reach 5 ft. Hit: 1 slashing."]]},
+    {id:"bat",name:"Bat",sizeType:"Tiny beast, unaligned",ac:"12",hp:"1 (1d4-1)",speed:"5 ft., fly 30 ft.",
+     stats:"STR 2 (-4) DEX 15 (+2) CON 8 (-1) INT 2 (-4) WIS 12 (+1) CHA 4 (-3)",
+     skills:"",senses:"Blindsight 60 ft., passive Perception 11",
+     traits:[["Echolocation","Can’t use blindsight while deafened."],["Keen Hearing","Advantage on Perception checks relying on hearing."]],
+     actions:[["Bite","Melee Weapon Attack: +0 to hit. Hit: 1 piercing."]]},
+    {id:"raven",name:"Raven",sizeType:"Tiny beast, unaligned",ac:"12",hp:"1 (1d4-1)",speed:"10 ft., fly 50 ft.",
+     stats:"STR 2 (-4) DEX 14 (+2) CON 8 (-1) INT 2 (-4) WIS 12 (+1) CHA 6 (-2)",
+     skills:"Perception +3",senses:"Passive Perception 13",
+     traits:[["Mimicry","Can mimic simple sounds; Insight DC 10 to tell it’s imitation."]],
+     actions:[["Beak","Melee Weapon Attack: +4 to hit. Hit: 1 piercing."]]},
+    {id:"cat",name:"Cat",sizeType:"Tiny beast, unaligned",ac:"12",hp:"2 (1d4)",speed:"40 ft., climb 30 ft.",
+     stats:"STR 3 (-4) DEX 15 (+2) CON 10 (+0) INT 3 (-4) WIS 12 (+1) CHA 7 (-2)",
+     skills:"Perception +3, Stealth +4",senses:"Darkvision 60 ft., passive Perception 13",
+     traits:[["Keen Smell","Advantage on Perception checks relying on smell."]],
+     actions:[["Claws","Melee Weapon Attack: +0 to hit. Hit: 1 slashing."]]},
+    {id:"poisonous_snake",name:"Poisonous Snake",sizeType:"Tiny beast, unaligned",ac:"13",hp:"2 (1d4)",speed:"30 ft., swim 30 ft.",
+     stats:"STR 2 (-4) DEX 16 (+3) CON 11 (+0) INT 1 (-5) WIS 10 (+0) CHA 3 (-4)",
+     skills:"",senses:"Blindsight 10 ft., passive Perception 10",
+     traits:[],actions:[["Bite","Melee Weapon Attack: +5 to hit. Hit: 1 piercing + 2d4 poison; DC 10 Con save for half poison."]]},
+    {id:"spider",name:"Spider",sizeType:"Tiny beast, unaligned",ac:"12",hp:"1 (1d4-1)",speed:"20 ft., climb 20 ft.",
+     stats:"STR 2 (-4) DEX 14 (+2) CON 8 (-1) INT 1 (-5) WIS 10 (+0) CHA 2 (-4)",
+     skills:"Stealth +4",senses:"Darkvision 30 ft., passive Perception 10",
+     traits:[["Spider Climb","Climb difficult surfaces and ceilings without checks."],["Web Sense","While touching a web, knows location of other creatures on it."],["Web Walker","Ignores movement restrictions caused by webbing."]],
+     actions:[["Bite","Melee Weapon Attack: +4 to hit. Hit: 1 piercing + 1d4 poison; DC 9 Con save for half poison."]]},
+  ],
+  ui:{ rollLog:[] }
+};
+
+function S(o){return o;}
+const spells = [
+  // Cantrips
+  S({id:"tooltip_not_found",name:"Tooltip Not Found",level:0,group:"cantrip",tags:["Cantrip"],school:"Unknown",
+    castingTime:"—",range:"—",components:"—",duration:"—",
+    summary:"Placeholder slot for a missing cantrip name.",
+    full:"This entry exists because the spell list included a missing cantrip name. Rename it and add details whenever you want.",
+    dice:"",rollLabel:""}),
+  S({id:"mage_hand",name:"Mage Hand",level:0,group:"cantrip",tags:["Cantrip"],school:"Conjuration",
+    castingTime:"1 action",range:"30 ft",components:"V,S",duration:"1 minute",
+    summary:"Create a spectral hand that manipulates objects at range.",
+    full:"You create a floating hand you can control with your action. It can open unlocked doors/containers, retrieve items, pour liquids, and similar. It can’t attack, activate magic items, or carry more than about 10 pounds. Ends if you dismiss it or cast it again.",
+    dice:"",rollLabel:""}),
+  S({id:"mind_sliver",name:"Mind Sliver",level:0,group:"cantrip",tags:["Cantrip"],school:"Enchantment",
+    castingTime:"1 action",range:"60 ft",components:"V",duration:"1 round",
+    summary:"Int save or psychic damage and -1d4 to next saving throw before end of your next turn.",
+    full:"A creature you can see makes an Intelligence saving throw. On a failure it takes psychic damage and subtracts 1d4 from its next saving throw before the end of your next turn. At 12th level the damage is 3d6.",
+    dice:"3d6",rollLabel:"Mind Sliver damage"}),
+  S({id:"minor_illusion",name:"Minor Illusion",level:0,group:"cantrip",tags:["Cantrip"],school:"Illusion",
+    castingTime:"1 action",range:"30 ft",components:"S,M",duration:"1 minute",
+    summary:"Create a small sound or a static image.",
+    full:"Create either a sound or a static image within range. Physical interaction reveals it as an illusion. A creature can examine it and make an Investigation check against your spell save DC to identify it.",
+    dice:"",rollLabel:""}),
+  S({id:"prestidigitation",name:"Prestidigitation",level:0,group:"cantrip",tags:["Cantrip"],school:"Transmutation",
+    castingTime:"1 action",range:"10 ft",components:"V,S",duration:"Up to 1 hour",
+    summary:"Minor magical tricks and utility effects.",
+    full:"Create one minor effect: harmless sensory trick, clean/soil an object, chill/warm/flavour small matter, light/snuff a small flame, create a mark/symbol, or a tiny trinket/hand-sized image for a moment. You can have up to three longer effects active at once.",
+    dice:"",rollLabel:""}),
+  S({id:"shape_water",name:"Shape Water",level:0,group:"cantrip",tags:["Cantrip"],school:"Transmutation",
+    castingTime:"1 action",range:"30 ft",components:"S",duration:"Instant / up to 1 hour",
+    summary:"Manipulate a small cube of water.",
+    full:"Choose water in a 5-foot cube and move it, change its flow, or form simple shapes. You can change its colour/opacity, or freeze it if no creatures are inside.",
+    dice:"",rollLabel:""}),
+
+  // 1st
+  S({id:"absorb_elements",name:"Absorb Elements",level:1,group:"lvl1",tags:["1st","Reaction"],school:"Abjuration",
+    castingTime:"1 reaction",range:"Self",components:"S",duration:"1 round",
+    summary:"Gain resistance to the triggering elemental type; add extra damage to your next melee hit.",
+    full:"Trigger: you take acid/cold/fire/lightning/thunder. You gain resistance to that instance and type until the start of your next turn. Your next melee hit on your next turn deals extra damage of that type (scales with slot level).",
+    dice:"",rollLabel:""}),
+  S({id:"alarm",name:"Alarm",level:1,group:"lvl1",tags:["1st","Ritual"],school:"Abjuration",
+    castingTime:"1 minute",range:"30 ft",components:"V,S,M",duration:"8 hours",
+    summary:"Ward a doorway/window or 20-foot cube against intrusion.",
+    full:"Choose a door, window, or 20-foot cube. If a Tiny+ creature enters, the alarm alerts you (mental ping) or sounds an audible alarm. Can be cast as a ritual.",
+    dice:"",rollLabel:""}),
+  S({id:"burning_hands",name:"Burning Hands",level:1,group:"lvl1",tags:["1st"],school:"Evocation",
+    castingTime:"1 action",range:"Self (15-foot cone)",components:"V,S",duration:"Instant",
+    summary:"Dex save for half; cone of fire.",
+    full:"Creatures in a 15-foot cone make Dexterity saves. On a fail: fire damage; on success: half. Upcasting adds damage.",
+    dice:"3d6",rollLabel:"Burning Hands damage"}),
+  S({id:"chromatic_orb",name:"Chromatic Orb",level:1,group:"lvl1",tags:["1st"],school:"Evocation",
+    castingTime:"1 action",range:"90 ft",components:"V,S,M",duration:"Instant",
+    summary:"Ranged spell attack; choose damage type.",
+    full:"Make a ranged spell attack; on hit, deal damage of a chosen type (acid/cold/fire/lightning/poison/thunder). Upcasting increases damage.",
+    dice:"3d8",rollLabel:"Chromatic Orb damage"}),
+  S({id:"comprehend_languages",name:"Comprehend Languages",level:1,group:"lvl1",tags:["1st","Ritual"],school:"Divination",
+    castingTime:"1 action",range:"Self",components:"V,S,M",duration:"1 hour",
+    summary:"Understand spoken language and read touched writing (literal meaning).",
+    full:"For the duration, you understand the literal meaning of any spoken language you hear. You can also read writing you touch (about one page per minute). It doesn’t decode ciphers or hidden meaning automatically.",
+    dice:"",rollLabel:""}),
+  S({id:"feather_fall",name:"Feather Fall",level:1,group:"lvl1",tags:["1st","Reaction"],school:"Transmutation",
+    castingTime:"1 reaction",range:"60 ft",components:"V,M",duration:"1 minute",
+    summary:"Slow falling; prevent fall damage.",
+    full:"When you or up to five creatures in range fall, their fall speed becomes 60 ft/round. They take no fall damage and can land on their feet.",
+    dice:"",rollLabel:""}),
+  S({id:"find_familiar",name:"Find Familiar",level:1,group:"lvl1",tags:["1st","Ritual"],school:"Conjuration",
+    castingTime:"1 hour",range:"10 ft",components:"V,S,M",duration:"Instant",
+    summary:"Summon a spirit familiar in animal form.",
+    full:"Summon a spirit that takes a chosen animal form. It obeys you and acts on its own initiative. It can’t attack. You can perceive through it briefly and dismiss/resummon it. If reduced to 0 HP, it disappears.",
+    dice:"",rollLabel:""}),
+
+  // 2nd
+  S({id:"cloud_of_daggers",name:"Cloud of Daggers",level:2,group:"lvl2",tags:["2nd","Concentration"],school:"Conjuration",
+    castingTime:"1 action",range:"60 ft",components:"V,S,M",duration:"Conc, 1 minute",
+    summary:"5-foot cube of blades; damage when entering or starting there.",
+    full:"Fill a 5-foot cube with whirling blades. A creature takes damage when it enters for the first time on a turn or starts its turn there. Upcasting increases damage.",
+    dice:"4d4",rollLabel:"Cloud of Daggers damage"}),
+  S({id:"invisibility",name:"Invisibility",level:2,group:"lvl2",tags:["2nd","Concentration"],school:"Illusion",
+    castingTime:"1 action",range:"Touch",components:"V,S,M",duration:"Conc, 1 hour",
+    summary:"Invisible until it attacks or casts.",
+    full:"A creature you touch becomes invisible. The spell ends early if the target attacks or casts a spell. Worn/carried items are also invisible.",
+    dice:"",rollLabel:""}),
+  S({id:"max_earthen_grasp",name:"Maximilian’s Earthen Grasp",level:2,group:"lvl2",tags:["2nd","Concentration"],school:"Transmutation",
+    castingTime:"1 action",range:"30 ft",components:"V,S,M",duration:"Conc, 1 minute",
+    summary:"A hand of earth restrains; can crush on later turns.",
+    full:"A creature you can see makes a Strength save. On a failure it’s restrained by a grasping hand. You can use your action to crush it for damage, or re-grab if it escapes.",
+    dice:"2d6",rollLabel:"Earthen Grasp crush"}),
+  S({id:"misty_step",name:"Misty Step",level:2,group:"lvl2",tags:["2nd","Bonus Action"],school:"Conjuration",
+    castingTime:"1 bonus action",range:"Self",components:"V",duration:"Instant",
+    summary:"Teleport up to 30 feet to a space you can see.",
+    full:"You teleport up to 30 feet to an unoccupied space you can see.",
+    dice:"",rollLabel:""}),
+  S({id:"see_invisibility",name:"See Invisibility",level:2,group:"lvl2",tags:["2nd"],school:"Divination",
+    castingTime:"1 action",range:"Self",components:"V,S,M",duration:"1 hour",
+    summary:"See invisible creatures/objects within 10 feet; see into Ethereal within 10 feet.",
+    full:"For the duration, you see invisible creatures and objects within 10 feet as if visible, and you see into the Ethereal Plane within 10 feet.",
+    dice:"",rollLabel:""}),
+  S({id:"suggestion",name:"Suggestion",level:2,group:"lvl2",tags:["2nd","Concentration"],school:"Enchantment",
+    castingTime:"1 action",range:"30 ft",components:"V,M",duration:"Conc, 8 hours",
+    summary:"Wis save or pursue a reasonable suggested course of action.",
+    full:"A creature that can hear and understand you makes a Wisdom save. On a failure, it follows your reasonable suggestion for the duration (as best it can). Usually ends if you or your allies harm the target.",
+    dice:"",rollLabel:""}),
+  S({id:"vortex_warp",name:"Vortex Warp",level:2,group:"lvl2",tags:["2nd"],school:"Conjuration",
+    castingTime:"1 action",range:"90 ft",components:"V,S",duration:"Instant",
+    summary:"Teleport a willing creature, or an unwilling creature that fails a Con save.",
+    full:"Choose a creature you can see. If willing, it teleports to an unoccupied space you can see within range. If unwilling, it makes a Constitution save; on a failure it teleports. If the destination is unsafe, the spell fails.",
+    dice:"",rollLabel:""}),
+
+  // 3rd
+  S({id:"counterspell",name:"Counterspell",level:3,group:"lvl3",tags:["3rd","Reaction"],school:"Abjuration",
+    castingTime:"1 reaction",range:"60 ft",components:"S",duration:"Instant",
+    summary:"Interrupt a spell being cast (your version is treated as 9th level).",
+    full:"When you see a creature casting within range, you attempt to interrupt. If the spell’s level is low enough for the slot used, it fails automatically; otherwise make a spellcasting ability check. Unknown Magic: treat your Counterspell as if cast with a 9th-level slot.",
+    dice:"",rollLabel:""}),
+  S({id:"fireball",name:"Fireball",level:3,group:"lvl3",tags:["3rd"],school:"Evocation",
+    castingTime:"1 action",range:"150 ft",components:"V,S,M",duration:"Instant",
+    summary:"20-foot-radius explosion; Dex save for half.",
+    full:"A point you choose erupts in flame. Creatures in a 20-foot radius make Dex saves; fail: fire damage, success: half. Upcasting adds damage. Rod can maximise once/day for fire/necrotic spells.",
+    dice:"8d6",rollLabel:"Fireball damage"}),
+  S({id:"hypnotic_pattern",name:"Hypnotic Pattern",level:3,group:"lvl3",tags:["3rd","Concentration"],school:"Illusion",
+    castingTime:"1 action",range:"120 ft",components:"S,M",duration:"Conc, 1 minute",
+    summary:"Wis save or charmed, incapacitated, speed 0.",
+    full:"A 30-foot cube of swirling colour. Creatures that can see it make Wis saves; on a failure they’re charmed, incapacitated, and speed becomes 0 until the spell ends. Ends early if the creature takes damage or someone uses an action to shake it out.",
+    dice:"",rollLabel:""}),
+  S({id:"tiny_hut",name:"Leomund’s Tiny Hut",level:3,group:"lvl3",tags:["3rd","Ritual"],school:"Evocation",
+    castingTime:"1 minute",range:"Self (10-foot radius)",components:"V,S,M",duration:"8 hours",
+    summary:"A protective dome shelter.",
+    full:"A 10-foot-radius dome forms around you. Creatures/objects inside when cast can pass through; others can’t. Weather stays outside; inside is comfortable. Commonly blocks spells and effects through the boundary (table rulings apply).",
+    dice:"",rollLabel:""}),
+  S({id:"major_image",name:"Major Image",level:3,group:"lvl3",tags:["3rd","Concentration"],school:"Illusion",
+    castingTime:"1 action",range:"120 ft",components:"V,S,M",duration:"Conc, 10 minutes",
+    summary:"Large, detailed illusion with sound and other sensory detail.",
+    full:"Create an illusion in a 20-foot cube that can include sound and other sensory detail (within normal illusion limits). A creature can examine it and make an Investigation check vs your DC to recognise it as an illusion.",
+    dice:"",rollLabel:""}),
+  S({id:"summon_undead",name:"Summon Undead",level:3,group:"lvl3",tags:["3rd","Concentration"],school:"Necromancy",
+    castingTime:"1 action",range:"90 ft",components:"V,S,M",duration:"Conc, 1 hour",
+    summary:"Summon an undead spirit that fights for you.",
+    full:"You call an undead spirit into a chosen form (ghostly/putrid/skeletal). It acts on your turn. You can command it as a bonus action; otherwise it typically defends itself. Upcasting improves its stats.",
+    dice:"",rollLabel:""}),
+  S({id:"tiny_servant",name:"Tiny Servant",level:3,group:"lvl3",tags:["3rd"],school:"Transmutation",
+    castingTime:"1 minute",range:"Touch",components:"V,S",duration:"8 hours",
+    summary:"Animate a Tiny object as a servant.",
+    full:"A Tiny nonmagical object becomes a servant that follows simple mental commands. Upcasting can animate more objects.",
+    dice:"",rollLabel:""}),
+  S({id:"tongues",name:"Tongues",level:3,group:"lvl3",tags:["3rd"],school:"Divination",
+    castingTime:"1 action",range:"Touch",components:"V,M",duration:"1 hour",
+    summary:"Target understands and is understood in any language.",
+    full:"A creature you touch understands any spoken language it hears and can be understood by any creature that knows at least one language.",
+    dice:"",rollLabel:""}),
+
+  // 4th
+  S({id:"arcane_eye",name:"Arcane Eye",level:4,group:"lvl4",tags:["4th","Concentration"],school:"Divination",
+    castingTime:"1 action",range:"30 ft",components:"V,S,M",duration:"Conc, 1 hour",
+    summary:"Invisible scouting eye you control.",
+    full:"Create an invisible magical eye you can move up to 30 feet per round and see through. It can travel through small openings. It can be dispelled.",
+    dice:"",rollLabel:""}),
+  S({id:"banishment",name:"Banishment",level:4,group:"lvl4",tags:["4th","Concentration"],school:"Abjuration",
+    castingTime:"1 action",range:"60 ft",components:"V,S,M",duration:"Conc, 1 minute",
+    summary:"Cha save or banish to a harmless demiplane; outsiders may return home.",
+    full:"A creature makes a Charisma save. On a failure it’s banished. If not native to this plane, it goes to its home plane. If you maintain concentration for the full duration and the creature is extraplanar, it stays there.",
+    dice:"",rollLabel:""}),
+  S({id:"black_tentacles",name:"Evard’s Black Tentacles",level:4,group:"lvl4",tags:["4th","Concentration"],school:"Conjuration",
+    castingTime:"1 action",range:"90 ft",components:"V,S,M",duration:"Conc, 1 minute",
+    summary:"Tentacles in a 20-foot square: difficult terrain; Dex save or restrained and damaged.",
+    full:"A 20-foot square becomes writhing tentacles and difficult terrain. Creatures entering or starting there make Dex saves; on a failure they take damage and are restrained. Restrained creatures can use an action to attempt to escape (Strength/Dex check).",
+    dice:"3d6",rollLabel:"Tentacles damage"}),
+  S({id:"greater_invis",name:"Greater Invisibility",level:4,group:"lvl4",tags:["4th","Concentration"],school:"Illusion",
+    castingTime:"1 action",range:"Touch",components:"V,S",duration:"Conc, 1 minute",
+    summary:"Invisible even while attacking or casting.",
+    full:"A creature you touch becomes invisible for the duration, and it doesn’t end early when the target attacks or casts spells.",
+    dice:"",rollLabel:""}),
+  S({id:"phantasmal_killer",name:"Phantasmal Killer",level:4,group:"lvl4",tags:["4th","Concentration"],school:"Illusion",
+    castingTime:"1 action",range:"120 ft",components:"V,S",duration:"Conc, 1 minute",
+    summary:"Nightmare illusion: Wis save or frightened and psychic damage; repeats.",
+    full:"A target makes a Wisdom save. On a failure it’s frightened and takes psychic damage. At the end of each of its turns it repeats the save; on a failure it takes the damage again, on a success the spell ends.",
+    dice:"4d10",rollLabel:"Phantasmal Killer damage"}),
+  S({id:"polymorph",name:"Polymorph",level:4,group:"lvl4",tags:["4th","Concentration"],school:"Transmutation",
+    castingTime:"1 action",range:"60 ft",components:"V,S,M",duration:"Conc, 1 hour",
+    summary:"Transform a creature into a beast (Wis save if unwilling).",
+    full:"Transform a creature into a beast form (CR limits apply). Unwilling targets make Wisdom saves. The target uses the beast’s statistics; if the form drops to 0 HP, the spell ends and excess damage carries over.",
+    dice:"",rollLabel:""}),
+  S({id:"sickening_radiance",name:"Sickening Radiance",level:4,group:"lvl4",tags:["4th","Concentration"],school:"Evocation",
+    castingTime:"1 action",range:"120 ft",components:"V,S,M",duration:"Conc, 10 minutes",
+    summary:"Glowing sphere: Con save or radiant damage + exhaustion.",
+    full:"A 30-foot-radius sphere of sickly light. Creatures entering or starting their turn there make Con saves; on a failure they take radiant damage and gain 1 exhaustion. The area is dim and lightly obscured.",
+    dice:"4d10",rollLabel:"Sickening Radiance damage"}),
+  S({id:"stone_shape",name:"Stone Shape",level:4,group:"lvl4",tags:["4th"],school:"Transmutation",
+    castingTime:"1 action",range:"Touch",components:"V,S,M",duration:"Instant",
+    summary:"Shape stone in a limited volume.",
+    full:"Touch stone and form it into a shape you choose within the spell’s volume limits. You can create openings or simple objects; fine detail is limited by the magic and material.",
+    dice:"",rollLabel:""}),
+  S({id:"summon_aberration",name:"Summon Aberration",level:4,group:"lvl4",tags:["4th","Concentration"],school:"Conjuration",
+    castingTime:"1 action",range:"90 ft",components:"V,S,M",duration:"Conc, 1 hour",
+    summary:"Summon an aberrant spirit (form choice) that fights for you.",
+    full:"Conjure an aberrant spirit in a chosen form. It acts on your turn and follows your commands. Upcasting improves its stats.",
+    dice:"",rollLabel:""}),
+  S({id:"wall_of_fire",name:"Wall of Fire",level:4,group:"lvl4",tags:["4th","Concentration"],school:"Evocation",
+    castingTime:"1 action",range:"120 ft",components:"V,S,M",duration:"Conc, 1 minute",
+    summary:"A wall of flame; damages creatures in/near one side.",
+    full:"Create a line or ring of fire. Creatures in the wall take fire damage; creatures on the hot side take damage when they end their turn near it. You choose which side is hot. Rod can maximise once/day.",
+    dice:"5d8",rollLabel:"Wall of Fire damage"}),
+
+  // 5th
+  S({id:"animate_objects",name:"Animate Objects",level:5,group:"lvl5",tags:["5th","Concentration"],school:"Transmutation",
+    castingTime:"1 action",range:"120 ft",components:"V,S",duration:"Conc, 1 minute",
+    summary:"Animate up to 10 objects to fight for you.",
+    full:"Animate up to 10 nonmagical objects. They become creatures under your control. You command them as a bonus action; otherwise they defend themselves. Stats depend on size.",
+    dice:"",rollLabel:""}),
+  S({id:"creation",name:"Creation",level:5,group:"lvl5",tags:["5th"],school:"Illusion",
+    castingTime:"1 minute",range:"30 ft",components:"V,S,M",duration:"Special",
+    summary:"Create a nonliving object (material limits and durations apply).",
+    full:"Pull shadow-stuff into a real nonliving object in an unoccupied space. Size and material are limited by the spell. Duration depends on material (shorter for precious stuff).",
+    dice:"",rollLabel:""}),
+  S({id:"geas",name:"Geas",level:5,group:"lvl5",tags:["5th"],school:"Enchantment",
+    castingTime:"1 minute",range:"60 ft",components:"V",duration:"30 days",
+    summary:"Compel a creature to obey a command; psychic punishment for disobedience.",
+    full:"A creature that understands you makes a Wisdom save. On a failure, it must follow your command for the duration; if it knowingly disobeys, it takes psychic damage (usually once per day). Upcasting increases duration.",
+    dice:"",rollLabel:""}),
+  S({id:"hold_monster",name:"Hold Monster",level:5,group:"lvl5",tags:["5th","Concentration"],school:"Enchantment",
+    castingTime:"1 action",range:"90 ft",components:"V,S,M",duration:"Conc, 1 minute",
+    summary:"Paralyse a creature; repeat save at end of each turn.",
+    full:"A creature makes a Wisdom save. On a failure it’s paralysed. At the end of each of its turns it repeats the save; on a success the spell ends. Upcasting can add targets.",
+    dice:"",rollLabel:""}),
+  S({id:"modify_memory",name:"Modify Memory",level:5,group:"lvl5",tags:["5th","Concentration"],school:"Enchantment",
+    castingTime:"1 action",range:"30 ft",components:"V,S",duration:"Conc, 1 minute",
+    summary:"Alter a creature’s memory of an event (Wis save).",
+    full:"A creature makes a Wisdom save. On a failure, you reshape its memory of a recent event within the spell’s limits (erase, alter, or implant details). Upcasting lets you affect older memories.",
+    dice:"",rollLabel:""}),
+  S({id:"telepathic_bond",name:"Rary’s Telepathic Bond",level:5,group:"lvl5",tags:["5th","Ritual"],school:"Divination",
+    castingTime:"1 action",range:"30 ft",components:"V,S,M",duration:"1 hour",
+    summary:"Telepathic link among up to 8 willing creatures.",
+    full:"Create a telepathic link among up to eight willing creatures within range. They can communicate mentally while on the same plane.",
+    dice:"",rollLabel:""}),
+  S({id:"skill_empowerment",name:"Skill Empowerment",level:5,group:"lvl5",tags:["5th","Concentration"],school:"Transmutation",
+    castingTime:"1 action",range:"Touch",components:"V,S",duration:"Conc, 1 hour",
+    summary:"Grant expertise in one skill the target is proficient in.",
+    full:"Touch a creature and choose one skill it’s proficient in. For the duration, it doubles its proficiency bonus for checks with that skill.",
+    dice:"",rollLabel:""}),
+  S({id:"telekinesis",name:"Telekinesis",level:5,group:"lvl5",tags:["5th","Concentration"],school:"Transmutation",
+    castingTime:"1 action",range:"60 ft",components:"V,S",duration:"Conc, 10 minutes",
+    summary:"Move creatures or objects via contests each round.",
+    full:"Use your action to move a creature or object within range by contesting your spellcasting ability against Strength checks. On success you can move it, hold it, or otherwise manipulate it within the spell’s rules.",
+    dice:"",rollLabel:""}),
+  S({id:"wall_of_force",name:"Wall of Force",level:5,group:"lvl5",tags:["5th","Concentration"],school:"Evocation",
+    castingTime:"1 action",range:"120 ft",components:"V,S,M",duration:"Conc, 10 minutes",
+    summary:"Invisible barrier immune to damage; Disintegrate can end it.",
+    full:"Create an invisible wall (panel or dome/sphere). It blocks creatures and most effects (table rulings apply). It’s immune to damage and can be destroyed by Disintegrate.",
+    dice:"",rollLabel:""}),
+  S({id:"wall_of_stone",name:"Wall of Stone",level:5,group:"lvl5",tags:["5th","Concentration"],school:"Evocation",
+    castingTime:"1 action",range:"120 ft",components:"V,S,M",duration:"Conc, 10 minutes",
+    summary:"Create stone panels; becomes permanent if concentration holds full duration.",
+    full:"Create stone panels to form a wall. If you maintain concentration for the full duration, the wall becomes permanent. The wall has HP/AC like stone and can be broken.",
+    dice:"",rollLabel:""}),
+
+  // 6th
+  S({id:"contingency",name:"Contingency",level:6,group:"lvl6",tags:["6th"],school:"Evocation",
+    castingTime:"10 minutes",range:"Self",components:"V,S,M",duration:"10 days",
+    summary:"Store a 5th-level-or-lower spell on yourself that triggers when a condition happens.",
+    full:"Store a spell of 5th level or lower that affects you, and set a trigger condition. When the trigger occurs, the stored spell takes effect immediately. Lasts up to 10 days or until triggered.",
+    dice:"",rollLabel:""}),
+  S({id:"disintegrate",name:"Disintegrate",level:6,group:"lvl6",tags:["6th"],school:"Transmutation",
+    castingTime:"1 action",range:"60 ft",components:"V,S,M",duration:"Instant",
+    summary:"Dex save for half; huge force damage; reduces to dust at 0 HP.",
+    full:"A ray targets a creature or object. It makes a Dexterity save; on a failure it takes heavy force damage, on success half. If it reduces a creature to 0 HP, the creature is disintegrated into dust. Also ends certain force effects.",
+    dice:"10d6+40",rollLabel:"Disintegrate damage"}),
+  S({id:"eyebite",name:"Eyebite",level:6,group:"lvl6",tags:["6th","Concentration"],school:"Necromancy",
+    castingTime:"1 action",range:"Self",components:"V,S",duration:"Conc, 1 minute",
+    summary:"Each turn, target a creature within 60 ft: panic, sickness, or sleep (Wis save).",
+    full:"For the duration, you can use your action each turn to target a creature you can see within 60 feet. It makes a Wisdom save or suffers one effect you choose (fright/panic, sickness, or sleep) for 1 round. You can choose a new target each turn.",
+    dice:"",rollLabel:""}),
+  S({id:"fizbans_platinum_shield",name:"Fizban’s Platinum Shield",level:6,group:"lvl6",tags:["6th","Concentration","Bonus Action"],school:"Abjuration",
+    castingTime:"1 bonus action",range:"60 ft",components:"V,S,M",duration:"Conc, 1 minute",
+    summary:"Protective shield you can move between allies (table wording applies).",
+    full:"Create a shimmering protective shield around a creature within range. It provides strong defensive benefits and can be moved to another creature as a bonus action on later turns. This card tracks slot use and casts; use your table’s exact printed wording for numeric bonuses.",
+    dice:"",rollLabel:""}),
+  S({id:"globe_invuln",name:"Globe of Invulnerability",level:6,group:"lvl6",tags:["6th","Concentration"],school:"Abjuration",
+    castingTime:"1 action",range:"Self (10-foot radius)",components:"V,S,M",duration:"Conc, 1 minute",
+    summary:"Barrier blocks 5th-level-or-lower spells cast from outside from affecting inside.",
+    full:"A 10-foot-radius barrier surrounds you and moves with you. Spells of 5th level or lower cast from outside can’t affect creatures or objects inside. Higher-level spells can.",
+    dice:"",rollLabel:""}),
+  S({id:"mental_prison",name:"Mental Prison",level:6,group:"lvl6",tags:["6th","Concentration"],school:"Illusion",
+    castingTime:"1 action",range:"60 ft",components:"S",duration:"Conc, 1 minute",
+    summary:"Int save or psychic damage and a restraint-like prison; moving/escaping triggers more damage.",
+    full:"A creature makes an Intelligence save. On a failure it takes psychic damage and is trapped in an illusory prison. If it moves or tries to escape, it takes additional psychic damage and the spell can end. Use your table’s exact version for edge details.",
+    dice:"5d10",rollLabel:"Mental Prison initial damage"}),
+  S({id:"ottos_dance",name:"Otto’s Irresistible Dance",level:6,group:"lvl6",tags:["6th","Concentration"],school:"Enchantment",
+    castingTime:"1 action",range:"30 ft",components:"V",duration:"Conc, 1 minute",
+    summary:"Force a creature to dance; imposes disadvantages and limits actions; can attempt to end.",
+    full:"A creature begins dancing involuntarily. It has disadvantage on Dex saves and attack rolls, and attacks against it have advantage. On its turn it must spend movement dancing and can use an action to attempt a save to end the effect.",
+    dice:"",rollLabel:""}),
+  S({id:"programmed_illusion",name:"Programmed Illusion",level:6,group:"lvl6",tags:["6th"],school:"Illusion",
+    castingTime:"1 action",range:"120 ft",components:"V,S,M",duration:"Until dispelled",
+    summary:"Create an illusion that triggers under conditions you set.",
+    full:"You create a complex illusion in an area and set trigger conditions and behaviour. It can include sound and other sensory detail within illusion limits. It persists until dispelled or until it triggers and completes (table rulings apply).",
+    dice:"",rollLabel:""}),
+  S({id:"true_seeing",name:"True Seeing",level:6,group:"lvl6",tags:["6th"],school:"Divination",
+    castingTime:"1 action",range:"Touch",components:"V,S,M",duration:"1 hour",
+    summary:"Grant truesight 120 ft; see invisible, illusions, shapechangers, and ethereal.",
+    full:"A creature you touch gains truesight out to 120 feet for the duration, allowing it to see invisible creatures, see through illusions, and perceive shapechangers and ethereal creatures appropriately.",
+    dice:"",rollLabel:""}),
+
+  // Ancient / custom
+  S({id:"chrono_reservoir",name:"Chrono Reservoir",level:1,group:"ancient",tags:["1st","Chronomancy","Ancient"],school:"Chronomancy",
+    castingTime:"1–10 hours",range:"Self",components:"V,S",duration:"Special",
+    summary:"Spend 1–10 hours; for each hour roll the matching die and gain that many time aspects; can’t create more until all are used.",
+    full:"You store time aspects within yourself by spending hours of your own time. For each hour spent, roll: 1h d1, 2h d2, 3h d3, 4h d4, 5h d5, 6h d6, 7h d7, 8h d8, 9h d9, 10h d10. Add that many time aspects. You can’t create more until your stored time aspects are all used.",
+    dice:"",rollLabel:""}),
+  S({id:"temporal_echo",name:"Temporal Echo",level:1,group:"ancient",tags:["1st","Chronomancy","Ancient"],school:"Chronomancy",
+    castingTime:"Instant",range:"60 ft",components:"V,S",duration:"Instant",
+    summary:"Spend time aspects for rerolls, freezing, halving actions, or storing a spell.",
+    full:"Spend stored time aspects to create one effect: (1) spend 1 to force one target in range to reroll an attack, damage, ability check, or saving throw (use the new roll). (2) spend 1 to reroll any roll you make (use the new roll). (3) spend 6 to attempt to freeze a target in time until end of its turn (target must fail a Con save vs your spell save DC). (4) spend 4 to halve the target’s actions until end of its turn (Con save vs your DC). (5) spend 10 to store one spell to be used by anyone at any time.",
+    dice:"",rollLabel:""}),
+  S({id:"ancient_warding",name:"Ancient Warding",level:0,group:"ancient",tags:["Ancient"],school:"Ancient Rune",
+    castingTime:"Varies",range:"Special",components:"V,S,M",duration:"Effectively permanent",
+    summary:"Ward a large space: blocks teleport-in, blocks divination targeting the area, blocks ethereal entry.",
+    full:"You inscribe a vast ward over a large space. Teleportation into the area fails; divination magic that targets the area automatically fails; ethereal creatures can’t enter. The ward is effectively permanent unless ended by extremely powerful magic (such as Wish) or an equivalent counter-ritual.",
+    dice:"",rollLabel:""}),
+  S({id:"rune_temporal_delay",name:"Rune of Temporal Delay",level:0,group:"ancient",tags:["Ancient"],school:"Ancient Rune",
+    castingTime:"1 action",range:"Special",components:"V,S",duration:"Special",
+    summary:"Delay a spell or magical effect resolving, buying a brief moment.",
+    full:"You weave a rune into the flow of time to cause a spell or magical effect to resolve later than intended, giving you a moment to reposition or prepare. The exact delay and eligible effects are table-defined.",
+    dice:"",rollLabel:""}),
+  S({id:"rune_spell_reversal",name:"Rune of Spell Reversal",level:0,group:"ancient",tags:["Ancient","Reaction"],school:"Ancient Rune",
+    castingTime:"1 reaction",range:"Self",components:"V,S",duration:"Instant",
+    summary:"Negate an incoming spell and potentially reflect it back at its source (table-defined).",
+    full:"A reactive rune negates an incoming spell and may redirect or reflect it toward its source depending on the spell’s power and your rune’s strength. Exact outcomes are table-defined.",
+    dice:"",rollLabel:""}),
+  S({id:"rune_severance",name:"Rune of Severance",level:0,group:"ancient",tags:["Ancient"],school:"Ancient Rune",
+    castingTime:"1 action",range:"Special",components:"V,S,M",duration:"Special",
+    summary:"Blocks teleportation and planar travel into/out of/through the warded space.",
+    full:"A severing field of runes blocks teleportation and planar travel into, out of, or through the warded space for the duration/conditions you set (table-defined).",
+    dice:"",rollLabel:""}),
+  S({id:"rune_record",name:"Rune of Record",level:0,group:"ancient",tags:["Ancient"],school:"Ancient Rune",
+    castingTime:"1 action",range:"Touch",components:"V,S",duration:"Instant",
+    summary:"Perfectly absorb the contents of an existing text into memory.",
+    full:"By touching an existing text, you draw its contents into your mind as a perfect record, allowing rapid acquisition of lost scholarship. Limits (volume/complexity) are table-defined.",
+    dice:"",rollLabel:""}),
+  S({id:"bond_item",name:"Bond Item",level:0,group:"ancient",tags:["Ancient"],school:"Ancient Spell",
+    castingTime:"1 action",range:"Touch",components:"V,S",duration:"Until dispelled",
+    summary:"Bond a small object into extradimensional storage; retrieve it instantly later.",
+    full:"You bond to a small object and store it in an extradimensional space. You can later retrieve it instantly by recasting or invoking the bond (table-defined). Limits on number/size are table-defined.",
+    dice:"",rollLabel:""}),
+];
+
+base.spells.list = spells;
+let state = deep(base);
+
+/* Load */
+try{
+  const raw=localStorage.getItem(KEY);
+  if(raw){
+    const parsed=JSON.parse(raw);
+    if(parsed && parsed.fields && parsed.spells) state=parsed;
+  }
+}catch(e){}
+
+/* Theme */
+function applyTheme(){
+  const t=state.meta?.theme||"violet";
+  document.documentElement.style.setProperty("--a", t==="crimson" ? "#ff4d6d" : t==="teal" ? "#19d3d3" : "#8f5bff");
+}
+document.querySelectorAll(".themeBtn").forEach(b=>{
+  b.addEventListener("click",()=>{
+    state.meta.theme=b.getAttribute("data-theme");
+    applyTheme();
+    saveSoon();
+  });
+});
+
+/* Tabs */
+const tabs=[["tSheet","tabSheet"],["tSpells","tabSpells"],["tFam","tabFamiliar"],["tInv","tabInventory"],["tNotes","tabNotes"]];
+function activate(panel){
+  for(const [btn,p] of tabs){
+    document.getElementById(btn).setAttribute("aria-selected", p===panel ? "true":"false");
+    document.getElementById(p).classList.toggle("active", p===panel);
+  }
+}
+tabs.forEach(([btn,p])=>document.getElementById(btn).addEventListener("click",()=>activate(p)));
+
+/* Bind editable fields (ability scores are not editable) */
+document.querySelectorAll("[data-k]").forEach(el=>{
+  const k=el.getAttribute("data-k");
+  if(!(k in state.fields)) return;
+  if(el.tagName==="INPUT") el.value=state.fields[k] ?? "";
+  else el.textContent=state.fields[k] ?? "";
+  const handler=()=>{
+    if(el.tagName==="INPUT"){
+      state.fields[k] = el.type==="number" ? Number(el.value) : el.value;
+    }else state.fields[k]=el.textContent;
+    if(k.startsWith("hp")) updateHP();
+    if(k==="dc"||k==="spellAtk") updateSpellHeader();
+    saveSoon();
+  };
+  if(el.tagName==="INPUT"){ el.addEventListener("input",handler); el.addEventListener("change",handler); }
+  else{ el.addEventListener("input",handler); el.addEventListener("blur",handler); }
+});
+
+/* HP bar */
+function updateHP(){
+  const cur=Number(state.fields.hpCur||0);
+  const max=Math.max(1,Number(state.fields.hpMax||1));
+  const temp=Math.max(0,Number(state.fields.hpTemp||0));
+  const curC=clamp(cur,0,max);
+  if(curC!==cur){ state.fields.hpCur=curC; document.getElementById("hpCur").value=curC; }
+  const pct=Math.round(curC/max*100);
+  document.getElementById("hpFill").style.width=pct+"%";
+  document.getElementById("hpPct").textContent=pct+"%";
+  document.getElementById("hpLine").textContent=`${curC}/${max}`;
+  document.getElementById("hpTempLine").textContent=`(+${temp} temp)`;
+  document.getElementById("hpState").textContent = (curC===0)?"Down":(pct<=25)?"Rough":(pct<=50)?"Hurt":"Fine";
+  if(pct<=25){ document.getElementById("hpFill").style.background=`linear-gradient(90deg,var(--bad),rgba(255,107,107,.75))`; }
+  else if(pct<=50){ document.getElementById("hpFill").style.background=`linear-gradient(90deg,var(--warn),rgba(255,204,102,.75))`; }
+  else{ document.getElementById("hpFill").style.background=`linear-gradient(90deg,var(--good),rgba(80,227,164,.78))`; }
+}
+updateHP();
+
+/* Dice popup + log */
+function showPopup({title,total,detail,hint,tone}){
+  const card=document.getElementById("popCard");
+  card.dataset.tone=tone||"normal";
+  document.getElementById("popTitle").textContent=title||"Roll";
+  document.getElementById("popNum").textContent=total??"—";
+  document.getElementById("popDetail").textContent=detail||"";
+  document.getElementById("popHint").textContent=hint||"";
+  card.classList.add("on");
+  clearTimeout(showPopup._t);
+  showPopup._t=setTimeout(()=>card.classList.remove("on"),1400);
+}
+function addLog(line){
+  const stamp=new Date().toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
+  state.ui.rollLog.unshift(`[${stamp}] ${line}`);
+  state.ui.rollLog=state.ui.rollLog.slice(0,80);
+  document.getElementById("rollLog").textContent=state.ui.rollLog.join("\n");
+  saveSoon();
+}
+
+/* Roll helpers */
+function parseExpr(expr){
+  const s=(expr||"").replace(/\s+/g,"").toLowerCase();
+  if(!s||!/^[0-9d+\-]+$/.test(s)) return null;
+  const tokens=[]; let cur="";
+  for(let i=0;i<s.length;i++){
+    const c=s[i];
+    if((c==="+"||c==="-") && i!==0){ tokens.push(cur); cur=c; } else cur+=c;
+  }
+  if(cur) tokens.push(cur);
+  const parts=tokens.map(t=>{
+    const sign=t[0]==="-"?-1:1;
+    const x=(t[0]==="+"||t[0]==="-")?t.slice(1):t;
+    if(x.includes("d")){
+      const [a,b]=x.split("d");
+      const n=a===""?1:Number(a); const sides=Number(b);
+      if(!Number.isFinite(n)||!Number.isFinite(sides)||n<=0||sides<=0) return null;
+      return {type:"dice",sign,n,sides};
+    }else{
+      const k=Number(x);
+      if(!Number.isFinite(k)) return null;
+      return {type:"flat",sign,k};
+    }
+  });
+  if(parts.some(p=>p===null)) return null;
+  return parts;
+}
+async function rollAnim(label, fn){
+  document.getElementById("animLeft").textContent=label;
+  const start=performance.now(), dur=850;
+  const tick=()=>{
+    const p=(performance.now()-start)/dur;
+    document.getElementById("animNum").textContent=String(rand(1,20));
+    if(p<1) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+  await new Promise(r=>setTimeout(r,dur));
+  const res=fn();
+  document.getElementById("animNum").textContent=String(res.total);
+  document.getElementById("animRight").textContent=res.detail||"";
+  addLog(res.logLine);
+  const tone=(res.nat===20)?"green":(res.nat===1)?"red":"normal";
+  showPopup({title:res.popupTitle||label,total:res.total,detail:res.detail||"",hint:res.popupHint||"",tone});
+  return res;
+}
+function rollExpr(title, expr, hint){
+  const parts=parseExpr(expr);
+  if(!parts){ showPopup({title:"Invalid roll",total:"—",detail:expr,hint:"Use 8d6 or 3d10+5",tone:"normal"}); return; }
+  return rollAnim(title, ()=>{
+    let total=0; const chunks=[]; let nat=null;
+    for(const p of parts){
+      if(p.type==="flat"){ total+=p.sign*p.k; chunks.push(`${p.sign===1?"+":"-"}${p.k}`); }
+      else{
+        const rolls=Array.from({length:p.n},()=>rand(1,p.sides));
+        const sum=rolls.reduce((a,b)=>a+b,0);
+        total+=p.sign*sum;
+        chunks.push(`${p.sign===1?"+":"-"}${p.n}d${p.sides}(${rolls.join(",")})=${sum}`);
+        if(p.sides===20 && p.n===1 && nat===null) nat=rolls[0];
+        else if(nat!==null && (p.sides!==20 || p.n!==1)) nat=null;
+      }
+    }
+    const detail=chunks.join(" ").replace(/^\+/,"").trim();
+    return {nat,total,detail,popupTitle:title,popupHint:hint||"",logLine:`${title}: ${expr} = ${total} (${detail})`};
+  });
+}
+function rollD20(title, bonus, hint, mode="normal"){
+  const b=Number(String(bonus).replace("+",""))||0;
+  return rollAnim(title, ()=>{
+    const r1=rand(1,20), r2=rand(1,20);
+    let nat=r1, detailCore=`${r1}`;
+    if(mode==="adv"){ nat=Math.max(r1,r2); detailCore=`${r1},${r2} (adv)`; }
+    if(mode==="dis"){ nat=Math.min(r1,r2); detailCore=`${r1},${r2} (dis)`; }
+    const total=nat+b;
+    const detail=`${detailCore}${b?(b>=0?` + ${b}`:` - ${Math.abs(b)}`):""}`.trim();
+    return {nat,total,detail,popupTitle:title,popupHint:hint||"",logLine:`${title}: d20${mode==="adv"?"(adv)":mode==="dis"?"(dis)":""}${b?(b>=0?`+${b}`:`${b}`):""} = ${total} (${detail})`};
+  });
+}
+
+/* Dice drawer */
+const drawer=document.getElementById("drawer");
+const overlay=document.getElementById("drawerOverlay");
+document.getElementById("diceFab").addEventListener("click",()=>{drawer.classList.add("on");overlay.classList.add("on");});
+document.getElementById("drawerClose").addEventListener("click",()=>{drawer.classList.remove("on");overlay.classList.remove("on");});
+overlay.addEventListener("click",()=>{drawer.classList.remove("on");overlay.classList.remove("on");});
+document.addEventListener("keydown",(e)=>{ if(e.key==="Escape"){drawer.classList.remove("on");overlay.classList.remove("on"); closeEdit(); } });
+
+document.getElementById("rollLog").textContent=(state.ui.rollLog||[]).join("\n");
+let selectedDie=20;
+document.querySelectorAll("[data-die]").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    selectedDie=Number(btn.getAttribute("data-die"));
+    const mod=Number((document.getElementById("mod").value||"0").replace("+",""))||0;
+    rollAnim(`d${selectedDie}`, ()=>{
+      const nat=rand(1,selectedDie);
+      const total=nat+mod;
+      const detail=`${nat}${mod?(mod>=0?` + ${mod}`:` - ${Math.abs(mod)}`):""}`.trim();
+      return {nat:(selectedDie===20?nat:null),total,detail,popupTitle:`d${selectedDie}`,popupHint:mod?`Modifier ${modStr(mod)}`:"",logLine:`d${selectedDie}${mod?(mod>=0?`+${mod}`:`${mod}`):""} = ${total} (${detail})`};
+    });
+  });
+});
+document.getElementById("rollBtn").addEventListener("click",()=>document.querySelector(`[data-die="${selectedDie}"]`)?.click());
+document.getElementById("exprBtn").addEventListener("click",()=>rollExpr("Expression", document.getElementById("expr").value, ""));
+document.getElementById("expr").addEventListener("keydown",(e)=>{ if(e.key==="Enter") document.getElementById("exprBtn").click(); });
+
+/* Ability + skills math */
+const abilMod=(k)=>state.abilities.find(a=>a.key===k)?.mod||0;
+const saveBonus=(k)=>abilMod(k)+(state.saves[k]?.prof?state.proficiencyBonus:0);
+const skillBonus=(s)=>abilMod(s.abil)+(s.prof?state.proficiencyBonus:0)+(s.expertise?state.proficiencyBonus:0);
+
+/* Render abilities with saves underneath */
+function renderAbilities(){
+  const grid=document.getElementById("abilityGrid");
+  grid.innerHTML="";
+  for(const a of state.abilities){
+    const sb=saveBonus(a.key);
+    const isPro=!!state.saves[a.key]?.prof;
+    const el=document.createElement("div");
+    el.className="stat";
+    el.innerHTML=`
+      <div class="main" data-abil="${a.key}">
+        <div class="top"><div class="name">${a.name}</div><div class="mod">${modStr(a.mod)}</div></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+          <div class="score">${a.score}</div><div class="hint">Check</div>
+        </div>
+      </div>
+      <div class="saveLine" data-save="${a.key}">
+        <div class="lbl">Save</div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="proBadge ${isPro?"on":""}">${isPro?"PRO":""}</span>
+          <span style="font-family:var(--mono);font-weight:900">${modStr(sb)}</span>
+        </div>
+      </div>
+    `;
+    el.querySelector(`[data-abil="${a.key}"]`).addEventListener("click",()=>rollD20(`${a.name} check`, a.mod, `Modifier ${modStr(a.mod)}`));
+    el.querySelector(`[data-save="${a.key}"]`).addEventListener("click",()=>rollD20(`${a.name} save`, sb, isPro?"Proficient save":"Not proficient"));
+    grid.appendChild(el);
+  }
+}
+renderAbilities();
+
+/* Render skills (clickable) + passives */
+function renderSkills(){
+  const grid=document.getElementById("skillGrid");
+  grid.innerHTML="";
+  const skills=[...state.skills].sort((a,b)=>a.name.localeCompare(b.name));
+  for(const s of skills){
+    const b=skillBonus(s);
+    const badge = s.expertise ? `<span class="proBadge x2">x2</span>` : `<span class="proBadge ${s.prof?"on":""}">${s.prof?"PRO":""}</span>`;
+    const el=document.createElement("div");
+    el.className="skill";
+    el.innerHTML=`
+      <div style="display:flex;gap:10px;align-items:center;min-width:0">
+        <div class="nm">${esc(s.name)}</div>
+        <div class="ab">(${s.abil.toUpperCase()})</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        ${badge}
+        <span class="bonus">${modStr(b)}</span>
+      </div>
+    `;
+    const hintParts=[`${s.abil.toUpperCase()} ${modStr(abilMod(s.abil))}`];
+    if(s.prof) hintParts.push(`+ prof ${state.proficiencyBonus}`);
+    if(s.expertise) hintParts.push(`+ prof ${state.proficiencyBonus} (Forgotten Lore)`);
+    el.addEventListener("click",()=>rollD20(`${s.name}`, b, hintParts.join(" ")));
+    grid.appendChild(el);
+  }
+  const per=skills.find(x=>x.id==="perception");
+  const ins=skills.find(x=>x.id==="insight");
+  document.getElementById("passPer").textContent=String(10+(per?skillBonus(per):abilMod("wis")));
+  document.getElementById("passIns").textContent=String(10+(ins?skillBonus(ins):abilMod("wis")));
+}
+renderSkills();
+
+/* Render attacks */
+function renderAttacks(){
+  const list=document.getElementById("attackList");
+  list.innerHTML="";
+  state.attacks.forEach(atk=>{
+    const row=document.createElement("div");
+    row.className="kv";
+    row.style.cursor="pointer";
+    row.innerHTML=`
+      <div style="display:grid;gap:4px">
+        <div class="k">${esc(atk.name)}</div>
+        <div class="hint">${esc(atk.notes||"")}</div>
+      </div>
+      <div style="text-align:right;display:grid;gap:4px">
+        <div class="v">${esc(atk.bonus||"")}</div>
+        <div class="hint">${esc(atk.dmg||"")}</div>
+      </div>
+    `;
+    row.addEventListener("click", async ()=>{
+      if(atk.name==="Mind Sliver"){
+        showPopup({title:"Mind Sliver",total:"DC 19",detail:"Target makes Int save",hint:"Roll damage if they fail."});
+        await rollExpr("Mind Sliver damage", "3d6", "");
+        return;
+      }
+      const b=Number(String(atk.bonus||"+0").replace("+",""))||0;
+      if(atk.bonus) await rollD20(`${atk.name} attack`, b, `Attack bonus ${modStr(b)}`);
+      if(atk.dmg) await rollExpr(`${atk.name} damage`, atk.dmg, "");
+    });
+    list.appendChild(row);
+  });
+}
+renderAttacks();
+
+/* Traits list */
+function updateRodUI(){
+  const a=document.getElementById("rodRebukeState"), b=document.getElementById("rodMaxState");
+  if(a){ a.textContent=state.resources.rodRebukeUsed?"Used":"Ready"; a.classList.toggle("on", !state.resources.rodRebukeUsed); }
+  if(b){ b.textContent=state.resources.rodMaxUsed?"Used":"Ready"; b.classList.toggle("on", !state.resources.rodMaxUsed); }
+}
+function renderTraits(){
+  const list=document.getElementById("traitList");
+  list.innerHTML="";
+  state.traitCards.forEach(t=>{
+    const row=document.createElement("div");
+    row.className="kv";
+    row.style.cursor="pointer";
+    row.innerHTML=`<div style="display:grid;gap:4px"><div class="k">${esc(t.title)}</div><div class="hint">${esc(t.text)}</div></div><div class="v">Click</div>`;
+    row.addEventListener("click",()=>{
+      if(t.kind==="rod"){
+        if(state.resources.rodRebukeUsed){
+          showPopup({title:"Rod: Hellish Rebuke",total:"Used",detail:"Already used today.",hint:"Reset daily in Core."});
+          return;
+        }
+        state.resources.rodRebukeUsed=true; updateRodUI(); saveSoon();
+        showPopup({title:"Rod: Hellish Rebuke",total:"✓",detail:"Marked used for today.",hint:"DC 16; cast as 4th-level."});
+        return;
+      }
+      showPopup({title:t.title,total:"✓",detail:"Reminder",hint:""});
+    });
+    list.appendChild(row);
+  });
+}
+renderTraits();
+updateRodUI();
+
+/* Core resources buttons */
+function renderRes(){
+  document.getElementById("spNum").textContent=String(state.resources.sorcery||0);
+  document.getElementById("taNum").textContent=String(state.resources.timeAspects||0);
+  updateRodUI();
+}
+document.getElementById("spDown").addEventListener("click",()=>{state.resources.sorcery=clamp((state.resources.sorcery||0)-1,0,state.resources.sorceryMax);renderRes();saveSoon();});
+document.getElementById("spUp").addEventListener("click",()=>{state.resources.sorcery=clamp((state.resources.sorcery||0)+1,0,state.resources.sorceryMax);renderRes();saveSoon();});
+document.getElementById("spReset").addEventListener("click",()=>{state.resources.sorcery=state.resources.sorceryMax;renderRes();saveSoon();});
+document.getElementById("taDown").addEventListener("click",()=>{state.resources.timeAspects=clamp((state.resources.timeAspects||0)-1,0,state.resources.timeAspectsMax);renderRes();saveSoon();});
+document.getElementById("taUp").addEventListener("click",()=>{state.resources.timeAspects=clamp((state.resources.timeAspects||0)+1,0,state.resources.timeAspectsMax);renderRes();saveSoon();});
+document.getElementById("taReset").addEventListener("click",()=>{state.resources.timeAspects=0;renderRes();saveSoon();});
+document.getElementById("rodRebuke").addEventListener("click",()=>{state.resources.rodRebukeUsed=true;renderRes();saveSoon();});
+document.getElementById("rodMax").addEventListener("click",()=>{state.resources.rodMaxUsed=true;renderRes();saveSoon();});
+document.getElementById("rodReset").addEventListener("click",()=>{state.resources.rodRebukeUsed=false;state.resources.rodMaxUsed=false;renderRes();saveSoon();});
+renderRes();
+
+/* Spells header */
+function updateSpellHeader(){
+  document.getElementById("spellMod").textContent=modStr(abilMod("int"));
+  document.getElementById("spellDC").textContent=String(Number(state.fields.dc||19));
+  document.getElementById("spellAtkTop").textContent=String(state.fields.spellAtk||"+11");
+}
+updateSpellHeader();
+
+/* Slots */
+function setRemain(level,n){
+  const s=state.spells.slots[level];
+  const remain=clamp(n,0,s.max);
+  s.dots=Array.from({length:s.max},(_,i)=>i<remain);
+  s.remain=remain;
+  renderSlots();
+  saveSoon();
+}
+function useSlot(level){
+  const s=state.spells.slots[level];
+  if(!s||s.remain<=0){
+    showPopup({title:"No slots left",total:"—",detail:`Out of level ${level} slots.`,hint:""});
+    return false;
+  }
+  setRemain(level, s.remain-1);
+  return true;
+}
+function renderSlots(){
+  const stack=document.getElementById("slotsStack");
+  stack.innerHTML="";
+  const levels=Object.keys(state.spells.slots).map(Number).sort((a,b)=>a-b);
+  for(const lvl of levels){
+    const s=state.spells.slots[lvl];
+    s.dots=(s.dots||[]).slice(0,s.max);
+    while(s.dots.length<s.max) s.dots.push(true);
+    s.remain=s.dots.filter(Boolean).length;
+
+    const box=document.createElement("div");
+    box.className="slots";
+    box.innerHTML=`
+      <div style="font-weight:900">Level ${lvl} slots</div>
+      <div class="slotDots" id="dots_${lvl}"></div>
+      <div style="flex:1"></div>
+      <div class="stepper">
+        <button class="btn small" data-down="${lvl}">-</button>
+        <div class="num" id="num_${lvl}">${s.remain}</div>
+        <button class="btn small" data-up="${lvl}">+</button>
+      </div>
+      <button class="btn small" data-reset="${lvl}">Reset</button>
+    `;
+    stack.appendChild(box);
+    const dotsEl=box.querySelector(`#dots_${lvl}`);
+    for(let i=0;i<s.max;i++){
+      const d=document.createElement("div");
+      d.className="slotDot "+(s.dots[i]?"available":"used");
+      d.addEventListener("click",()=>{ s.dots[i]=!s.dots[i]; s.remain=s.dots.filter(Boolean).length; renderSlots(); saveSoon(); });
+      dotsEl.appendChild(d);
+    }
+    box.querySelector(`[data-up="${lvl}"]`).addEventListener("click",()=>setRemain(lvl, s.remain+1));
+    box.querySelector(`[data-down="${lvl}"]`).addEventListener("click",()=>setRemain(lvl, s.remain-1));
+    box.querySelector(`[data-reset="${lvl}"]`).addEventListener("click",()=>setRemain(lvl, s.max));
+  }
+}
+renderSlots();
+
+/* Spell cards */
+function spellCard(sp){
+  const card=document.createElement("div");
+  card.className="spellCard";
+  const tags=(sp.tags||[]).map(t=>`<span class="tag">${esc(t)}</span>`).join("");
+  const lvlLabel = sp.level===0 ? "Cantrip" : `${sp.level}${sp.level===1?"st":sp.level===2?"nd":sp.level===3?"rd":"th"} level`;
+  card.innerHTML=`
+    <div class="spellTop">
+      <div>
+        <div class="spellName">${esc(sp.name)}</div>
+        <div class="tagRow">${tags}</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end">
+        <button class="btn small primary" data-cast="${sp.id}">Cast</button>
+      </div>
+    </div>
+    <details>
+      <summary>Spell details</summary>
+      <div class="spellBody">
+        <div><span class="lbl">Level:</span> ${lvlLabel}</div>
+        <div><span class="lbl">School:</span> ${esc(sp.school||"")}</div>
+        <div><span class="lbl">Casting Time:</span> ${esc(sp.castingTime||"")}</div>
+        <div><span class="lbl">Range:</span> ${esc(sp.range||"")}</div>
+        <div><span class="lbl">Components:</span> ${esc(sp.components||"")}</div>
+        <div><span class="lbl">Duration:</span> ${esc(sp.duration||"")}</div>
+        <div style="margin-top:10px"><span class="lbl">Short:</span> ${esc(sp.summary||"")}</div>
+        <div style="margin-top:10px"><span class="lbl">Full description:</span></div>
+        <div style="margin-top:6px">${esc(sp.full||"")}</div>
+      </div>
+    </details>
+  `;
+  return card;
+}
+function renderSpells(){
+  const by=(g)=>state.spells.list.filter(s=>s.group===g);
+  const mount=(id,arr)=>{
+    const el=document.getElementById(id); el.innerHTML="";
+    arr.forEach(sp=>el.appendChild(spellCard(sp)));
+  };
+  mount("cantripGrid", by("cantrip"));
+  mount("lvl1Grid", by("lvl1"));
+  mount("lvl2Grid", by("lvl2"));
+  mount("lvl3Grid", by("lvl3"));
+  mount("lvl4Grid", by("lvl4"));
+  mount("lvl5Grid", by("lvl5"));
+  mount("lvl6Grid", by("lvl6"));
+  mount("ancientGrid", by("ancient"));
+
+  document.querySelectorAll("[data-cast]").forEach(btn=>{
+    btn.addEventListener("click", async ()=>{
+      const id=btn.getAttribute("data-cast");
+      const sp=state.spells.list.find(s=>s.id===id);
+      if(!sp) return;
+
+      if(sp.group==="ancient"){
+        if(sp.id==="temporal_echo"){
+          showPopup({title:"Temporal Echo",total:`TA ${state.resources.timeAspects||0}`,detail:"Spend time aspects (1 / 4 / 6 / 10).",hint:"Use Core tracker."});
+          return;
+        }
+        if(sp.id==="chrono_reservoir"){
+          showPopup({title:"Chrono Reservoir",total:"—",detail:"Pick hours; roll matching die; gain time aspects.",hint:"Use dice roller + Core tracker."});
+          return;
+        }
+        showPopup({title:`Cast ${sp.name}`,total:"✓",detail:"Ancient spell (no slot tracker used).",hint:""});
+        return;
+      }
+
+      if(sp.level>0){
+        const ok=useSlot(sp.level);
+        if(!ok) return;
+      }
+
+      if(sp.dice){
+        await rollExpr(sp.rollLabel||`Cast ${sp.name}`, sp.dice, `Spell: ${sp.name}`);
+      }else{
+        showPopup({title:`Cast ${sp.name}`,total:"✓",detail:sp.level>0?`Slot used (level ${sp.level}).`:"No slot used.",hint:""});
+      }
+    });
+  });
+}
+renderSpells();
+
+/* Inventory (with themed edit popup) */
+const invCats=["Weapons","Gear","Consumables","Misc"];
+function renderInventory(){
+  const cols=document.getElementById("invCols");
+  cols.innerHTML="";
+  for(const cat of invCats){
+    const col=document.createElement("div");
+    col.className="invCol";
+    col.innerHTML=`<h3>${cat} <span class="small" id="count_${cat}"></span></h3><div class="dropZone" style="min-height:140px"></div>`;
+    const zone=col.querySelector(".dropZone");
+    zone.addEventListener("dragover",(e)=>{e.preventDefault(); zone.style.outline="2px dashed rgba(255,255,255,.22)"; zone.style.borderRadius="14px";});
+    zone.addEventListener("dragleave",()=>{zone.style.outline="none";});
+    zone.addEventListener("drop",(e)=>{
+      e.preventDefault(); zone.style.outline="none";
+      const id=e.dataTransfer.getData("text/plain");
+      const item=state.inventory.items.find(x=>x.id===id);
+      if(!item) return;
+      item.cat=cat;
+      renderInventory();
+      saveSoon();
+    });
+
+    const items=state.inventory.items.filter(i=>i.cat===cat);
+    col.querySelector(`#count_${cat}`).textContent = items.length ? `(${items.length})` : "";
+    for(const item of items){
+      const it=document.createElement("div");
+      it.className="invItem";
+      it.draggable=true;
+      it.addEventListener("dragstart",(e)=>e.dataTransfer.setData("text/plain", item.id));
+      it.addEventListener("click",()=>openEdit(item.id));
+      it.addEventListener("contextmenu",(e)=>{e.preventDefault(); openEdit(item.id,true);});
+
+      const isWeapon=(cat==="Weapons");
+      it.innerHTML=`
+        <div class="name">${esc(item.name)}</div>
+        <div class="meta"><span>Qty: <b>${item.qty}</b></span><span>${esc(item.note||"")}</span></div>
+        ${isWeapon?`<div class="actions">
+          <button class="btn small" data-watk="${item.id}">Attack ${esc(item.atk||"")}</button>
+          <button class="btn small" data-wdmg="${item.id}">Damage ${esc(item.dmg||"")}</button>
+        </div>`:""}
+      `;
+      zone.appendChild(it);
+    }
+    cols.appendChild(col);
+  }
+
+  document.querySelectorAll("[data-watk]").forEach(btn=>{
+    btn.addEventListener("click",(e)=>{
+      e.stopPropagation();
+      const id=btn.getAttribute("data-watk");
+      const item=state.inventory.items.find(x=>x.id===id);
+      if(!item) return;
+      const b=Number(String(item.atk||"+0").replace("+",""))||0;
+      rollD20(`${item.name} attack`, b, `Attack bonus ${modStr(b)}`);
+    });
+  });
+  document.querySelectorAll("[data-wdmg]").forEach(btn=>{
+    btn.addEventListener("click",(e)=>{
+      e.stopPropagation();
+      const id=btn.getAttribute("data-wdmg");
+      const item=state.inventory.items.find(x=>x.id===id);
+      if(!item) return;
+      if(!item.dmg){ showPopup({title:"No damage set",total:"—",detail:item.name,hint:"Edit the weapon to add damage."}); return; }
+      rollExpr(`${item.name} damage`, item.dmg, "");
+    });
+  });
+}
+renderInventory();
+
+const weaponFields=document.getElementById("weaponFields");
+document.getElementById("itemCat").addEventListener("change",()=>{
+  weaponFields.style.display = document.getElementById("itemCat").value==="Weapons" ? "block":"none";
+});
+document.getElementById("itemCat").dispatchEvent(new Event("change"));
+
+document.getElementById("addItem").addEventListener("click",()=>{
+  const name=document.getElementById("itemName").value.trim();
+  if(!name){ showPopup({title:"Name needed",total:"—",detail:"",hint:""}); return; }
+  const qty=Math.max(1, Number(document.getElementById("itemQty").value)||1);
+  const cat=document.getElementById("itemCat").value;
+  const note=document.getElementById("itemNote").value.trim();
+  const id="i"+Math.random().toString(16).slice(2);
+  const item={id,name,qty,note,cat};
+  if(cat==="Weapons"){
+    item.atk=(document.getElementById("weapAtk").value.trim()||"+0");
+    item.dmg=(document.getElementById("weapDmg").value.trim()||"");
+  }
+  state.inventory.items.unshift(item);
+  document.getElementById("itemName").value="";
+  document.getElementById("itemNote").value="";
+  document.getElementById("weapAtk").value="";
+  document.getElementById("weapDmg").value="";
+  renderInventory();
+  saveSoon();
+});
+document.getElementById("clearItems").addEventListener("click",()=>{
+  if(!confirm("Clear all inventory items?")) return;
+  state.inventory.items=[];
+  renderInventory();
+  saveSoon();
+});
+
+/* Edit modal */
+let editId=null;
+function openEdit(id, focusDelete=false){
+  const item=state.inventory.items.find(x=>x.id===id); if(!item) return;
+  editId=id;
+  document.getElementById("editTitle").textContent=`Edit: ${item.name}`;
+  document.getElementById("editName").value=item.name;
+  document.getElementById("editQty").value=item.qty;
+  document.getElementById("editCat").value=item.cat;
+  document.getElementById("editNote").value=item.note||"";
+  document.getElementById("editWeaponFields").style.display = item.cat==="Weapons" ? "block":"none";
+  document.getElementById("editAtk").value=item.atk||"+0";
+  document.getElementById("editDmg").value=item.dmg||"";
+  document.getElementById("modalOverlay").classList.add("on");
+  document.getElementById("editModal").classList.add("on");
+  setTimeout(()=> (focusDelete?document.getElementById("editDelete"):document.getElementById("editName")).focus(), 40);
+}
+function closeEdit(){
+  document.getElementById("modalOverlay").classList.remove("on");
+  document.getElementById("editModal").classList.remove("on");
+  editId=null;
+}
+document.getElementById("modalOverlay").addEventListener("click",closeEdit);
+document.getElementById("editClose").addEventListener("click",closeEdit);
+document.getElementById("editCancel").addEventListener("click",closeEdit);
+document.getElementById("editCat").addEventListener("change",()=>{
+  document.getElementById("editWeaponFields").style.display = document.getElementById("editCat").value==="Weapons" ? "block":"none";
+});
+document.getElementById("editSave").addEventListener("click",()=>{
+  if(!editId) return;
+  const item=state.inventory.items.find(x=>x.id===editId); if(!item) return;
+  const name=document.getElementById("editName").value.trim();
+  const qty=Math.max(1, Number(document.getElementById("editQty").value)||1);
+  const cat=document.getElementById("editCat").value;
+  const note=document.getElementById("editNote").value.trim();
+  item.name=name||item.name; item.qty=qty; item.cat=cat; item.note=note;
+  if(cat==="Weapons"){
+    item.atk=(document.getElementById("editAtk").value.trim()||"+0");
+    item.dmg=(document.getElementById("editDmg").value.trim()||"");
+  }else{
+    delete item.atk; delete item.dmg;
+  }
+  renderInventory(); saveSoon(); closeEdit();
+});
+document.getElementById("editDelete").addEventListener("click",()=>{
+  if(!editId) return;
+  const item=state.inventory.items.find(x=>x.id===editId); if(!item) return;
+  if(!confirm(`Delete "${item.name}"?`)) return;
+  state.inventory.items=state.inventory.items.filter(x=>x.id!==editId);
+  renderInventory(); saveSoon(); closeEdit();
+});
+
+/* Notes (with add boxes) */
+function renderNotes(){
+  const grid=document.getElementById("notesGrid");
+  grid.innerHTML="";
+  const built=state.notes.builtIn.map(n=>({custom:false,...n,text:state.fields[n.key]||""}));
+  const all=[...built, ...state.notes.custom.map(n=>({custom:true,...n}))];
+  for(const n of all){
+    const card=document.createElement("div");
+    card.className="noteCard";
+    card.innerHTML=`
+      <div class="noteCardHead">
+        <div style="font-weight:900">${esc(n.title)}</div>
+        ${n.custom?`<button class="btn small" data-del="${n.id}">Delete</button>`:""}
+      </div>
+      <textarea data-id="${n.id}" placeholder="Write here..."></textarea>
+    `;
+    const ta=card.querySelector("textarea");
+    ta.value=n.text||"";
+    ta.addEventListener("input",()=>{
+      if(n.custom){
+        const ref=state.notes.custom.find(x=>x.id===n.id); if(ref) ref.text=ta.value;
+      }else{
+        state.fields[n.key]=ta.value;
+      }
+      saveSoon();
+    });
+    const del=card.querySelector("[data-del]");
+    if(del){
+      del.addEventListener("click",()=>{
+        if(!confirm("Delete this note box?")) return;
+        state.notes.custom=state.notes.custom.filter(x=>x.id!==n.id);
+        renderNotes(); saveSoon();
+      });
+    }
+    grid.appendChild(card);
+  }
+}
+renderNotes();
+document.getElementById("addNoteBox").addEventListener("click",()=>{
+  const title=prompt("New note box name:");
+  if(!title) return;
+  state.notes.custom.unshift({id:"n"+Math.random().toString(16).slice(2), title:title.trim(), text:""});
+  renderNotes(); saveSoon();
+});
+
+/* Familiar tab */
+function renderFamiliars(){
+  const grid=document.getElementById("familiarGrid");
+  grid.innerHTML="";
+  for(const f of state.familiars){
+    const card=document.createElement("div");
+    card.className="statBlock";
+    card.innerHTML=`
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px">
+        <div style="font-weight:950;font-size:14px">${esc(f.name)}</div>
+        <div class="hint">${esc(f.sizeType)}</div>
+      </div>
+      <details>
+        <summary>Show full stats</summary>
+        <div class="blockLine"><span class="lbl">AC:</span> ${esc(f.ac)}</div>
+        <div class="blockLine"><span class="lbl">HP:</span> ${esc(f.hp)}</div>
+        <div class="blockLine"><span class="lbl">Speed:</span> ${esc(f.speed)}</div>
+        <div class="blockLine"><span class="lbl">Stats:</span> ${esc(f.stats)}</div>
+        ${f.skills?`<div class="blockLine"><span class="lbl">Skills:</span> ${esc(f.skills)}</div>`:""}
+        <div class="blockLine"><span class="lbl">Senses:</span> ${esc(f.senses)}</div>
+        ${f.traits?.length?`<div class="blockLine"><span class="lbl">Traits:</span></div>
+          <ul style="margin:6px 0 0 18px;padding:0;color:rgba(255,255,255,.84)">${f.traits.map(t=>`<li><b>${esc(t[0])}.</b> ${esc(t[1])}</li>`).join("")}</ul>`:""}
+        ${f.actions?.length?`<div class="blockLine" style="margin-top:10px"><span class="lbl">Actions:</span></div>
+          <ul style="margin:6px 0 0 18px;padding:0;color:rgba(255,255,255,.84)">${f.actions.map(a=>`<li><b>${esc(a[0])}.</b> ${esc(a[1])}</li>`).join("")}</ul>`:""}
+      </details>
+    `;
+    grid.appendChild(card);
+  }
+}
+renderFamiliars();
+
+/* Export / Import / Reset */
+document.getElementById("btnExport").addEventListener("click",()=>{
+  const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});
+  const a=document.createElement("a"); a.href=URL.createObjectURL(blob); a.download="archmage-sheet.json"; a.click();
+  URL.revokeObjectURL(a.href);
+});
+document.getElementById("importFile").addEventListener("change", async (e)=>{
+  const f=e.target.files?.[0]; if(!f) return;
+  try{
+    const parsed=JSON.parse(await f.text());
+    if(!parsed.fields||!parsed.spells) throw new Error("Not a sheet file");
+    state=parsed;
+    applyTheme(); updateHP(); updateSpellHeader(); renderAbilities(); renderSkills(); renderAttacks(); renderTraits(); renderSlots(); renderSpells(); renderInventory(); renderNotes(); renderFamiliars(); renderRes();
+    saveSoon();
+    showPopup({title:"Imported",total:"✓",detail:"",hint:""});
+  }catch(err){ alert("Import failed: "+err.message); }
+  e.target.value="";
+});
+document.getElementById("btnReset").addEventListener("click",()=>{
+  if(!confirm("Reset sheet to defaults?")) return;
+  state=deep(base);
+  applyTheme(); updateHP(); updateSpellHeader(); renderAbilities(); renderSkills(); renderAttacks(); renderTraits(); renderSlots(); renderSpells(); renderInventory(); renderNotes(); renderFamiliars(); renderRes();
+  saveSoon();
+});
+
+/* Final theme */
+applyTheme();
+</script>
+</body>
+</html>
